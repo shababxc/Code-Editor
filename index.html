@@ -427,7 +427,7 @@
             document.querySelectorAll('.file-menu-dropdown').forEach(menu => menu.classList.remove('show'));
         });
 
-        // Open File into Ace Editor
+          // Open File into Ace Editor
         function openFile(index) {
             const files = loadFiles();
             currentActiveFileIndex = index;
@@ -435,6 +435,11 @@
 
             document.getElementById('activeFileName').innerText = '*' + file.name;
 
+            // হোমের টপ হেডার ও বটম ন্যাভ বার লুকিয়ে ফেলা (হুবহু স্ক্রিনশটের মতো)
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('.bottom-nav').style.display = 'none';
+
+            // এডিটর স্ক্রিন ফুল-ভিউতে আনা
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('editorScreen').classList.add('active');
             closePreview();
@@ -442,7 +447,7 @@
             initAce();
 
             editor.session.setMode(getAceMode(file.name));
-            editor.setValue(file.code !== undefined ? file.code : '', -1); // -1 keeps cursor at line 1
+            editor.setValue(file.code !== undefined ? file.code : '', -1);
 
             setTimeout(() => {
                 editor.resize();
@@ -523,6 +528,11 @@
 
         function goHome() {
             closePreview();
+            
+            // হোমে ফিরে এলে টপ হেডার ও বটম ন্যাভ বার আবার দৃশ্যমান হবে
+            document.querySelector('header').style.display = 'flex';
+            document.querySelector('.bottom-nav').style.display = 'flex';
+
             document.getElementById('editorScreen').classList.remove('active');
             document.getElementById('homeScreen').classList.add('active');
             renderRecentFiles();
