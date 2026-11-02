@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Editor App</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #0d1117; color: #e6edf3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+        /* Top Header */
+        header { background-color: #0d1117; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 24px; font-weight: bold; }
+        header .top-icons { font-size: 18px; color: #8b949e; display: flex; gap: 15px; }
+        header .top-icons i { cursor: pointer; }
+
+        /* Screen Views */
+        .screen { display: none; flex-direction: column; flex: 1; overflow-y: auto; }
+        .screen.active { display: flex; }
+
+        /* Home Screen UI */
+        .home-container { padding: 15px; }
+        .card { background-color: #161b22; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #30363d; }
+        .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #58a6ff; }
+        .card-subtitle { font-size: 13px; color: #8b949e; margin-bottom: 15px; }
+
+        /* Quick Languages Grid */
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .lang-btn { background-color: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .lang-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .py-badge { background: #1e3a8a; color: #60a5fa; }
+        .js-badge { background: #78350f; color: #facc15; }
+        .c-badge { background: #4c1d95; color: #a78bfa; }
+        .html-badge { background: #7c2d12; color: #f97316; }
+
+        .more-lang { color: #58a6ff; font-size: 13px; margin-top: 10px; cursor: pointer; font-weight: 500; }
+
+        /* Actions (Open File / Paste) */
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .action-btn { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
+
+        /* Recent Files List */
+        .section-title { font-size: 15px; font-weight: 600; color: #8b949e; margin-bottom: 12px; }
+        .file-item { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; cursor: pointer; }
+        .file-info { display: flex; align-items: center; gap: 12px; }
+        .file-details h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .file-details p { font-size: 11px; color: #8b949e; display: flex; gap: 8px; align-items: center; }
+        .tag-html { background-color: #1f2937; color: #38bdf8; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+
+        /* Editor Screen UI */
+        .editor-topbar { background-color: #161b22; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #30363d; }
+        .editor-title { display: flex; align-items: center; gap: 10px; }
+        .editor-title i { cursor: pointer; color: #8b949e; }
+        .file-meta { display: flex; flex-direction: column; }
+        .file-meta h3 { font-size: 15px; font-weight: 600; }
+        .file-meta span { font-size: 11px; color: #8b949e; }
+
+        .editor-area { flex: 1; display: flex; position: relative; background-color: #0d1117; }
+        .editor-area textarea { width: 100%; height: 100%; background: transparent; color: #e6edf3; border: none; outline: none; padding: 15px; font-family: monospace; font-size: 14px; line-height: 1.5; resize: none; }
+        .preview-iframe { width: 100%; height: 100%; border: none; background: #fff; display: none; }
+
+        /* Editor Toolbar Bottom */
+        .symbol-bar { background-color: #161b22; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #30363d; color: #8b949e; font-family: monospace; font-size: 15px; }
+        .symbol-bar span { cursor: pointer; padding: 0 10px; }
+
+        .bottom-action-bar { background-color: #161b22; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-top: 1px solid #30363d; }
+        .action-icons-left, .action-icons-right { display: flex; gap: 20px; align-items: center; color: #8b949e; font-size: 18px; }
+        .action-icons-left i, .action-icons-right i { cursor: pointer; }
+        .action-icons-right i:hover, .action-icons-left i:hover { color: #58a6ff; }
+
+        /* Bottom Nav */
+        .bottom-nav { background-color: #0d1117; border-top: 1px solid #30363d; display: flex; justify-content: space-around; padding: 10px 0; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #8b949e; cursor: pointer; }
+        .nav-item.active { color: #58a6ff; }
+        .nav-item i { font-size: 16px; }
+
+        /* Hidden File Input */
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header>
+        <h1 id="appTitle">Code Editor</h1>
+        <div class="top-icons">
+            <i class="fa-solid fa-crown" style="color:#e3b341;"></i>
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+    </header>
+
+    <!-- 1. HOME SCREEN VIEW -->
+    <div id="homeScreen" class="screen active">
+        <div class="home-container">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-title">What are you building today?</div>
+                <div class="card-subtitle">Pick a language to start a file</div>
+                <div class="lang-grid">
+                    <div class="lang-btn" onclick="createNewFile('html')">
+                        <span class="lang-badge html-badge">html</span>
+                        <span>HTML</span>
+                    </div>
+                    <div class="lang-btn" onclick="createNewFile('js')">
+                        <span class="lang-badge js-badge">js</span>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="lang-btn" onclick="createNewFile('py')">
+                        <span class="lang-badge py-badge">py</span>
+                        <span>Python</span>
+                    </div>
+                    <div class="lang-btn" onclick="createNewFile('c')">
+                        <span class="lang-badge c-badge">c</span>
+                        <span>C</span>
+                    </div>
+                </div>
+                <div class="more-lang">61 more languages &gt;</div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-btns">
+                <div class="action-btn" onclick="document.getElementById('fileInput').click()">
+                    <i class="fa-regular fa-folder-open"></i> Open file
+                </div>
+                <div class="action-btn" onclick="pasteFromClipboard()">
+                    <i class="fa-regular fa-paste"></i> Paste code
+                </div>
+            </div>
+
+            <!-- Recent Files Section -->
+            <div class="section-title">Recent</div>
+            <div id="recentFileList">
+                <!-- JS দিয়ে ফাইলগুলো dynamically লোড হবে -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. EDITOR SCREEN VIEW -->
+    <div id="editorScreen" class="screen">
+        <div class="editor-topbar">
+            <div class="editor-title">
+                <i class="fa-solid fa-arrow-left" onclick="goHome()"></i>
+                <div class="file-meta">
+                    <h3 id="activeFileName">*index.html</h3>
+                    <span>HTML · UTF-8 · Ln 1, Col 1</span>
+                </div>
+            </div>
+            <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;"></i>
+        </div>
+
+        <div class="editor-area">
+            <textarea id="codeTextarea" placeholder="এখানে আপনার কোড পেস্ট বা এডিট করুন..."></textarea>
+            <iframe id="previewIframe" class="preview-iframe"></iframe>
+        </div>
+
+        <!-- Symbol Bar -->
+        <div class="symbol-bar">
+            <span>&lt;</span>
+            <span>-</span>
+            <span>{</span>
+            <span>}</span>
+            <span>(</span>
+            <span>)</span>
+            <span>[</span>
+            <span>]</span>
+            <span>&gt;</span>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="bottom-action-bar">
+            <div class="action-icons-left">
+                <i class="fa-regular fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
+                <i class="fa-solid fa-rotate-left" onclick="document.execCommand('undo')" title="Undo"></i>
+                <i class="fa-solid fa-rotate-right" onclick="document.execCommand('redo')" title="Redo"></i>
+                <i class="fa-solid fa-magnifying-glass" title="Search"></i>
+                <i class="fa-solid fa-angle-left"></i>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+            <div class="action-icons-right">
+                <!-- Preview Button (Video/Play Icon) -->
+                <i class="fa-solid fa-circle-play" style="color: #4CAF50;" onclick="togglePreview()" title="Preview"></i>
+                <!-- Save Button -->
+                <i class="fa-solid fa-floppy-disk" onclick="saveCurrentFile()" title="Save"></i>
+                <!-- Close Button -->
+                <i class="fa-solid fa-xmark" onclick="goHome()" title="Close"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="goHome()">
+            <i class="fa-solid fa-code"></i>
+            <span>Code Editor</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-regular fa-file-lines"></i>
+            <span>Text Editor</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </div>
+    </div>
+
+    <!-- Hidden Input for File Upload -->
+    <input type="file" id="fileInput" onchange="handleFileUpload(event)">
+
+    <script>
+        // Sample default files matching screenshot
+        let defaultFiles = [
+            { name: 'index.html', code: '<h1>Hello, World!</h1>\n<p>Your TMA Code Editor is working!</p>', time: '0 minutes ago', path: 'Downloads' },
+            { name: 'preview.html', code: '<style>body{background:black; color:lime; text-align:center; padding-top:50px;}</style><h1>Preview Mode</h1>', time: '2 hours ago', path: 'Downloads' }
+        ];
+
+        let currentActiveFileIndex = -1;
+        let isPreviewMode = false;
+
+        // Load files from localStorage or initial defaults
+        function loadFiles() {
+            const stored = localStorage.getItem('my_editor_files');
+            if (stored) {
+                return JSON.parse(stored);
+            } else {
+                localStorage.setItem('my_editor_files', JSON.stringify(defaultFiles));
+                return defaultFiles;
+            }
+        }
+
+        // Render Recent Files List in Home Screen
+        function renderRecentFiles() {
+            const files = loadFiles();
+            const listContainer = document.getElementById('recentFileList');
+            listContainer.innerHTML = '';
+
+            files.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.onclick = () => openFile(index);
+                item.innerHTML = `
+                    <div class="file-info">
+                        <span class="lang-badge html-badge">htm</span>
+                        <div class="file-details">
+                            <h4>${file.name}</h4>
+                            <p><span class="tag-html">HTML</span> ${file.time} · ${file.path}</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;"></i>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        // Open a file into Editor
+        function openFile(index) {
+            const files = loadFiles();
+            currentActiveFileIndex = index;
+            const file = files[index];
+
+            document.getElementById('activeFileName').innerText = '*' + file.name;
+            document.getElementById('codeTextarea').value = file.code;
+
+            // Show Editor Screen, Hide Home
+            document.getElementById('homeScreen').classList.remove('active');
+            document.getElementById('editorScreen').classList.add('active');
+            closePreview();
+        }
+
+        // Create new blank file
+        function createNewFile(ext) {
+            let files = loadFiles();
+            const fileName = `new_file_${files.length + 1}.${ext}`;
+            const newFile = { name: fileName, code: '', time: 'Just now', path: 'Local' };
+            files.unshift(newFile);
+            localStorage.setItem('my_editor_files', JSON.stringify(files));
+            renderRecentFiles();
+            openFile(0);
+        }
+
+        // Save Current File Content
+        function saveCurrentFile() {
+            if (currentActiveFileIndex === -1) return;
+            let files = loadFiles();
+            files[currentActiveFileIndex].code = document.getElementById('codeTextarea').value;
+            files[currentActiveFileIndex].time = 'Just now';
+            localStorage.setItem('my_editor_files', JSON.stringify(files));
+            alert('File saved successfully!');
+            renderRecentFiles();
+        }
+
+        // Toggle Live Preview
+        function togglePreview() {
+            const textarea = document.getElementById('codeTextarea');
+            const iframe = document.getElementById('previewIframe');
+
+            if (!isPreviewMode) {
+                // Show Preview
+                const code = textarea.value;
+                iframe.style.display = 'block';
+                textarea.style.display = 'none';
+
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                doc.open();
+                doc.write(code);
+                doc.close();
+                isPreviewMode = true;
+            } else {
+                closePreview();
+            }
+        }
+
+        function closePreview() {
+            document.getElementById('previewIframe').style.display = 'none';
+            document.getElementById('codeTextarea').style.display = 'block';
+            isPreviewMode = false;
+        }
+
+        // Paste from Clipboard
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                createNewFile('html');
+                document.getElementById('codeTextarea').value = text;
+                saveCurrentFile();
+            } catch (err) {
+                alert('পেইস্ট করার জন্য অনুমতি প্রয়োজন অথবা ফাইল সিলেক্ট করুন।');
+            }
+        }
+
+        // Handle File Upload from device
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const code = e.target.result;
+                let files = loadFiles();
+                files.unshift({ name: file.name, code: code, time: 'Just now', path: 'Uploaded' });
+                localStorage.setItem('my_editor_files', JSON.stringify(files));
+                renderRecentFiles();
+                openFile(0);
+            };
+            reader.readAsText(file);
+        }
+
+        // Go back to Home Screen
+        function goHome() {
+            closePreview();
+            document.getElementById('editorScreen').classList.remove('active');
+            document.getElementById('homeScreen').classList.add('active');
+            renderRecentFiles();
+        }
+
+        // App Init
+        window.onload = function() {
+            renderRecentFiles();
+        };
+    </script>
+</body>
+</html>
