@@ -86,7 +86,7 @@
             color: #e6edf3 !important; 
         }
         
-        /* কোনো শ্যাডো বা হালকা কালার থাকবে না, থিমের অরিজিনাল ব্যাকগ্রাউন্ডের সাথে ১০০% মিশে যাবে */
+        /* গাটার ১০০% বামে লক থাকবে, ডানে সোয়াইপ করলেও এক চুল নড়বে না */
         .CodeMirror-gutters,
         .cm-s-dracula.CodeMirror .CodeMirror-gutters,
         .cm-s-dracula .CodeMirror-gutters { 
@@ -94,9 +94,14 @@
             border: none !important; 
             border-right: none !important; 
             box-shadow: none !important;
-            position: sticky !important;
+            position: absolute !important;
             left: 0 !important;
+            top: 0 !important;
+            height: 100% !important;
             z-index: 10 !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            pointer-events: none !important; /* লাইন নাম্বারে কখনোই টাচ বা সিলেকশন হবে না */
         }
 
         /* বিল্ট-ইন স্ক্রোল শ্যাডো চিরতরে বন্ধ */
@@ -106,16 +111,24 @@
             -webkit-box-shadow: none !important;
         }
 
-        /* লাইন নাম্বার ফিক্সড ও লক থাকবে (১ থেকে ১ লাখ লাইন হলেও কোনো সমস্যা হবে না) */
+        /* লাইন নাম্বার কখনো সিলেক্ট হবে না এবং জায়গা ফিক্সড থাকবে */
         .CodeMirror-linenumber { 
             color: #484f58 !important; 
             font-size: 12px; 
-            min-width: 26px !important; 
+            min-width: 28px !important; 
             text-align: right !important; 
             padding: 0 10px 0 2px !important; 
             white-space: nowrap !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            pointer-events: none !important;
         }
 
+        /* খালি ফাইলে যেন আঙুল দিয়ে চাপ দিলেই পেস্ট পাওয়া যায় */
+        .CodeMirror-lines { 
+            min-height: 100% !important; 
+            cursor: text !important; 
+        }
         .CodeMirror-cursor { border-left: 2px solid #58a6ff !important; }
         .CodeMirror-selected { background-color: #1f3a5f !important; }
         .CodeMirror-line { padding: 0 8px !important; }
@@ -395,30 +408,108 @@
             }
         }
 
-        // Render Recent Files List in Home Screen
+        // Render Recent Files List in Home Screen with Pin and Remove Menu
         function renderRecentFiles() {
-            const files = loadFiles();
+            let files = loadFiles();
             const listContainer = document.getElementById('recentFileList');
             listContainer.innerHTML = '';
 
+            if (files.length === 0) {
+                listContainer.innerHTML = '<p style="color:#8b949e; font-size:13px; text-align:center; padding:20px;">No recent files</p>';
+                return;
+            }
+
+            // পিন করা ফাইলগুলো তালিকার শীর্ষে সাজানো হবে
             files.forEach((file, index) => {
+                file._originalIndex = index;
+            });
+            files.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+            files.forEach((file) => {
+                const index = file._originalIndex;
                 const ext = file.name.split('.').pop().toLowerCase();
+                const isPinned = file.pinned || false;
+
                 const item = document.createElement('div');
                 item.className = 'file-item';
-                item.onclick = () => openFile(index);
+                item.onclick = (e) => {
+                    // মেনুর আইকন বা ড্রপডাউনে চাপ দিলে যেন ফাইল ওপেন না হয়
+                    if (!e.target.closest('.file-action-icon') && !e.target.closest('.file-menu-dropdown')) {
+                        openFile(index);
+                    }
+                };
+
                 item.innerHTML = `
                     <div class="file-info">
                         <span class="lang-badge ${ext}-badge">${ext}</span>
                         <div class="file-details">
-                            <h4>${file.name}</h4>
+                            <h4>${file.name} ${isPinned ? '<i class="fa-solid fa-thumbtack pin-icon-badge" title="Pinned"></i>' : ''}</h4>
                             <p><span class="tag-html">${ext.toUpperCase()}</span> ${file.time} · ${file.path}</p>
                         </div>
                     </div>
-                    <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;"></i>
+                    <div class="file-action-icon" onclick="toggleFileMenu(event, ${index})">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </div>
+
+                    <!-- থ্রি-ডট ড্রপডাউন মেনু -->
+                    <div id="fileMenu_${index}" class="file-menu-dropdown">
+                        <div class="menu-action-item" onclick="togglePinFile(event, ${index})">
+                            <i class="fa-solid fa-thumbtack" style="${isPinned ? 'color:#e3b341;' : ''}"></i>
+                            <span>${isPinned ? 'Unpin File' : 'Pin to Top'}</span>
+                        </div>
+                        <div class="menu-action-item danger" onclick="removeFileFromRecent(event, ${index})">
+                            <i class="fa-regular fa-trash-can"></i>
+                            <span>Remove from Recent</span>
+                        </div>
+                    </div>
                 `;
                 listContainer.appendChild(item);
             });
         }
+
+        // থ্রি-ডট মেনু ওপেন/ক্লোজ করার ফাংশন
+        function toggleFileMenu(event, index) {
+            event.stopPropagation();
+            const allMenus = document.querySelectorAll('.file-menu-dropdown');
+            allMenus.forEach(menu => {
+                if (menu.id !== `fileMenu_${index}`) {
+                    menu.classList.remove('show');
+                }
+            });
+
+            const currentMenu = document.getElementById(`fileMenu_${index}`);
+            if (currentMenu) {
+                currentMenu.classList.toggle('show');
+            }
+        }
+
+        // ফাইল পিন অথবা আন-পিন করার ফাংশন
+        function togglePinFile(event, index) {
+            event.stopPropagation();
+            let files = loadFiles();
+            if (files[index]) {
+                files[index].pinned = !files[index].pinned;
+                localStorage.setItem('my_editor_files', JSON.stringify(files));
+                renderRecentFiles();
+            }
+        }
+
+        // রিসেন্ট থেকে ফাইল বাদ দেওয়ার ফাংশন
+        function removeFileFromRecent(event, index) {
+            event.stopPropagation();
+            if (confirm('Are you sure you want to remove this file from recent?')) {
+                let files = loadFiles();
+                files.splice(index, 1);
+                localStorage.setItem('my_editor_files', JSON.stringify(files));
+                renderRecentFiles();
+            }
+        }
+
+        // স্ক্রিনের অন্য কোথাও টাচ করলে ড্রপডাউন মেনু স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে
+        document.addEventListener('click', () => {
+            const allMenus = document.querySelectorAll('.file-menu-dropdown');
+            allMenus.forEach(menu => menu.classList.remove('show'));
+        });
 
         // Open a file into Editor
         function openFile(index) {
