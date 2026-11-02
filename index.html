@@ -2,24 +2,10 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Editor App</title>
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/pXckN2NF/20261102-144539.png">
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/pXckN2NF/20261102-144539.png">
-    <link rel="manifest" href="manifest.json">
-
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Ace Editor (The World Standard for Mobile Code Editors) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/ace.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/mode-html.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/mode-javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/mode-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/mode-c_cpp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/mode-css.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.7/theme-dracula.min.js"></script>
-
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: #0d1117; color: #e6edf3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -33,7 +19,6 @@
         /* Screen Views */
         .screen { display: none; flex-direction: column; flex: 1; overflow-y: auto; }
         .screen.active { display: flex; }
-        #editorScreen.screen { overflow: hidden; }
 
         /* Home Screen UI */
         .home-container { padding: 15px; }
@@ -58,7 +43,7 @@
 
         /* Recent Files List */
         .section-title { font-size: 15px; font-weight: 600; color: #8b949e; margin-bottom: 12px; }
-        .file-item { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; cursor: pointer; position: relative; }
+        .file-item { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; cursor: pointer; }
         .file-info { display: flex; align-items: center; gap: 12px; }
         .file-details h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
         .file-details p { font-size: 11px; color: #8b949e; display: flex; gap: 8px; align-items: center; }
@@ -72,38 +57,9 @@
         .file-meta h3 { font-size: 15px; font-weight: 600; }
         .file-meta span { font-size: 11px; color: #8b949e; }
 
-        /* Editor Core Area */
-        .editor-area { flex: 1; position: relative; background-color: #0d1117; width: 100%; height: 100%; overflow: hidden; }
-        #aceEditor { width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; font-size: 14px; font-family: 'SFMono-Regular', Consolas, Menlo, monospace; }
-        .preview-iframe { width: 100%; height: 100%; border: none; background: #fff; display: none; position: absolute; top: 0; left: 0; z-index: 50; }
-
-        /* Ace Editor Custom Styling: সুপার ফাস্ট স্ক্রোলিং ও পারফরম্যান্স */
-        .ace_editor { background-color: #0d1117 !important; color: #e6edf3 !important; }
-        .ace_gutter { background-color: #0d1117 !important; color: #8b949e !important; border-right: none !important; z-index: 20 !important; }
-        .ace_gutter-cell { padding-left: 6px !important; padding-right: 12px !important; color: #8b949e !important; }
-        .ace_gutter-active-line { background-color: #161b22 !important; }
-        
-        /* মোবাইলের নেটিভ আল্ট্রা-স্মুথ মোমেন্টাম স্ক্রোল চালু */
-        .ace_scroller { 
-            background-color: #0d1117 !important; 
-            -webkit-overflow-scrolling: touch !important; 
-            overscroll-behavior: contain !important;
-        }
-
-        .ace_cursor { color: #58a6ff !important; border-left-width: 2px !important; }
-        .ace_marker-layer .ace_active-line { background-color: #161b22 !important; }
-        .ace_marker-layer .ace_selection { background-color: #1f3a5f !important; }
-
-        /* এক্সাম্পল স্ক্রিনশটের সাথে ১০০% হুবহু কালার স্কিম */
-        .ace_gutter-cell { padding-left: 4px !important; padding-right: 14px !important; color: #6e7681 !important; font-size: 13px !important; }
-        .ace_tag { color: #7ee787 !important; }                   /* <html, <head, <style (সবুজ) */
-        .ace_attribute-name { color: #d2a8ff !important; }        /* lang, charset, name, href (হালকা বেগুনি) */
-        .ace_string { color: #a5d6ff !important; }                /* "bn", "UTF-8" (হালকা আকাশি) */
-        .ace_keyword { color: #ff7b72 !important; }               /* @media, function (গোলাপি) */
-        .ace_comment { color: #8b949e !important; font-style: italic; } /* Comments (ছাই) */
-        .ace_property { color: #79c0ff !important; }              /* CSS Properties (হালকা নীল) */
-        .ace_variable { color: #7ee787 !important; }              /* Selectors (সবুজ) */
-        .ace_meta.ace_tag { color: #7ee787 !important; }
+        .editor-area { flex: 1; display: flex; position: relative; background-color: #0d1117; }
+        .editor-area textarea { width: 100%; height: 100%; background: transparent; color: #e6edf3; border: none; outline: none; padding: 15px; font-family: monospace; font-size: 14px; line-height: 1.5; resize: none; }
+        .preview-iframe { width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
         /* Editor Toolbar Bottom */
         .symbol-bar { background-color: #161b22; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #30363d; color: #8b949e; font-family: monospace; font-size: 15px; }
@@ -120,38 +76,7 @@
         .nav-item.active { color: #58a6ff; }
         .nav-item i { font-size: 16px; }
 
-        /* File Action Dropdown Menu & Pin Badge */
-        .file-action-icon { padding: 8px 12px; margin: -8px -12px; cursor: pointer; color: #8b949e; }
-        .file-action-icon:hover { color: #58a6ff; }
-        .file-menu-dropdown { 
-            position: absolute; 
-            right: 15px; 
-            top: 45px; 
-            background-color: #21262d; 
-            border: 1px solid #30363d; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
-            z-index: 100; 
-            display: none; 
-            flex-direction: column; 
-            min-width: 180px; 
-            overflow: hidden; 
-        }
-        .file-menu-dropdown.show { display: flex; }
-        .menu-action-item { 
-            padding: 10px 14px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            font-size: 13px; 
-            color: #e6edf3; 
-            cursor: pointer; 
-            transition: background 0.2s; 
-        }
-        .menu-action-item:hover { background-color: #30363d; }
-        .menu-action-item.danger { color: #f85149; }
-        .pin-icon-badge { color: #e3b341; font-size: 11px; margin-left: 6px; }
-
+        /* Hidden File Input */
         #fileInput { display: none; }
     </style>
 </head>
@@ -169,6 +94,7 @@
     <!-- 1. HOME SCREEN VIEW -->
     <div id="homeScreen" class="screen active">
         <div class="home-container">
+            <!-- Card -->
             <div class="card">
                 <div class="card-title">What are you building today?</div>
                 <div class="card-subtitle">Pick a language to start a file</div>
@@ -193,6 +119,7 @@
                 <div class="more-lang">61 more languages &gt;</div>
             </div>
 
+            <!-- Actions -->
             <div class="action-btns">
                 <div class="action-btn" onclick="document.getElementById('fileInput').click()">
                     <i class="fa-regular fa-folder-open"></i> Open file
@@ -202,8 +129,11 @@
                 </div>
             </div>
 
+            <!-- Recent Files Section -->
             <div class="section-title">Recent</div>
-            <div id="recentFileList"></div>
+            <div id="recentFileList">
+                <!-- JS দিয়ে ফাইলগুলো dynamically লোড হবে -->
+            </div>
         </div>
     </div>
 
@@ -221,36 +151,39 @@
         </div>
 
         <div class="editor-area">
-            <div id="aceEditor"></div>
+            <textarea id="codeTextarea" placeholder="এখানে আপনার কোড পেস্ট বা এডিট করুন..."></textarea>
             <iframe id="previewIframe" class="preview-iframe"></iframe>
         </div>
 
         <!-- Symbol Bar -->
         <div class="symbol-bar">
-            <span onclick="insertSymbol('<')">&lt;</span>
-            <span onclick="insertSymbol('-')">-</span>
-            <span onclick="insertSymbol('{')">{</span>
-            <span onclick="insertSymbol('}')">}</span>
-            <span onclick="insertSymbol('(')">(</span>
-            <span onclick="insertSymbol(')')">)</span>
-            <span onclick="insertSymbol('[')">[</span>
-            <span onclick="insertSymbol(']')">]</span>
-            <span onclick="insertSymbol('>')">&gt;</span>
+            <span>&lt;</span>
+            <span>-</span>
+            <span>{</span>
+            <span>}</span>
+            <span>(</span>
+            <span>)</span>
+            <span>[</span>
+            <span>]</span>
+            <span>&gt;</span>
         </div>
 
         <!-- Bottom Action Bar -->
         <div class="bottom-action-bar">
             <div class="action-icons-left">
                 <i class="fa-regular fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
-                <i class="fa-solid fa-rotate-left" onclick="editor && editor.undo()" title="Undo"></i>
-                <i class="fa-solid fa-rotate-right" onclick="editor && editor.redo()" title="Redo"></i>
+                <i class="fa-solid fa-rotate-left" onclick="document.execCommand('undo')" title="Undo"></i>
+                <i class="fa-solid fa-rotate-right" onclick="document.execCommand('redo')" title="Redo"></i>
                 <i class="fa-solid fa-magnifying-glass" title="Search"></i>
                 <i class="fa-solid fa-angle-left"></i>
                 <i class="fa-solid fa-angle-right"></i>
             </div>
             <div class="action-icons-right">
+                <!-- Preview Button (Video/Play Icon) -->
                 <i class="fa-solid fa-circle-play" style="color: #4CAF50;" onclick="togglePreview()" title="Preview"></i>
+                <!-- Save Button -->
                 <i class="fa-solid fa-floppy-disk" onclick="saveCurrentFile()" title="Save"></i>
+                <!-- Close Button -->
                 <i class="fa-solid fa-xmark" onclick="goHome()" title="Close"></i>
             </div>
         </div>
@@ -272,114 +205,20 @@
         </div>
     </div>
 
+    <!-- Hidden Input for File Upload -->
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
     <script>
+        // Sample default files matching screenshot
         let defaultFiles = [
-            { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>My Webpage</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>Offline Code Editor Ready!</p>\n</body>\n</html>', time: '0 minutes ago', path: 'Downloads' },
-            { name: 'script.js', code: 'function greet(name) {\n  console.log("Hello, " + name);\n}\ngreet("Coder");', time: '1 hour ago', path: 'Downloads' }
+            { name: 'index.html', code: '<h1>Hello, World!</h1>\n<p>Your TMA Code Editor is working!</p>', time: '0 minutes ago', path: 'Downloads' },
+            { name: 'preview.html', code: '<style>body{background:black; color:lime; text-align:center; padding-top:50px;}</style><h1>Preview Mode</h1>', time: '2 hours ago', path: 'Downloads' }
         ];
 
         let currentActiveFileIndex = -1;
         let isPreviewMode = false;
-        let editor = null;
 
-        // Initialize Ace Editor with Native Super-Smooth Momentum Fling
-        function initAce() {
-            if (!editor) {
-                editor = ace.edit("aceEditor");
-                editor.setTheme("ace/theme/dracula");
-                editor.session.setMode("ace/mode/html");
-                editor.session.setUseWrapMode(false);
-                editor.setShowPrintMargin(false);
-                editor.setHighlightActiveLine(false);
-                
-                // অপ্রয়োজনীয় ফোল্ডিং অ্যারো (▾) চিরতরে বন্ধ ও ক্লিন লুক
-                editor.setOptions({
-                    fontSize: "14px",
-                    fontFamily: "'SFMono-Regular', Consolas, Menlo, monospace",
-                    showFoldWidgets: false, // কোনো ত্রিভুজ থাকবে না (হুবহু স্ক্রিনশট ১)
-                    fadeFoldWidgets: false,
-                    showLineNumbers: true,
-                    showGutter: true,
-                    displayIndentGuides: false,
-                    scrollPastEnd: 0.5
-                });
-
-                // কার্সারের অবস্থান (Ln, Col) লাইভ আপডেট
-                editor.selection.on('changeCursor', () => {
-                    const pos = editor.getCursorPosition();
-                    const metaSpan = document.querySelector('.file-meta span');
-                    if (metaSpan) {
-                        const files = loadFiles();
-                        const activeFile = files[currentActiveFileIndex];
-                        const ext = activeFile ? activeFile.name.split('.').pop().toUpperCase() : 'CODE';
-                        metaSpan.innerText = `${ext} · UTF-8 · Ln ${pos.row + 1}, Col ${pos.column + 1}`;
-                    }
-                });
-
-                // 🚀 সুপার ফাস্ট মোমেন্টাম ফ্লিংক ইঞ্জিন (এক ধাক্কায় মাখনের মতো শত শত লাইন স্ক্রোল)
-                (function applyKineticFling(ed) {
-                    let lastY = 0, lastTime = 0, velocityY = 0, animFrame = null;
-                    const scroller = ed.renderer.scroller;
-
-                    scroller.addEventListener('touchstart', (e) => {
-                        if (e.touches.length === 1) {
-                            cancelAnimationFrame(animFrame);
-                            lastY = e.touches[0].clientY;
-                            lastTime = performance.now();
-                            velocityY = 0;
-                        }
-                    }, { passive: true });
-
-                    scroller.addEventListener('touchmove', (e) => {
-                        if (e.touches.length === 1) {
-                            const now = performance.now();
-                            const currentY = e.touches[0].clientY;
-                            const dt = now - lastTime;
-                            if (dt > 0) {
-                                velocityY = (lastY - currentY) / dt;
-                            }
-                            lastY = currentY;
-                            lastTime = now;
-                        }
-                    }, { passive: true });
-
-                    scroller.addEventListener('touchend', () => {
-                        if (Math.abs(velocityY) > 0.15) {
-                            let speed = velocityY * 22; // স্পিড বুস্টার (সুপার ফাস্ট মোশন)
-                            const friction = 0.94;       // স্মুথ অ্যান্ড্রয়েড মোমেন্টাম ফিজিক্স
-
-                            function step() {
-                                if (Math.abs(speed) > 0.5) {
-                                    ed.session.setScrollTop(ed.session.getScrollTop() + speed);
-                                    speed *= friction;
-                                    animFrame = requestAnimationFrame(step);
-                                }
-                            }
-                            animFrame = requestAnimationFrame(step);
-                        }
-                    }, { passive: true });
-                })(editor);
-            }
-        }
-
-        function insertSymbol(symbol) {
-            if (editor) {
-                editor.insert(symbol);
-                editor.focus();
-            }
-        }
-
-        function getAceMode(fileName) {
-            const ext = fileName.split('.').pop().toLowerCase();
-            if (ext === 'js') return 'ace/mode/javascript';
-            if (ext === 'py') return 'ace/mode/python';
-            if (ext === 'c' || ext === 'cpp') return 'ace/mode/c_cpp';
-            if (ext === 'css') return 'ace/mode/css';
-            return 'ace/mode/html';
-        }
-
+        // Load files from localStorage or initial defaults
         function loadFiles() {
             const stored = localStorage.getItem('my_editor_files');
             if (stored) {
@@ -390,122 +229,46 @@
             }
         }
 
+        // Render Recent Files List in Home Screen
         function renderRecentFiles() {
-            let files = loadFiles();
+            const files = loadFiles();
             const listContainer = document.getElementById('recentFileList');
             listContainer.innerHTML = '';
 
-            if (files.length === 0) {
-                listContainer.innerHTML = '<p style="color:#8b949e; font-size:13px; text-align:center; padding:20px;">No recent files</p>';
-                return;
-            }
-
             files.forEach((file, index) => {
-                file._originalIndex = index;
-            });
-            files.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
-
-            files.forEach((file) => {
-                const index = file._originalIndex;
-                const ext = file.name.split('.').pop().toLowerCase();
-                const isPinned = file.pinned || false;
-
                 const item = document.createElement('div');
                 item.className = 'file-item';
-                item.onclick = (e) => {
-                    if (!e.target.closest('.file-action-icon') && !e.target.closest('.file-menu-dropdown')) {
-                        openFile(index);
-                    }
-                };
-
+                item.onclick = () => openFile(index);
                 item.innerHTML = `
                     <div class="file-info">
-                        <span class="lang-badge ${ext}-badge">${ext}</span>
+                        <span class="lang-badge html-badge">htm</span>
                         <div class="file-details">
-                            <h4>${file.name} ${isPinned ? '<i class="fa-solid fa-thumbtack pin-icon-badge"></i>' : ''}</h4>
-                            <p><span class="tag-html">${ext.toUpperCase()}</span> ${file.time} · ${file.path}</p>
+                            <h4>${file.name}</h4>
+                            <p><span class="tag-html">HTML</span> ${file.time} · ${file.path}</p>
                         </div>
                     </div>
-                    <div class="file-action-icon" onclick="toggleFileMenu(event, ${index})">
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </div>
-
-                    <div id="fileMenu_${index}" class="file-menu-dropdown">
-                        <div class="menu-action-item" onclick="togglePinFile(event, ${index})">
-                            <i class="fa-solid fa-thumbtack" style="${isPinned ? 'color:#e3b341;' : ''}"></i>
-                            <span>${isPinned ? 'Unpin File' : 'Pin to Top'}</span>
-                        </div>
-                        <div class="menu-action-item danger" onclick="removeFileFromRecent(event, ${index})">
-                            <i class="fa-regular fa-trash-can"></i>
-                            <span>Remove from Recent</span>
-                        </div>
-                    </div>
+                    <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;"></i>
                 `;
                 listContainer.appendChild(item);
             });
         }
 
-        function toggleFileMenu(event, index) {
-            event.stopPropagation();
-            document.querySelectorAll('.file-menu-dropdown').forEach(menu => {
-                if (menu.id !== `fileMenu_${index}`) menu.classList.remove('show');
-            });
-            const currentMenu = document.getElementById(`fileMenu_${index}`);
-            if (currentMenu) currentMenu.classList.toggle('show');
-        }
-
-        function togglePinFile(event, index) {
-            event.stopPropagation();
-            let files = loadFiles();
-            if (files[index]) {
-                files[index].pinned = !files[index].pinned;
-                localStorage.setItem('my_editor_files', JSON.stringify(files));
-                renderRecentFiles();
-            }
-        }
-
-        function removeFileFromRecent(event, index) {
-            event.stopPropagation();
-            if (confirm('Are you sure you want to remove this file?')) {
-                let files = loadFiles();
-                files.splice(index, 1);
-                localStorage.setItem('my_editor_files', JSON.stringify(files));
-                renderRecentFiles();
-            }
-        }
-
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.file-menu-dropdown').forEach(menu => menu.classList.remove('show'));
-        });
-
-          // Open File into Ace Editor
+        // Open a file into Editor
         function openFile(index) {
             const files = loadFiles();
             currentActiveFileIndex = index;
             const file = files[index];
 
             document.getElementById('activeFileName').innerText = '*' + file.name;
+            document.getElementById('codeTextarea').value = file.code;
 
-            // হোমের টপ হেডার ও বটম ন্যাভ বার লুকিয়ে ফেলা (হুবহু স্ক্রিনশটের মতো)
-            document.querySelector('header').style.display = 'none';
-            document.querySelector('.bottom-nav').style.display = 'none';
-
-            // এডিটর স্ক্রিন ফুল-ভিউতে আনা
+            // Show Editor Screen, Hide Home
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('editorScreen').classList.add('active');
             closePreview();
-
-            initAce();
-
-            editor.session.setMode(getAceMode(file.name));
-            editor.setValue(file.code !== undefined ? file.code : '', -1);
-
-            setTimeout(() => {
-                editor.resize();
-                editor.focus();
-            }, 50);
         }
 
+        // Create new blank file
         function createNewFile(ext) {
             let files = loadFiles();
             const fileName = `new_file_${files.length + 1}.${ext}`;
@@ -516,25 +279,31 @@
             openFile(0);
         }
 
+        // Save Current File Content
         function saveCurrentFile() {
-            if (currentActiveFileIndex === -1 || !editor) return;
+            if (currentActiveFileIndex === -1) return;
             let files = loadFiles();
-            files[currentActiveFileIndex].code = editor.getValue();
+            files[currentActiveFileIndex].code = document.getElementById('codeTextarea').value;
             files[currentActiveFileIndex].time = 'Just now';
             localStorage.setItem('my_editor_files', JSON.stringify(files));
             alert('File saved successfully!');
             renderRecentFiles();
         }
 
+        // Toggle Live Preview
         function togglePreview() {
-            if (!editor) return;
+            const textarea = document.getElementById('codeTextarea');
             const iframe = document.getElementById('previewIframe');
 
             if (!isPreviewMode) {
+                // Show Preview
+                const code = textarea.value;
                 iframe.style.display = 'block';
+                textarea.style.display = 'none';
+
                 const doc = iframe.contentDocument || iframe.contentWindow.document;
                 doc.open();
-                doc.write(editor.getValue());
+                doc.write(code);
                 doc.close();
                 isPreviewMode = true;
             } else {
@@ -544,23 +313,23 @@
 
         function closePreview() {
             document.getElementById('previewIframe').style.display = 'none';
+            document.getElementById('codeTextarea').style.display = 'block';
             isPreviewMode = false;
-            if (editor) editor.resize();
         }
 
+        // Paste from Clipboard
         async function pasteFromClipboard() {
             try {
                 const text = await navigator.clipboard.readText();
                 createNewFile('html');
-                if (editor) {
-                    editor.setValue(text, -1);
-                }
+                document.getElementById('codeTextarea').value = text;
                 saveCurrentFile();
             } catch (err) {
                 alert('পেইস্ট করার জন্য অনুমতি প্রয়োজন অথবা ফাইল সিলেক্ট করুন।');
             }
         }
 
+        // Handle File Upload from device
         function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -577,18 +346,15 @@
             reader.readAsText(file);
         }
 
+        // Go back to Home Screen
         function goHome() {
             closePreview();
-            
-            // হোমে ফিরে এলে টপ হেডার ও বটম ন্যাভ বার আবার দৃশ্যমান হবে
-            document.querySelector('header').style.display = 'flex';
-            document.querySelector('.bottom-nav').style.display = 'flex';
-
             document.getElementById('editorScreen').classList.remove('active');
             document.getElementById('homeScreen').classList.add('active');
             renderRecentFiles();
         }
 
+        // App Init
         window.onload = function() {
             renderRecentFiles();
         };
