@@ -77,12 +77,19 @@
         #aceEditor { width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; bottom: 0; font-size: 14px; font-family: 'SFMono-Regular', Consolas, Menlo, monospace; }
         .preview-iframe { width: 100%; height: 100%; border: none; background: #fff; display: none; position: absolute; top: 0; left: 0; z-index: 50; }
 
-        /* Ace Editor Custom Styling: কোনো শ্যাডো থাকবে না এবং গাটার লক থাকবে */
+        /* Ace Editor Custom Styling: সুপার ফাস্ট স্ক্রোলিং ও পারফরম্যান্স */
         .ace_editor { background-color: #0d1117 !important; color: #e6edf3 !important; }
         .ace_gutter { background-color: #0d1117 !important; color: #8b949e !important; border-right: none !important; z-index: 20 !important; }
         .ace_gutter-cell { padding-left: 6px !important; padding-right: 12px !important; color: #8b949e !important; }
         .ace_gutter-active-line { background-color: #161b22 !important; }
-        .ace_scroller { background-color: #0d1117 !important; }
+        
+        /* মোবাইলের নেটিভ আল্ট্রা-স্মুথ মোমেন্টাম স্ক্রোল চালু */
+        .ace_scroller { 
+            background-color: #0d1117 !important; 
+            -webkit-overflow-scrolling: touch !important; 
+            overscroll-behavior: contain !important;
+        }
+
         .ace_cursor { color: #58a6ff !important; border-left-width: 2px !important; }
         .ace_marker-layer .ace_active-line { background-color: #161b22 !important; }
         .ace_marker-layer .ace_selection { background-color: #1f3a5f !important; }
@@ -286,8 +293,10 @@
                 editor.setOptions({
                     fontSize: "14px",
                     fontFamily: "'SFMono-Regular', Consolas, Menlo, monospace",
-                    enableBasicAutocompletion: true,
-                    enableLiveAutocompletion: true
+                    scrollSpeed: 2.5,        // আঙুল দিয়ে হালকা ধাক্কা দিলেই বিদ্যুৎ গতিতে স্ক্রোল হবে
+                    animatedScroll: false,    // অ্যানিমেশন ল্যাগ বন্ধ হবে
+                    vScrollBarAlwaysVisible: false,
+                    hScrollBarAlwaysVisible: false
                 });
 
                 // কার্সারের অবস্থান (Ln, Col) লাইভ আপডেট
