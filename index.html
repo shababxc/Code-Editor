@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Editor App</title>
+       <!-- CodeMirror CSS & JS CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -81,6 +90,7 @@
     </style>
 </head>
 <body>
+ <textarea id="codeEditor"></textarea>
 
     <!-- Top Header -->
     <header>
@@ -209,6 +219,15 @@
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
     <script>
+   var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+    mode: "htmlmixed",
+    theme: "dracula",      // ডার্ক থিম ও সুন্দর কালার কোডিংয়ের জন্য
+    lineNumbers: true,     // বামপাশে ১, ২, ৩... লাইন নম্বর দেখানোর জন্য
+    autoCloseTags: true,
+    matchBrackets: true
+});
+
+
         // Sample default files matching screenshot
         let defaultFiles = [
             { name: 'index.html', code: '<h1>Hello, World!</h1>\n<p>Your TMA Code Editor is working!</p>', time: '0 minutes ago', path: 'Downloads' },
