@@ -10,6 +10,17 @@
 
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CodeMirror (Syntax Highlighting & Line Numbers) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: #0d1117; color: #e6edf3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -61,9 +72,16 @@
         .file-meta h3 { font-size: 15px; font-weight: 600; }
         .file-meta span { font-size: 11px; color: #8b949e; }
 
-        .editor-area { flex: 1; display: flex; position: relative; background-color: #0d1117; }
-        .editor-area textarea { width: 100%; height: 100%; background: transparent; color: #e6edf3; border: none; outline: none; padding: 15px; font-family: monospace; font-size: 14px; line-height: 1.5; resize: none; }
+        .editor-area { flex: 1; display: flex; position: relative; background-color: #0d1117; overflow: hidden; }
         .preview-iframe { width: 100%; height: 100%; border: none; background: #fff; display: none; }
+
+        /* CodeMirror Custom Dark Theme & Line Numbers */
+        .CodeMirror { width: 100%; height: 100%; font-family: 'SFMono-Regular', Consolas, Menlo, monospace; font-size: 14px; line-height: 1.6; background-color: #0d1117 !important; color: #e6edf3; }
+        .CodeMirror-gutters { background-color: #0d1117 !important; border-right: 1px solid #30363d !important; padding: 0 5px; }
+        .CodeMirror-linenumber { color: #6e7681 !important; font-size: 12px; }
+        .CodeMirror-cursor { border-left: 2px solid #58a6ff !important; }
+        .CodeMirror-selected { background-color: #1f3a5f !important; }
+        .CodeMirror-line { padding: 0 8px !important; }
 
         /* Editor Toolbar Bottom */
         .symbol-bar { background-color: #161b22; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #30363d; color: #8b949e; font-family: monospace; font-size: 15px; }
@@ -213,14 +231,67 @@
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
     <script>
-        // Sample default files matching screenshot
+        // Sample default files
         let defaultFiles = [
-            { name: 'index.html', code: '<h1>Hello, World!</h1>\n<p>Your TMA Code Editor is working!</p>', time: '0 minutes ago', path: 'Downloads' },
-            { name: 'preview.html', code: '<style>body{background:black; color:lime; text-align:center; padding-top:50px;}</style><h1>Preview Mode</h1>', time: '2 hours ago', path: 'Downloads' }
+            { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>My Webpage</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>TMA Editor with Color & Line Numbers!</p>\n</body>\n</html>', time: '0 minutes ago', path: 'Downloads' },
+            { name: 'script.js', code: 'function greet(name) {\n  console.log("Hello, " + name);\n}\ngreet("Coder");', time: '1 hour ago', path: 'Downloads' }
         ];
 
         let currentActiveFileIndex = -1;
         let isPreviewMode = false;
+        let editor = null;
+
+        // Initialize CodeMirror Editor
+        function initCodeMirror() {
+            if (!editor) {
+                editor = CodeMirror.fromTextArea(document.getElementById('codeTextarea'), {
+                    lineNumbers: true,
+                    theme: 'dracula',
+                    mode: 'htmlmixed',
+                    lineWrapping: false,
+                    tabSize: 2,
+                    autofocus: true
+                });
+
+                // Update Line & Column indicators in top meta bar
+                editor.on('cursorActivity', () => {
+                    const pos = editor.getCursor();
+                    const metaSpan = document.querySelector('.file-meta span');
+                    if (metaSpan) {
+                        const files = loadFiles();
+                        const activeFile = files[currentActiveFileIndex];
+                        const ext = activeFile ? activeFile.name.split('.').pop().toUpperCase() : 'CODE';
+                        metaSpan.innerText = `${ext} · UTF-8 · Ln ${pos.line + 1}, Col ${pos.ch + 1}`;
+                    }
+                });
+
+                // Wire up symbol bar clicks
+                document.querySelectorAll('.symbol-bar span').forEach(span => {
+                    span.onclick = () => {
+                        const doc = editor.getDoc();
+                        const cursor = doc.getCursor();
+                        doc.replaceRange(span.innerText, cursor);
+                        editor.focus();
+                    };
+                });
+
+                // Wire up Undo / Redo buttons
+                const undoBtn = document.querySelector('.fa-rotate-left');
+                const redoBtn = document.querySelector('.fa-rotate-right');
+                if (undoBtn) undoBtn.onclick = () => editor.undo();
+                if (redoBtn) redoBtn.onclick = () => editor.redo();
+            }
+        }
+
+        // Determine Syntax Mode based on file extension
+        function getSyntaxMode(fileName) {
+            const ext = fileName.split('.').pop().toLowerCase();
+            if (ext === 'js') return 'javascript';
+            if (ext === 'py') return 'python';
+            if (ext === 'c' || ext === 'cpp') return 'text/x-csrc';
+            if (ext === 'css') return 'css';
+            return 'htmlmixed';
+        }
 
         // Load files from localStorage or initial defaults
         function loadFiles() {
@@ -240,15 +311,16 @@
             listContainer.innerHTML = '';
 
             files.forEach((file, index) => {
+                const ext = file.name.split('.').pop().toLowerCase();
                 const item = document.createElement('div');
                 item.className = 'file-item';
                 item.onclick = () => openFile(index);
                 item.innerHTML = `
                     <div class="file-info">
-                        <span class="lang-badge html-badge">htm</span>
+                        <span class="lang-badge ${ext}-badge">${ext}</span>
                         <div class="file-details">
                             <h4>${file.name}</h4>
-                            <p><span class="tag-html">HTML</span> ${file.time} · ${file.path}</p>
+                            <p><span class="tag-html">${ext.toUpperCase()}</span> ${file.time} · ${file.path}</p>
                         </div>
                     </div>
                     <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;"></i>
@@ -259,17 +331,24 @@
 
         // Open a file into Editor
         function openFile(index) {
+            initCodeMirror();
             const files = loadFiles();
             currentActiveFileIndex = index;
             const file = files[index];
 
             document.getElementById('activeFileName').innerText = '*' + file.name;
-            document.getElementById('codeTextarea').value = file.code;
+            
+            // Set code and language mode
+            editor.setValue(file.code);
+            editor.setOption('mode', getSyntaxMode(file.name));
 
             // Show Editor Screen, Hide Home
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('editorScreen').classList.add('active');
             closePreview();
+
+            // Refresh CodeMirror layout after screen transition
+            setTimeout(() => editor.refresh(), 100);
         }
 
         // Create new blank file
@@ -285,9 +364,9 @@
 
         // Save Current File Content
         function saveCurrentFile() {
-            if (currentActiveFileIndex === -1) return;
+            if (currentActiveFileIndex === -1 || !editor) return;
             let files = loadFiles();
-            files[currentActiveFileIndex].code = document.getElementById('codeTextarea').value;
+            files[currentActiveFileIndex].code = editor.getValue();
             files[currentActiveFileIndex].time = 'Just now';
             localStorage.setItem('my_editor_files', JSON.stringify(files));
             alert('File saved successfully!');
@@ -296,14 +375,14 @@
 
         // Toggle Live Preview
         function togglePreview() {
-            const textarea = document.getElementById('codeTextarea');
+            if (!editor) return;
             const iframe = document.getElementById('previewIframe');
+            const editorWrapper = editor.getWrapperElement();
 
             if (!isPreviewMode) {
-                // Show Preview
-                const code = textarea.value;
+                const code = editor.getValue();
                 iframe.style.display = 'block';
-                textarea.style.display = 'none';
+                editorWrapper.style.display = 'none';
 
                 const doc = iframe.contentDocument || iframe.contentWindow.document;
                 doc.open();
@@ -316,9 +395,11 @@
         }
 
         function closePreview() {
+            if (!editor) return;
             document.getElementById('previewIframe').style.display = 'none';
-            document.getElementById('codeTextarea').style.display = 'block';
+            editor.getWrapperElement().style.display = 'block';
             isPreviewMode = false;
+            editor.refresh();
         }
 
         // Paste from Clipboard
@@ -326,7 +407,9 @@
             try {
                 const text = await navigator.clipboard.readText();
                 createNewFile('html');
-                document.getElementById('codeTextarea').value = text;
+                if (editor) {
+                    editor.setValue(text);
+                }
                 saveCurrentFile();
             } catch (err) {
                 alert('পেইস্ট করার জন্য অনুমতি প্রয়োজন অথবা ফাইল সিলেক্ট করুন।');
@@ -360,6 +443,7 @@
 
         // App Init
         window.onload = function() {
+            initCodeMirror();
             renderRecentFiles();
         };
     </script>
