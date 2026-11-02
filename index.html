@@ -75,14 +75,65 @@
         .editor-area { flex: 1; display: flex; position: relative; background-color: #0d1117; overflow: hidden; }
         .preview-iframe { width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
-        /* CodeMirror Custom Dark Theme & Line Numbers */
-        .CodeMirror { width: 100%; height: 100%; font-family: 'SFMono-Regular', Consolas, Menlo, monospace; font-size: 14px; line-height: 1.6; background-color: #0d1117 !important; color: #e6edf3; }
-        .CodeMirror-gutters { background-color: #0d1117 !important; border-right: 1px solid #30363d !important; padding: 0 5px; }
-        .CodeMirror-linenumber { color: #6e7681 !important; font-size: 12px; }
+        /* CodeMirror Custom Dark Theme & Line Numbers (Matching Target Screenshot) */
+        .CodeMirror { 
+            width: 100%; 
+            height: 100%; 
+            font-family: 'SFMono-Regular', Consolas, Menlo, monospace; 
+            font-size: 14px; 
+            line-height: 1.5; 
+            background-color: #0d1117 !important; 
+            color: #e6edf3 !important; 
+        }
+        
+        /* কোনো শ্যাডো বা হালকা কালার থাকবে না, থিমের অরিজিনাল ব্যাকগ্রাউন্ডের সাথে ১০০% মিশে যাবে */
+        .CodeMirror-gutters,
+        .cm-s-dracula.CodeMirror .CodeMirror-gutters,
+        .cm-s-dracula .CodeMirror-gutters { 
+            background-color: #0d1117 !important; 
+            border: none !important; 
+            border-right: none !important; 
+            box-shadow: none !important;
+            position: sticky !important;
+            left: 0 !important;
+            z-index: 10 !important;
+        }
+
+        /* বিল্ট-ইন স্ক্রোল শ্যাডো চিরতরে বন্ধ */
+        .CodeMirror-gutter-shadow {
+            display: none !important;
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+        }
+
+        /* লাইন নাম্বার ফিক্সড ও লক থাকবে (১ থেকে ১ লাখ লাইন হলেও কোনো সমস্যা হবে না) */
+        .CodeMirror-linenumber { 
+            color: #484f58 !important; 
+            font-size: 12px; 
+            min-width: 26px !important; 
+            text-align: right !important; 
+            padding: 0 10px 0 2px !important; 
+            white-space: nowrap !important;
+        }
+
         .CodeMirror-cursor { border-left: 2px solid #58a6ff !important; }
         .CodeMirror-selected { background-color: #1f3a5f !important; }
         .CodeMirror-line { padding: 0 8px !important; }
 
+        /* স্ক্রিনশটের মতো নিখুঁত কালার সিনট্যাক্স */
+        .cm-s-dracula.CodeMirror { background: #0d1117 !important; color: #e6edf3 !important; }
+        .cm-s-dracula .cm-tag { color: #7ee787 !important; }            /* HTML Tags */
+        .cm-s-dracula .cm-attribute { color: #79c0ff !important; }      /* Attributes */
+        .cm-s-dracula .cm-string { color: #a5d6ff !important; }         /* Values */
+        .cm-s-dracula .cm-bracket { color: #8b949e !important; }        /* Brackets */
+        .cm-s-dracula .cm-keyword { color: #ff7b72 !important; }        /* @media, function */
+        .cm-s-dracula .cm-property { color: #e6edf3 !important; }       /* CSS Properties */
+        .cm-s-dracula .cm-atom { color: #79c0ff !important; }           /* Special */
+        .cm-s-dracula .cm-number { color: #79c0ff !important; }         /* Numbers */
+        .cm-s-dracula .cm-comment { color: #8b949e !important; font-style: italic; } /* Comments */
+        .cm-s-dracula .cm-variable,
+        .cm-s-dracula .cm-variable-2,
+        .cm-s-dracula .cm-def { color: #e6edf3 !important; }            /* Text & Variables */
         /* Editor Toolbar Bottom */
         .symbol-bar { background-color: #161b22; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #30363d; color: #8b949e; font-family: monospace; font-size: 15px; }
         .symbol-bar span { cursor: pointer; padding: 0 10px; }
@@ -98,8 +149,41 @@
         .nav-item.active { color: #58a6ff; }
         .nav-item i { font-size: 16px; }
 
-        /* Hidden File Input */
+       /* Hidden File Input */
         #fileInput { display: none; }
+
+        /* File Action Dropdown Menu & Pin Badge */
+        .file-item { position: relative; }
+        .file-action-icon { padding: 8px 12px; margin: -8px -12px; cursor: pointer; color: #8b949e; }
+        .file-action-icon:hover { color: #58a6ff; }
+        .file-menu-dropdown { 
+            position: absolute; 
+            right: 15px; 
+            top: 45px; 
+            background-color: #21262d; 
+            border: 1px solid #30363d; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
+            z-index: 100; 
+            display: none; 
+            flex-direction: column; 
+            min-width: 180px; 
+            overflow: hidden; 
+        }
+        .file-menu-dropdown.show { display: flex; }
+        .menu-action-item { 
+            padding: 10px 14px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-size: 13px; 
+            color: #e6edf3; 
+            cursor: pointer; 
+            transition: background 0.2s; 
+        }
+        .menu-action-item:hover { background-color: #30363d; }
+        .menu-action-item.danger { color: #f85149; }
+        .pin-icon-badge { color: #e3b341; font-size: 11px; margin-left: 6px; }
     </style>
 </head>
 <body>
@@ -250,7 +334,14 @@
                     mode: 'htmlmixed',
                     lineWrapping: false,
                     tabSize: 2,
-                    autofocus: true
+                    autofocus: true,
+                    inputStyle: 'contenteditable', // মোবাইলে লং-প্রেস পেস্ট অপশন চালু করার জন্য
+                    fixedGutter: true
+                });
+
+                // পেস্ট করার সাথে সাথে বা লেখা পরিবর্তন হলে লাইন নাম্বার স্বয়ংক্রিয় রিফ্রেশ হবে
+                editor.on('change', () => {
+                    editor.refresh();
                 });
 
                 // Update Line & Column indicators in top meta bar
