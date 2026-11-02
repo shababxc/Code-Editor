@@ -94,13 +94,16 @@
         .ace_marker-layer .ace_active-line { background-color: #161b22 !important; }
         .ace_marker-layer .ace_selection { background-color: #1f3a5f !important; }
 
-        /* নিখুঁত কালার স্কিম (স্ক্রিনশটের সাথে হুবহু মিল) */
-        .ace_tag { color: #7ee787 !important; }            /* HTML Tags */
-        .ace_attribute-name { color: #79c0ff !important; } /* Attributes */
-        .ace_string { color: #a5d6ff !important; }         /* Values */
-        .ace_keyword { color: #ff7b72 !important; }        /* @media, function */
-        .ace_comment { color: #8b949e !important; font-style: italic; }
-        .ace_property { color: #e6edf3 !important; }
+        /* এক্সাম্পল স্ক্রিনশটের সাথে ১০০% হুবহু কালার স্কিম */
+        .ace_gutter-cell { padding-left: 4px !important; padding-right: 14px !important; color: #6e7681 !important; font-size: 13px !important; }
+        .ace_tag { color: #7ee787 !important; }                   /* <html, <head, <style (সবুজ) */
+        .ace_attribute-name { color: #d2a8ff !important; }        /* lang, charset, name, href (হালকা বেগুনি) */
+        .ace_string { color: #a5d6ff !important; }                /* "bn", "UTF-8" (হালকা আকাশি) */
+        .ace_keyword { color: #ff7b72 !important; }               /* @media, function (গোলাপি) */
+        .ace_comment { color: #8b949e !important; font-style: italic; } /* Comments (ছাই) */
+        .ace_property { color: #79c0ff !important; }              /* CSS Properties (হালকা নীল) */
+        .ace_variable { color: #7ee787 !important; }              /* Selectors (সবুজ) */
+        .ace_meta.ace_tag { color: #7ee787 !important; }
 
         /* Editor Toolbar Bottom */
         .symbol-bar { background-color: #161b22; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #30363d; color: #8b949e; font-family: monospace; font-size: 15px; }
@@ -281,22 +284,26 @@
         let isPreviewMode = false;
         let editor = null;
 
-        // Initialize Ace Editor
+        // Initialize Ace Editor with Native Super-Smooth Momentum Fling
         function initAce() {
             if (!editor) {
                 editor = ace.edit("aceEditor");
                 editor.setTheme("ace/theme/dracula");
                 editor.session.setMode("ace/mode/html");
-                editor.session.setUseWrapMode(false); // লাইন নিচে ভাঙবে না, ডানে স্ক্রল হবে
+                editor.session.setUseWrapMode(false);
                 editor.setShowPrintMargin(false);
-                editor.setHighlightActiveLine(true);
+                editor.setHighlightActiveLine(false);
+                
+                // অপ্রয়োজনীয় ফোল্ডিং অ্যারো (▾) চিরতরে বন্ধ ও ক্লিন লুক
                 editor.setOptions({
                     fontSize: "14px",
                     fontFamily: "'SFMono-Regular', Consolas, Menlo, monospace",
-                    scrollSpeed: 2.5,        // আঙুল দিয়ে হালকা ধাক্কা দিলেই বিদ্যুৎ গতিতে স্ক্রোল হবে
-                    animatedScroll: false,    // অ্যানিমেশন ল্যাগ বন্ধ হবে
-                    vScrollBarAlwaysVisible: false,
-                    hScrollBarAlwaysVisible: false
+                    showFoldWidgets: false, // কোনো ত্রিভুজ থাকবে না (হুবহু স্ক্রিনশট ১)
+                    fadeFoldWidgets: false,
+                    showLineNumbers: true,
+                    showGutter: true,
+                    displayIndentGuides: false,
+                    scrollPastEnd: 0.5
                 });
 
                 // কার্সারের অবস্থান (Ln, Col) লাইভ আপডেট
@@ -310,6 +317,50 @@
                         metaSpan.innerText = `${ext} · UTF-8 · Ln ${pos.row + 1}, Col ${pos.column + 1}`;
                     }
                 });
+
+                // 🚀 সুপার ফাস্ট মোমেন্টাম ফ্লিংক ইঞ্জিন (এক ধাক্কায় মাখনের মতো শত শত লাইন স্ক্রোল)
+                (function applyKineticFling(ed) {
+                    let lastY = 0, lastTime = 0, velocityY = 0, animFrame = null;
+                    const scroller = ed.renderer.scroller;
+
+                    scroller.addEventListener('touchstart', (e) => {
+                        if (e.touches.length === 1) {
+                            cancelAnimationFrame(animFrame);
+                            lastY = e.touches[0].clientY;
+                            lastTime = performance.now();
+                            velocityY = 0;
+                        }
+                    }, { passive: true });
+
+                    scroller.addEventListener('touchmove', (e) => {
+                        if (e.touches.length === 1) {
+                            const now = performance.now();
+                            const currentY = e.touches[0].clientY;
+                            const dt = now - lastTime;
+                            if (dt > 0) {
+                                velocityY = (lastY - currentY) / dt;
+                            }
+                            lastY = currentY;
+                            lastTime = now;
+                        }
+                    }, { passive: true });
+
+                    scroller.addEventListener('touchend', () => {
+                        if (Math.abs(velocityY) > 0.15) {
+                            let speed = velocityY * 22; // স্পিড বুস্টার (সুপার ফাস্ট মোশন)
+                            const friction = 0.94;       // স্মুথ অ্যান্ড্রয়েড মোমেন্টাম ফিজিক্স
+
+                            function step() {
+                                if (Math.abs(speed) > 0.5) {
+                                    ed.session.setScrollTop(ed.session.getScrollTop() + speed);
+                                    speed *= friction;
+                                    animFrame = requestAnimationFrame(step);
+                                }
+                            }
+                            animFrame = requestAnimationFrame(step);
+                        }
+                    }, { passive: true });
+                })(editor);
             }
         }
 
