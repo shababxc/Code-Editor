@@ -1,41 +1,79 @@
 <!DOCTYPE html>
-<html lang="bn" uju: p>
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" ch zuhufz, .ontent="width=device-width, initial-scale=1.0">
+    <!-- মোবাইল অ্যাপের মতো ফুলস্ক্রিন ও জুম বন্ধ করার মেটা ট্যাগ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0d1117">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Code Editor">
+    
     <title>Code Editor App</title>
+    
+    <!-- CodeMirror CSS & Themes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+    
+    <!-- CodeMirror Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #0d1117; color: #e6edf3; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body { 
+            background-color: #0d1117; 
+            color: #e6edf3; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100dvh; /* নিখুঁত মোবাইল ভিউপোর্ট হাইট */
+            overflow: hidden; 
+            user-select: none;
+        }
 
         /* ========== হোমপেজের হেডার ========== */
-        header { background-color: #0d1117; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; flex: 0 0 auto; }
-        header h1 { font-size: 24px; font-weight: bold; }
+        header { 
+            background-color: #0d1117; 
+            padding: 15px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            flex: 0 0 auto;
+            border-bottom: 1px solid #21262d;
+        }
+        header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
         header .top-icons { font-size: 18px; color: #8b949e; display: flex; gap: 15px; }
         header .top-icons i { cursor: pointer; }
 
-        /* ✅ এডিটর স্ক্রিনে অ্যাপ হেডার লুকানো (শুধু হোমপেজে দেখা যাবে) */
+        /* এডিটর স্ক্রিনে হোম হেডার লুকানো */
         body.editor-mode header { display: none; }
 
         /* Screen Views */
         .screen { display: none; flex-direction: column; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
         .screen.active { display: flex; }
 
-        .home-container { padding: 15px; }
+        .home-container { padding: 15px; padding-bottom: 30px; }
         .card { background-color: #161b22; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #30363d; }
         .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #58a6ff; }
         .card-subtitle { font-size: 13px; color: #8b949e; margin-bottom: 15px; }
 
         .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .lang-btn { background-color: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .lang-btn { background-color: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s; }
+        .lang-btn:active { transform: scale(0.98); background-color: #30363d; }
         .lang-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
         .py-badge { background: #1e3a8a; color: #60a5fa; }
         .js-badge { background: #78350f; color: #facc15; }
@@ -46,80 +84,172 @@
 
         .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .action-btn { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
+        .action-btn:active { background-color: #21262d; }
 
         .section-title { font-size: 15px; font-weight: 600; color: #8b949e; margin-bottom: 12px; }
-        .file-item { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; cursor: pointer; position: relative; }
+        
+        /* Recent Files Items */
+        .file-item { 
+            background-color: #161b22; 
+            border: 1px solid #30363d; 
+            border-radius: 10px; 
+            padding: 12px 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            margin-bottom: 10px; 
+            cursor: pointer; 
+            position: relative; 
+        }
         .file-item.pinned { border-color: #e3b341; background-color: #1b1f16; }
 
-        .file-info { display: flex; align-items: center; gap: 12px; }
+        .file-info { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
+        .file-details { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .file-details h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
         .file-details p { font-size: 11px; color: #8b949e; display: flex; gap: 8px; align-items: center; }
         .tag-html { background-color: #1f2937; color: #38bdf8; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
         .pin-icon { color: #e3b341; font-size: 11px; }
 
-        .file-menu-btn { color: #8b949e; cursor: pointer; padding: 4px 6px; border-radius: 5px; }
+        .file-menu-btn { color: #8b949e; cursor: pointer; padding: 8px 10px; border-radius: 5px; }
         .file-menu-btn:hover { color: #e6edf3; background-color: #21262d; }
-        .file-menu { display: none; position: absolute; right: 10px; top: 42px; z-index: 50; background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 4px; min-width: 150px; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+        
+        /* ✅ ফাইল ড্রপডাউন মেনু (নিচে বা উপরে খোলার লজিক সহ) */
+        .file-menu { 
+            display: none; 
+            position: absolute; 
+            right: 10px; 
+            top: 42px; 
+            z-index: 100; 
+            background-color: #1c2128; 
+            border: 1px solid #444c56; 
+            border-radius: 8px; 
+            padding: 5px; 
+            min-width: 155px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6); 
+            animation: fadeIn 0.15s ease-out;
+        }
+        /* শেষের দিকের আইটেমের ক্ষেত্রে মেনু উপরে উঠবে */
+        .file-menu.drop-up { 
+            top: auto; 
+            bottom: 42px; 
+        }
         .file-menu.open { display: block; }
-        .file-menu button { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none; color: #e6edf3; font-size: 13px; padding: 9px 10px; border-radius: 6px; cursor: pointer; text-align: left; }
-        .file-menu button:hover { background-color: #21262d; }
+        
+        .file-menu button { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none; color: #e6edf3; font-size: 13px; padding: 10px 12px; border-radius: 6px; cursor: pointer; text-align: left; }
+        .file-menu button:hover, .file-menu button:active { background-color: #2d333b; }
         .file-menu button.danger { color: #f85149; }
-        .file-menu hr { border: none; border-top: 1px solid #30363d; margin: 4px 0; }
+        .file-menu hr { border: none; border-top: 1px solid #373e47; margin: 4px 0; }
 
         /* ========== এডিটর স্ক্রিন ========== */
         .editor-topbar { background-color: #161b22; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #30363d; flex: 0 0 auto; }
-        .editor-title { display: flex; align-items: center; gap: 10px; }
-        .editor-title i { cursor: pointer; color: #8b949e; }
+        .editor-title { display: flex; align-items: center; gap: 12px; }
+        .editor-title i { cursor: pointer; color: #8b949e; font-size: 18px; padding: 4px; }
         .file-meta { display: flex; flex-direction: column; }
         .file-meta h3 { font-size: 15px; font-weight: 600; }
         .file-meta span { font-size: 11px; color: #8b949e; }
 
-        /* ✅ এডিটর এরিয়া এখন আরও বড় (উপরের হেডার ও নিচের নেভ লুকানোর কারণে) */
-        .editor-area { flex: 1 1 auto; min-height: 0; display: flex; position: relative; background-color: #0d1117; }
-        .editor-area textarea { width: 100%; height: 100%; background: transparent; color: #e6edf3; border: none; outline: none; padding: 15px; font-family: monospace; font-size: 14px; line-height: 1.5; resize: none; }
-        .editor-area .CodeMirror { flex: 1 1 auto; height: 100%; min-height: 0; font-family: monospace; font-size: 14px; background: #0d1117; color: #e6edf3; }
+        .editor-area { flex: 1 1 auto; min-height: 0; display: flex; position: relative; background-color: #0d1117; user-select: text; }
+        .editor-area .CodeMirror { flex: 1 1 auto; height: 100%; min-height: 0; font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; background: #0d1117; color: #e6edf3; }
         .editor-area .CodeMirror-scroll { min-height: 100%; }
         .preview-iframe { flex: 1 1 auto; width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
-        /* ========== ✅ সিম্বল বার — কমপ্যাক্ট, ১ ২ ৩-এর মতো সাজানো ========== */
+        /* ========== সিম্বল বার ========== */
         .symbol-bar {
             background-color: #161b22;
-            display: flex; flex-wrap: wrap;
-            justify-content: center;         /* মাঝখানে গোছানো, ছড়ানো নয় */
+            display: flex; 
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: flex-start;
             align-items: center;
-            gap: 6px;                        /* ফাঁকা কমানো */
-            padding: 6px 10px;
+            gap: 6px;
+            padding: 8px 10px;
             border-top: 1px solid #30363d;
             color: #8b949e;
             font-family: monospace;
             font-size: 14px;
             flex: 0 0 auto;
+            scrollbar-width: none;
         }
+        .symbol-bar::-webkit-scrollbar { display: none; }
         .symbol-bar span {
             cursor: pointer;
-            min-width: 30px;                 /* ছোট বাক্স */
-            height: 26px;
+            min-width: 32px;
+            height: 28px;
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 0 6px;
-            border-radius: 5px;
+            padding: 0 8px;
+            border-radius: 6px;
             background-color: #21262d;
             border: 1px solid #30363d;
+            color: #c9d1d9;
+            flex-shrink: 0;
         }
-        .symbol-bar span:active { background-color: #30363d; color: #58a6ff; }
+        .symbol-bar span:active { background-color: #388bfd; color: #ffffff; }
 
         .bottom-action-bar { background-color: #161b22; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-top: 1px solid #30363d; flex: 0 0 auto; }
         .action-icons-left, .action-icons-right { display: flex; gap: 20px; align-items: center; color: #8b949e; font-size: 18px; }
-        .action-icons-left i, .action-icons-right i { cursor: pointer; }
+        .action-icons-left i, .action-icons-right i { cursor: pointer; padding: 4px; }
         .action-icons-right i:hover, .action-icons-left i:hover { color: #58a6ff; }
 
         /* ========== নিচের নেভ বার — শুধু হোমপেজে ========== */
-        .bottom-nav { background-color: #0d1117; border-top: 1px solid #30363d; display: flex; justify-content: space-around; padding: 10px 0; flex: 0 0 auto; }
+        .bottom-nav { background-color: #0d1117; border-top: 1px solid #30363d; display: flex; justify-content: space-around; padding: 10px 0 14px 0; flex: 0 0 auto; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #8b949e; cursor: pointer; }
         .nav-item.active { color: #58a6ff; }
         .nav-item i { font-size: 16px; }
 
-        /* ✅ এডিটর স্ক্রিনে নিচের তিনটা বটন লুকানো */
+        /* এডিটর স্ক্রিনে নিচের নেভ লুকানো */
         body.editor-mode .bottom-nav { display: none; }
+
+        /* ========== ✅ সেভ ফাইল কাস্টম পপআপ (Modal Dialog) ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(3px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 340px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #e6edf3; display: flex; align-items: center; gap: 8px; }
+        .modal-input {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #58a6ff;
+            font-size: 14px;
+            font-family: monospace;
+            outline: none;
+            margin-bottom: 15px;
+        }
+        .modal-input:focus { border-color: #58a6ff; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-cancel { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+        .btn-save { background: #238636; color: #ffffff; }
+        .btn-save:active { background: #2ea043; }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         #fileInput { display: none; }
     </style>
@@ -154,7 +284,7 @@
                 <div class="action-btn" onclick="pasteFromClipboard()"><i class="fa-regular fa-paste"></i> Paste code</div>
             </div>
 
-            <div class="section-title">Recent</div>
+            <div class="section-title">Recent Files</div>
             <div id="recentFileList"></div>
         </div>
     </div>
@@ -169,17 +299,29 @@
                     <span id="activeFileLang">HTML · UTF-8 · Ln 1, Col 1</span>
                 </div>
             </div>
-            <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;"></i>
+            <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;" onclick="openSaveModal()"></i>
         </div>
 
         <div class="editor-area">
-            <textarea id="codeEditor" placeholder="এখানে আপনার কোড পেস্ট বা এডিট করুন..."></textarea>
+            <textarea id="codeEditor"></textarea>
             <iframe id="previewIframe" class="preview-iframe"></iframe>
         </div>
 
-        <!-- ✅ কমপ্যাক্ট সিম্বল বার -->
+        <!-- সিম্বল বার -->
         <div class="symbol-bar">
-            <span>&lt;</span><span>-</span><span>{</span><span>}</span><span>(</span><span>)</span><span>[</span><span>]</span><span>&gt;</span>
+            <span onclick="insertSymbol('<')">&lt;</span>
+            <span onclick="insertSymbol('>')">&gt;</span>
+            <span onclick="insertSymbol('/')">/</span>
+            <span onclick="insertSymbol('=')">=</span>
+            <span onclick="insertSymbol('\"')">"</span>
+            <span onclick="insertSymbol('{')">{</span>
+            <span onclick="insertSymbol('}')">}</span>
+            <span onclick="insertSymbol('(')">(</span>
+            <span onclick="insertSymbol(')')">)</span>
+            <span onclick="insertSymbol('[')">[</span>
+            <span onclick="insertSymbol(']')">]</span>
+            <span onclick="insertSymbol(';')">;</span>
+            <span onclick="insertSymbol(':')">:</span>
         </div>
 
         <div class="bottom-action-bar">
@@ -188,36 +330,69 @@
                 <i class="fa-solid fa-rotate-left" onclick="editor.undo()" title="Undo"></i>
                 <i class="fa-solid fa-rotate-right" onclick="editor.redo()" title="Redo"></i>
                 <i class="fa-solid fa-magnifying-glass" title="Search"></i>
-                <i class="fa-solid fa-angle-left"></i>
-                <i class="fa-solid fa-angle-right"></i>
             </div>
             <div class="action-icons-right">
                 <i class="fa-solid fa-circle-play" style="color: #4CAF50;" onclick="togglePreview()" title="Preview"></i>
-                <i class="fa-solid fa-floppy-disk" onclick="saveCurrentFile()" title="Save"></i>
+                <i class="fa-solid fa-floppy-disk" onclick="openSaveModal()" title="Save With Name"></i>
                 <i class="fa-solid fa-xmark" onclick="goHome()" title="Close"></i>
             </div>
         </div>
     </div>
 
-    <!-- ✅ নিচের তিন বটন বার — শুধু হোমপেজে দেখা যাবে -->
+    <!-- হোমপেজের নিচের নেভ বার -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="goHome()"><i class="fa-solid fa-code"></i><span>Code Editor</span></div>
         <div class="nav-item"><i class="fa-regular fa-file-lines"></i><span>Text Editor</span></div>
         <div class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
     </div>
 
+    <!-- ✅ ফাইল সেভ করার কাস্টম মডাল পপআপ -->
+    <div id="saveModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-title"><i class="fa-solid fa-floppy-disk" style="color:#58a6ff;"></i> Save File</div>
+            <input type="text" id="saveFileNameInput" class="modal-input" placeholder="e.g. index.html" />
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeSaveModal()">Cancel</button>
+                <button class="btn btn-save" onclick="confirmSaveFile()">Save</button>
+            </div>
+        </div>
+    </div>
+
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
 <script>
+    // ডাইনামিক Web App Manifest তৈরি যাতে GitHub-এ ওপেন করলে ব্রাউজার বার না দেখায়
+    (function setupPWA() {
+        const manifest = {
+            name: "Code Editor",
+            short_name: "CodeEditor",
+            start_url: window.location.href,
+            display: "standalone",
+            background_color: "#0d1117",
+            theme_color: "#0d1117"
+        };
+        const stringManifest = JSON.stringify(manifest);
+        const blob = new Blob([stringManifest], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(blob);
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = manifestURL;
+        document.head.appendChild(link);
+    })();
+
     var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-        mode: "htmlmixed", theme: "dracula", lineNumbers: true,
-        autoCloseTags: true, matchBrackets: true, lineWrapping: true
+        mode: "htmlmixed", 
+        theme: "dracula", 
+        lineNumbers: true,
+        autoCloseTags: true, 
+        matchBrackets: true, 
+        lineWrapping: true
     });
     var cmWrapper = editor.getWrapperElement();
 
     let defaultFiles = [
-        { name: 'index.html', code: '<h1>Hello, World!</h1>\n<p>Your TMA Code Editor is working!</p>', time: '0 minutes ago', path: 'Downloads', pinned: false },
-        { name: 'preview.html', code: '<style>body{background:black; color:lime; text-align:center; padding-top:50px;}</style><h1>Preview Mode</h1>', time: '2 hours ago', path: 'Downloads', pinned: false }
+        { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Preview</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>Your Mobile Code Editor is ready!</p>\n</body>\n</html>', time: 'Just now', path: 'Local', pinned: false },
+        { name: 'style.css', code: 'body {\n  background-color: #0d1117;\n  color: #58a6ff;\n  text-align: center;\n  padding-top: 50px;\n}', time: '1 hour ago', path: 'Local', pinned: false }
     ];
 
     let currentActiveFileIndex = -1;
@@ -237,7 +412,10 @@
         localStorage.setItem('my_editor_files', JSON.stringify(defaultFiles));
         return defaultFiles;
     }
-    function saveFiles(files) { localStorage.setItem('my_editor_files', JSON.stringify(files)); }
+    
+    function saveFiles(files) { 
+        localStorage.setItem('my_editor_files', JSON.stringify(files)); 
+    }
 
     function sortedFiles(files) {
         return files.slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
@@ -257,7 +435,7 @@
 
             item.innerHTML = `
                 <div class="file-info">
-                    <span class="lang-badge html-badge">htm</span>
+                    <span class="lang-badge ${badgeClass(file.name)}">${badgeText(file.name)}</span>
                     <div class="file-details">
                         <h4>${pinMark}<span class="file-name-text">${escapeHtml(file.name)}</span></h4>
                         <p><span class="tag-html">${fileExtLabel(file.name)}</span> ${escapeHtml(file.time)} · ${escapeHtml(file.path)}</p>
@@ -274,12 +452,27 @@
 
             const menuBtn = item.querySelector('.file-menu-btn');
             const menu = item.querySelector('.file-menu');
+
             menuBtn.onclick = (e) => {
                 e.stopPropagation();
                 const wasOpen = menu.classList.contains('open');
                 closeAllMenus();
-                if (!wasOpen) menu.classList.add('open');
+                
+                if (!wasOpen) {
+                    // ✅ স্মার্ট পজিশন: নিচের আইটেমের মেনু স্ক্রিনের বাইরে না গিয়ে উপরে উঠবে
+                    const rect = menuBtn.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    const spaceBelow = windowHeight - rect.bottom;
+                    
+                    if (spaceBelow < 155) { 
+                        menu.classList.add('drop-up'); 
+                    } else {
+                        menu.classList.remove('drop-up');
+                    }
+                    menu.classList.add('open');
+                }
             };
+
             menu.onclick = (e) => {
                 e.stopPropagation();
                 const btn = e.target.closest('button');
@@ -290,6 +483,7 @@
                 else if (act === 'rename') renameFile(index);
                 else if (act === 'remove') removeFile(index);
             };
+
             listContainer.appendChild(item);
         });
     }
@@ -302,20 +496,23 @@
     function togglePin(index) {
         const files = loadFiles();
         files[index].pinned = !files[index].pinned;
-        saveFiles(files); renderRecentFiles();
+        saveFiles(files); 
+        renderRecentFiles();
     }
 
     function renameFile(index) {
         const files = loadFiles();
         const oldName = files[index].name;
-        const newName = prompt('ফাইলের নতুন নাম দিন (যেমন index.html):', oldName);
+        const newName = prompt('ফাইলের নতুন নাম দিন (যেমন script.js):', oldName);
         if (newName === null) return;
         const clean = newName.trim();
         if (!clean) return;
         files[index].name = clean;
-        saveFiles(files); renderRecentFiles();
+        saveFiles(files); 
+        renderRecentFiles();
         if (currentActiveFileIndex === index) {
             document.getElementById('activeFileName').innerText = '*' + clean;
+            setEditorMode(clean);
         }
     }
 
@@ -325,17 +522,44 @@
         if (!confirm('"' + name + '" ফাইলটি মুছে ফেলতে চান?')) return;
         files.splice(index, 1);
         saveFiles(files);
-        if (currentActiveFileIndex === index) { currentActiveFileIndex = -1; goHome(); }
+        if (currentActiveFileIndex === index) { 
+            currentActiveFileIndex = -1; 
+            goHome(); 
+        }
         renderRecentFiles();
     }
 
     function escapeHtml(str) {
         return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
+    
     function fileExtLabel(name) {
         const ext = (name.split('.').pop() || '').toLowerCase();
         const map = { html: 'HTML', htm: 'HTML', js: 'JS', css: 'CSS', py: 'PY', c: 'C', cpp: 'CPP', json: 'JSON', md: 'MD' };
         return map[ext] || ext.toUpperCase() || 'FILE';
+    }
+
+    function badgeText(name) {
+        const ext = (name.split('.').pop() || '').toLowerCase();
+        return ext.slice(0, 3) || 'txt';
+    }
+
+    function badgeClass(name) {
+        const ext = (name.split('.').pop() || '').toLowerCase();
+        if (ext === 'html' || ext === 'htm') return 'html-badge';
+        if (ext === 'js') return 'js-badge';
+        if (ext === 'py') return 'py-badge';
+        if (ext === 'c' || ext === 'cpp') return 'c-badge';
+        return 'html-badge';
+    }
+
+    function setEditorMode(fileName) {
+        const ext = (fileName.split('.').pop() || '').toLowerCase();
+        if (ext === 'js') editor.setOption('mode', 'javascript');
+        else if (ext === 'css') editor.setOption('mode', 'css');
+        else if (ext === 'py') editor.setOption('mode', 'python');
+        else if (ext === 'c' || ext === 'cpp') editor.setOption('mode', 'text/x-csrc');
+        else editor.setOption('mode', 'htmlmixed');
     }
 
     function openFile(index) {
@@ -344,35 +568,70 @@
         const file = files[index];
 
         document.getElementById('activeFileName').innerText = '*' + file.name;
-        document.getElementById('activeFileLang').innerText = fileExtLabel(file.name) + ' · UTF-8 · Ln 1, Col 1';
+        document.getElementById('activeFileLang').innerText = fileExtLabel(file.name) + ' · UTF-8';
+        setEditorMode(file.name);
+
         editor.setValue(file.code || '');
         editor.setCursor({ line: 0, ch: 0 });
 
         document.getElementById('homeScreen').classList.remove('active');
         document.getElementById('editorScreen').classList.add('active');
 
-        // ✅ এডিটর মোড: অ্যাপ হেডার + নিচের নেভ বার লুকানো → এডিটর বড় হবে
         document.body.classList.add('editor-mode');
-
         closePreview();
-        requestAnimationFrame(() => editor.refresh());
+        setTimeout(() => editor.refresh(), 100);
     }
 
     function createNewFile(ext) {
         let files = loadFiles();
-        const fileName = `new_file_${files.length + 1}.${ext}`;
+        const fileName = `file_${files.length + 1}.${ext}`;
         files.unshift({ name: fileName, code: '', time: 'Just now', path: 'Local', pinned: false });
-        saveFiles(files); renderRecentFiles(); openFile(0);
+        saveFiles(files); 
+        renderRecentFiles(); 
+        openFile(0);
     }
 
-    function saveCurrentFile() {
+    /* ========== ✅ সেভ ফাইল মডাল লজিক ========== */
+    function openSaveModal() {
         if (currentActiveFileIndex === -1) return;
+        const files = loadFiles();
+        const curName = files[currentActiveFileIndex].name;
+        const input = document.getElementById('saveFileNameInput');
+        input.value = curName;
+        document.getElementById('saveModal').classList.add('active');
+        input.focus();
+        input.select();
+    }
+
+    function closeSaveModal() {
+        document.getElementById('saveModal').classList.remove('active');
+    }
+
+    function confirmSaveFile() {
+        const input = document.getElementById('saveFileNameInput');
+        let newName = input.value.trim();
+        if (!newName) {
+            alert('দয়া করে ফাইলের একটি বৈধ নাম দিন!');
+            return;
+        }
+
         let files = loadFiles();
+        files[currentActiveFileIndex].name = newName;
         files[currentActiveFileIndex].code = editor.getValue();
         files[currentActiveFileIndex].time = 'Just now';
         saveFiles(files);
-        alert('File saved successfully!');
+
+        document.getElementById('activeFileName').innerText = '*' + newName;
+        document.getElementById('activeFileLang').innerText = fileExtLabel(newName) + ' · UTF-8';
+        setEditorMode(newName);
+
+        closeSaveModal();
         renderRecentFiles();
+    }
+
+    function insertSymbol(sym) {
+        editor.replaceSelection(sym);
+        editor.focus();
     }
 
     function togglePreview() {
@@ -382,9 +641,13 @@
             iframe.style.display = 'block';
             cmWrapper.style.display = 'none';
             const doc = iframe.contentDocument || iframe.contentWindow.document;
-            doc.open(); doc.write(code); doc.close();
+            doc.open(); 
+            doc.write(code); 
+            doc.close();
             isPreviewMode = true;
-        } else { closePreview(); }
+        } else { 
+            closePreview(); 
+        }
     }
 
     function closePreview() {
@@ -398,9 +661,9 @@
             const text = await navigator.clipboard.readText();
             createNewFile('html');
             editor.setValue(text);
-            saveCurrentFile();
+            openSaveModal();
         } catch (err) {
-            alert('পেইস্ট করার জন্য অনুমতি প্রয়োজন অথবা ফাইল সিলেক্ট করুন।');
+            alert('ক্লিপবোর্ড এক্সেস করার অনুমতি দিন অথবা কোডটি লিখে পেস্ট করুন।');
         }
     }
 
@@ -411,7 +674,9 @@
         reader.onload = function(e) {
             let files = loadFiles();
             files.unshift({ name: file.name, code: e.target.result, time: 'Just now', path: 'Uploaded', pinned: false });
-            saveFiles(files); renderRecentFiles(); openFile(0);
+            saveFiles(files); 
+            renderRecentFiles(); 
+            openFile(0);
         };
         reader.readAsText(file);
         event.target.value = '';
@@ -421,7 +686,6 @@
         closePreview();
         document.getElementById('editorScreen').classList.remove('active');
         document.getElementById('homeScreen').classList.add('active');
-        // ✅ হোমপেজে ফিরলে হেডার ও নেভ বার আবার দেখাবে
         document.body.classList.remove('editor-mode');
         renderRecentFiles();
     }
