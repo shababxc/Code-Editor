@@ -2,7 +2,6 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <!-- মোবাইল অ্যাপের মতো ফুলস্ক্রিন ও জুম বন্ধ করার মেটা ট্যাগ -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0d1117">
     <meta name="mobile-web-app-capable" content="yes">
@@ -21,9 +20,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <!-- ✅ JSX & Babel হাইলাইটিং এর জন্য স্ক্রিপ্ট -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/jsx/jsx.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+    
+    <!-- ✅ দ্রুত সার্চ ও লাইন জাম্প করার জন্য সার্চ কার্সর লাইব্রেরি -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/search/searchcursor.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -40,7 +45,7 @@
             color: #e6edf3; 
             display: flex; 
             flex-direction: column; 
-            height: 100dvh; /* নিখুঁত মোবাইল ভিউপোর্ট হাইট */
+            height: 100dvh; 
             overflow: hidden; 
             user-select: none;
         }
@@ -59,10 +64,8 @@
         header .top-icons { font-size: 18px; color: #8b949e; display: flex; gap: 15px; }
         header .top-icons i { cursor: pointer; }
 
-        /* এডিটর স্ক্রিনে হোম হেডার লুকানো */
         body.editor-mode header { display: none; }
 
-        /* Screen Views */
         .screen { display: none; flex-direction: column; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
         .screen.active { display: flex; }
 
@@ -72,7 +75,7 @@
         .card-subtitle { font-size: 13px; color: #8b949e; margin-bottom: 15px; }
 
         .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .lang-btn { background-color: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s; }
+        .lang-btn { background-color: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
         .lang-btn:active { transform: scale(0.98); background-color: #30363d; }
         .lang-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
         .py-badge { background: #1e3a8a; color: #60a5fa; }
@@ -84,11 +87,9 @@
 
         .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .action-btn { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
-        .action-btn:active { background-color: #21262d; }
 
         .section-title { font-size: 15px; font-weight: 600; color: #8b949e; margin-bottom: 12px; }
         
-        /* Recent Files Items */
         .file-item { 
             background-color: #161b22; 
             border: 1px solid #30363d; 
@@ -111,9 +112,8 @@
         .pin-icon { color: #e3b341; font-size: 11px; }
 
         .file-menu-btn { color: #8b949e; cursor: pointer; padding: 8px 10px; border-radius: 5px; }
-        .file-menu-btn:hover { color: #e6edf3; background-color: #21262d; }
         
-        /* ✅ ফাইল ড্রপডাউন মেনু (নিচে বা উপরে খোলার লজিক সহ) */
+        /* ড্রপডাউন মেনু (নিচের আইটেমের জন্য উপরে ওপেন হবে) */
         .file-menu { 
             display: none; 
             position: absolute; 
@@ -126,17 +126,11 @@
             padding: 5px; 
             min-width: 155px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.6); 
-            animation: fadeIn 0.15s ease-out;
         }
-        /* শেষের দিকের আইটেমের ক্ষেত্রে মেনু উপরে উঠবে */
-        .file-menu.drop-up { 
-            top: auto; 
-            bottom: 42px; 
-        }
+        .file-menu.drop-up { top: auto; bottom: 42px; }
         .file-menu.open { display: block; }
-        
         .file-menu button { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none; color: #e6edf3; font-size: 13px; padding: 10px 12px; border-radius: 6px; cursor: pointer; text-align: left; }
-        .file-menu button:hover, .file-menu button:active { background-color: #2d333b; }
+        .file-menu button:hover { background-color: #2d333b; }
         .file-menu button.danger { color: #f85149; }
         .file-menu hr { border: none; border-top: 1px solid #373e47; margin: 4px 0; }
 
@@ -148,9 +142,82 @@
         .file-meta h3 { font-size: 15px; font-weight: 600; }
         .file-meta span { font-size: 11px; color: #8b949e; }
 
+        /* ✅ সার্চ প্যানেল স্টাইল */
+        .search-bar-panel {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #161b22;
+            padding: 8px 12px;
+            border-bottom: 1px solid #30363d;
+            gap: 8px;
+            flex: 0 0 auto;
+            z-index: 20;
+        }
+        .search-bar-panel.active { display: flex; }
+        .search-input-wrap {
+            display: flex;
+            align-items: center;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 6px 10px;
+            flex: 1;
+            gap: 8px;
+        }
+        .search-input-wrap:focus-within { border-color: #58a6ff; }
+        .search-input-wrap input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e6edf3;
+            font-size: 13px;
+            width: 100%;
+        }
+        .search-count {
+            font-size: 11px;
+            color: #8b949e;
+            white-space: nowrap;
+        }
+        .search-nav-btns { display: flex; align-items: center; gap: 6px; }
+        .search-nav-btns button {
+            background-color: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            border-radius: 6px;
+            width: 32px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .search-nav-btns button:active { background-color: #30363d; color: #58a6ff; }
+
+        /* ✅ এডিটর এরিয়া (লাইন নম্বর নিখুঁত বাজানো থাকবে) */
         .editor-area { flex: 1 1 auto; min-height: 0; display: flex; position: relative; background-color: #0d1117; user-select: text; }
-        .editor-area .CodeMirror { flex: 1 1 auto; height: 100%; min-height: 0; font-family: 'Consolas', 'Courier New', monospace; font-size: 14px; background: #0d1117; color: #e6edf3; }
-        .editor-area .CodeMirror-scroll { min-height: 100%; }
+        .editor-area .CodeMirror { 
+            flex: 1 1 auto; 
+            height: 100%; 
+            min-height: 0; 
+            font-family: 'Consolas', 'Courier New', monospace; 
+            font-size: 13.5px; 
+            line-height: 1.5;
+            background: #0d1117; 
+            color: #e6edf3; 
+        }
+        .editor-area .CodeMirror-scroll { 
+            min-height: 100%; 
+            overflow-x: auto !important; 
+        }
+        .editor-area .CodeMirror-gutters {
+            background-color: #0d1117;
+            border-right: 1px solid #21262d;
+        }
+        .editor-area .CodeMirror-linenumber {
+            color: #484f58;
+            padding: 0 8px 0 5px;
+        }
         .preview-iframe { flex: 1 1 auto; width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
         /* ========== সিম্বল বার ========== */
@@ -159,7 +226,6 @@
             display: flex; 
             flex-wrap: nowrap;
             overflow-x: auto;
-            justify-content: flex-start;
             align-items: center;
             gap: 6px;
             padding: 8px 10px;
@@ -190,20 +256,18 @@
         .action-icons-left i, .action-icons-right i { cursor: pointer; padding: 4px; }
         .action-icons-right i:hover, .action-icons-left i:hover { color: #58a6ff; }
 
-        /* ========== নিচের নেভ বার — শুধু হোমপেজে ========== */
         .bottom-nav { background-color: #0d1117; border-top: 1px solid #30363d; display: flex; justify-content: space-around; padding: 10px 0 14px 0; flex: 0 0 auto; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #8b949e; cursor: pointer; }
         .nav-item.active { color: #58a6ff; }
         .nav-item i { font-size: 16px; }
 
-        /* এডিটর স্ক্রিনে নিচের নেভ লুকানো */
         body.editor-mode .bottom-nav { display: none; }
 
-        /* ========== ✅ সেভ ফাইল কাস্টম পপআপ (Modal Dialog) ========== */
+        /* সেভ ফাইল মডাল */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(3px);
             display: none;
             align-items: center;
@@ -220,7 +284,6 @@
             max-width: 340px;
             padding: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #e6edf3; display: flex; align-items: center; gap: 8px; }
         .modal-input {
@@ -240,16 +303,6 @@
         .btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
         .btn-cancel { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
         .btn-save { background: #238636; color: #ffffff; }
-        .btn-save:active { background: #2ea043; }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: scale(0.92); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
 
         #fileInput { display: none; }
     </style>
@@ -302,6 +355,20 @@
             <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;" onclick="openSaveModal()"></i>
         </div>
 
+        <!-- ✅ দ্রুত ও নিখুঁত সার্চ বার প্যানেল -->
+        <div id="searchBarPanel" class="search-bar-panel">
+            <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 13px; color: #8b949e;"></i>
+                <input type="text" id="searchInput" placeholder="শব্দ, ট্যাগ বা লাইন সার্চ করুন..." oninput="doSearch()" onkeydown="handleSearchKey(event)">
+                <span id="searchCount" class="search-count">0/0</span>
+            </div>
+            <div class="search-nav-btns">
+                <button type="button" onclick="findPrevMatch()" title="Previous"><i class="fa-solid fa-chevron-up"></i></button>
+                <button type="button" onclick="findNextMatch()" title="Next"><i class="fa-solid fa-chevron-down"></i></button>
+                <button type="button" onclick="closeSearchBar()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
         <div class="editor-area">
             <textarea id="codeEditor"></textarea>
             <iframe id="previewIframe" class="preview-iframe"></iframe>
@@ -329,7 +396,8 @@
                 <i class="fa-regular fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
                 <i class="fa-solid fa-rotate-left" onclick="editor.undo()" title="Undo"></i>
                 <i class="fa-solid fa-rotate-right" onclick="editor.redo()" title="Redo"></i>
-                <i class="fa-solid fa-magnifying-glass" title="Search"></i>
+                <!-- ✅ সার্চ আইকন ক্লিক করলে সার্চ বার খুলবে -->
+                <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchBar()" title="Search & Update Line"></i>
             </div>
             <div class="action-icons-right">
                 <i class="fa-solid fa-circle-play" style="color: #4CAF50;" onclick="togglePreview()" title="Preview"></i>
@@ -346,7 +414,7 @@
         <div class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
     </div>
 
-    <!-- ✅ ফাইল সেভ করার কাস্টম মডাল পপআপ -->
+    <!-- সেভ ফাইল পপআপ -->
     <div id="saveModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-title"><i class="fa-solid fa-floppy-disk" style="color:#58a6ff;"></i> Save File</div>
@@ -361,38 +429,39 @@
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
 <script>
-    // ডাইনামিক Web App Manifest তৈরি যাতে GitHub-এ ওপেন করলে ব্রাউজার বার না দেখায়
-    (function setupPWA() {
-        const manifest = {
-            name: "Code Editor",
-            short_name: "CodeEditor",
-            start_url: window.location.href,
-            display: "standalone",
-            background_color: "#0d1117",
-            theme_color: "#0d1117"
-        };
-        const stringManifest = JSON.stringify(manifest);
-        const blob = new Blob([stringManifest], {type: 'application/json'});
-        const manifestURL = URL.createObjectURL(blob);
-        const link = document.createElement('link');
-        link.rel = 'manifest';
-        link.href = manifestURL;
-        document.head.appendChild(link);
-    })();
+    // ✅ Babel ও JSX স্ক্রিপ্ট সাপোর্ট রেজিস্ট্রেশন (যাতে <script type="text/babel"> রঙিন হয়)
+    if (window.CodeMirror) {
+        CodeMirror.defineMIME("text/babel", { name: "javascript", jsx: true });
+        CodeMirror.defineMIME("text/jsx", { name: "javascript", jsx: true });
+    }
+
+    const htmlCustomConfig = {
+        name: "htmlmixed",
+        tags: {
+            script: [
+                ["type", /^text\/(babel|jsx)$/i, "jsx"],
+                ["type", /^module$/i, "javascript"],
+                ["type", /.+/i, "javascript"] // যে কোনো স্ক্রিপ্ট টাইপকেই রঙিন দেখাবে
+            ]
+        }
+    };
 
     var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-        mode: "htmlmixed", 
+        mode: htmlCustomConfig, 
         theme: "dracula", 
         lineNumbers: true,
         autoCloseTags: true, 
         matchBrackets: true, 
-        lineWrapping: true
+        /* ✅ lineWrapping: false করায় নম্বরের মাঝে কোনো গ্যাপ থাকবে না, নম্বরগুলো একটার সাথে একটা বাজানো থাকবে */
+        lineWrapping: false,
+        /* ✅ ৩২০০+ লাইনেও যাতে কালার নষ্ট না হয় */
+        maxHighlightLength: Infinity,
+        viewportMargin: 40
     });
     var cmWrapper = editor.getWrapperElement();
 
     let defaultFiles = [
-        { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Preview</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n  <p>Your Mobile Code Editor is ready!</p>\n</body>\n</html>', time: 'Just now', path: 'Local', pinned: false },
-        { name: 'style.css', code: 'body {\n  background-color: #0d1117;\n  color: #58a6ff;\n  text-align: center;\n  padding-top: 50px;\n}', time: '1 hour ago', path: 'Local', pinned: false }
+        { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Preview</title>\n</head>\n<body>\n  <div id="root"></div>\n  <script type="text/babel">\n    const { useState } = React;\n    const App = () => <h1>Hello React & Babel!</h1>;\n  <\/script>\n</body>\n</html>', time: 'Just now', path: 'Local', pinned: false }
     ];
 
     let currentActiveFileIndex = -1;
@@ -459,12 +528,9 @@
                 closeAllMenus();
                 
                 if (!wasOpen) {
-                    // ✅ স্মার্ট পজিশন: নিচের আইটেমের মেনু স্ক্রিনের বাইরে না গিয়ে উপরে উঠবে
                     const rect = menuBtn.getBoundingClientRect();
-                    const windowHeight = window.innerHeight;
-                    const spaceBelow = windowHeight - rect.bottom;
-                    
-                    if (spaceBelow < 155) { 
+                    const spaceBelow = window.innerHeight - rect.bottom;
+                    if (spaceBelow < 160) { 
                         menu.classList.add('drop-up'); 
                     } else {
                         menu.classList.remove('drop-up');
@@ -559,7 +625,7 @@
         else if (ext === 'css') editor.setOption('mode', 'css');
         else if (ext === 'py') editor.setOption('mode', 'python');
         else if (ext === 'c' || ext === 'cpp') editor.setOption('mode', 'text/x-csrc');
-        else editor.setOption('mode', 'htmlmixed');
+        else editor.setOption('mode', htmlCustomConfig);
     }
 
     function openFile(index) {
@@ -591,7 +657,7 @@
         openFile(0);
     }
 
-    /* ========== ✅ সেভ ফাইল মডাল লজিক ========== */
+    /* ========== সেভ ফাইল মডাল লজিক ========== */
     function openSaveModal() {
         if (currentActiveFileIndex === -1) return;
         const files = loadFiles();
@@ -611,7 +677,7 @@
         const input = document.getElementById('saveFileNameInput');
         let newName = input.value.trim();
         if (!newName) {
-            alert('দয়া করে ফাইলের একটি বৈধ নাম দিন!');
+            alert('দয়া করে ফাইলের একটি নাম দিন!');
             return;
         }
 
@@ -627,6 +693,84 @@
 
         closeSaveModal();
         renderRecentFiles();
+    }
+
+    /* ========== ✅ সার্চ এবং ব্লক জাম্প করার কার্যকরী লজিক ========== */
+    let currentMatches = [];
+    let currentMatchIndex = -1;
+
+    function toggleSearchBar() {
+        const panel = document.getElementById("searchBarPanel");
+        panel.classList.toggle("active");
+        if (panel.classList.contains("active")) {
+            const input = document.getElementById("searchInput");
+            input.focus();
+            if (input.value) doSearch();
+        } else {
+            editor.focus();
+        }
+    }
+
+    function closeSearchBar() {
+        document.getElementById("searchBarPanel").classList.remove("active");
+        editor.focus();
+    }
+
+    function doSearch() {
+        const query = document.getElementById("searchInput").value;
+        const countEl = document.getElementById("searchCount");
+        currentMatches = [];
+        currentMatchIndex = -1;
+
+        if (!query) {
+            countEl.innerText = "0/0";
+            return;
+        }
+
+        // পুরো কোডের যেখানে যেখানে মিল রয়েছে তা বের করা
+        const cursor = editor.getSearchCursor(query, {line: 0, ch: 0}, {caseFold: true});
+        while (cursor.findNext()) {
+            currentMatches.push({from: cursor.from(), to: cursor.to()});
+        }
+
+        if (currentMatches.length > 0) {
+            currentMatchIndex = 0;
+            selectCurrentMatch();
+        } else {
+            countEl.innerText = "0/0";
+        }
+    }
+
+    function selectCurrentMatch() {
+        if (currentMatches.length === 0 || currentMatchIndex < 0) return;
+        const match = currentMatches[currentMatchIndex];
+        document.getElementById("searchCount").innerText = `${currentMatchIndex + 1}/${currentMatches.length}`;
+        
+        // এডিটর নির্দিষ্ট লাইনে জাম্প করবে এবং টেক্সট সিলেক্ট করবে যাতে সরাসরি এডিট করা যায়
+        editor.setSelection(match.from, match.to);
+        editor.scrollIntoView({from: match.from, to: match.to}, 120);
+    }
+
+    function findNextMatch() {
+        if (currentMatches.length === 0) return;
+        currentMatchIndex = (currentMatchIndex + 1) % currentMatches.length;
+        selectCurrentMatch();
+    }
+
+    function findPrevMatch() {
+        if (currentMatches.length === 0) return;
+        currentMatchIndex = (currentMatchIndex - 1 + currentMatches.length) % currentMatches.length;
+        selectCurrentMatch();
+    }
+
+    function handleSearchKey(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            if (e.shiftKey) findPrevMatch();
+            else findNextMatch();
+        } else if (e.key === "Escape") {
+            closeSearchBar();
+        }
     }
 
     function insertSymbol(sym) {
@@ -684,6 +828,7 @@
 
     function goHome() {
         closePreview();
+        closeSearchBar();
         document.getElementById('editorScreen').classList.remove('active');
         document.getElementById('homeScreen').classList.add('active');
         document.body.classList.remove('editor-mode');
