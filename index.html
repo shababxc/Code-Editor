@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#0d1117">
+    <meta name="theme-color" id="metaThemeColor" content="#ffffff">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Code Editor">
     
     <title>Code Editor App</title>
@@ -29,6 +29,126 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* ========== ✅ লাইট মোড (ডিফল্ট - স্ক্রিনশট অনুযায়ী) ========== */
+        :root {
+            --bg-main: #ffffff;
+            --bg-header: #ffffff;
+            --header-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+            --text-primary: #111827;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --accent-blue: #2563eb;
+            --accent-crown: #2563eb;
+
+            --hero-bg: linear-gradient(180deg, #eff5ff 0%, #e4eeff 100%);
+            --hero-border: transparent;
+            --hero-sub: #4b72b0;
+
+            --pill-bg: #ffffff;
+            --pill-border: rgba(37, 99, 235, 0.08);
+            --pill-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+
+            --action-bg: #ffffff;
+            --action-border: #e2e8f0;
+            --action-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+
+            --file-bg: #f4f6fa;
+            --file-border: transparent;
+            --file-icon-box: #ffffff;
+            --file-tag-bg: #dbeafe;
+            --file-tag-color: #1d4ed8;
+            --file-pinned-bg: #fefce8;
+            --file-pinned-border: #eab308;
+
+            --capsule-bg: #f5f6fa;
+            --capsule-divider: #e8ebf2;
+            --switch-off-bg: #e2e8f0;
+
+            --menu-bg: #ffffff;
+            --menu-border: #e2e8f0;
+            --menu-hover: #f1f5f9;
+
+            --nav-bg: #ffffff;
+            --nav-border: #e5e7eb;
+            --nav-inactive: #94a3b8;
+
+            /* এডিটর এরিয়া (লাইট) */
+            --editor-bg: #ffffff;
+            --editor-surface: #f8fafc;
+            --editor-border: #e2e8f0;
+            --editor-gutter-text: #94a3b8;
+            --symbol-bg: #ffffff;
+
+            /* ব্যাজ কালার (লাইট) */
+            --py-bg: #e6f0ff; --py-text: #2563eb;
+            --js-bg: #fef3c7; --js-text: #b45309;
+            --c-bg: #ede9fe; --c-text: #7c3aed;
+            --html-bg: #ffedd5; --html-text: #c2410c;
+
+            --modal-bg: #ffffff;
+            --modal-input-bg: #f8fafc;
+        }
+
+        /* ========== ✅ ডার্ক মোড (যখন সেটিংস থেকে Dark Mode অন করা হবে) ========== */
+        body.dark-mode {
+            --bg-main: #0d1117;
+            --bg-header: #0d1117;
+            --header-shadow: 0 1px 0 #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-crown: #e3b341;
+
+            --hero-bg: #161b22;
+            --hero-border: #30363d;
+            --hero-sub: #8b949e;
+
+            --pill-bg: #21262d;
+            --pill-border: #30363d;
+            --pill-shadow: none;
+
+            --action-bg: #161b22;
+            --action-border: #30363d;
+            --action-shadow: none;
+
+            --file-bg: #161b22;
+            --file-border: #30363d;
+            --file-icon-box: #21262d;
+            --file-tag-bg: #1f2937;
+            --file-tag-color: #38bdf8;
+            --file-pinned-bg: #1b1f16;
+            --file-pinned-border: #e3b341;
+
+            --capsule-bg: #161b22;
+            --capsule-divider: #262c36;
+            --switch-off-bg: #30363d;
+
+            --menu-bg: #1c2128;
+            --menu-border: #444c56;
+            --menu-hover: #2d333b;
+
+            --nav-bg: #0d1117;
+            --nav-border: #30363d;
+            --nav-inactive: #8b949e;
+
+            /* এডিটর এরিয়া (ডার্ক) */
+            --editor-bg: #0d1117;
+            --editor-surface: #161b22;
+            --editor-border: #30363d;
+            --editor-gutter-text: #484f58;
+            --symbol-bg: #21262d;
+
+            /* ব্যাজ কালার (ডার্ক) */
+            --py-bg: #1e3a8a; --py-text: #60a5fa;
+            --js-bg: #78350f; --js-text: #facc15;
+            --c-bg: #4c1d95; --c-text: #a78bfa;
+            --html-bg: #7c2d12; --html-text: #f97316;
+
+            --modal-bg: #161b22;
+            --modal-input-bg: #0d1117;
+        }
+
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -38,113 +158,266 @@
         }
 
         body { 
-            background-color: #0d1117; 
-            color: #e6edf3; 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
             display: flex; 
             flex-direction: column; 
             height: 100dvh; 
             overflow: hidden; 
             user-select: none;
+            transition: background-color 0.2s, color 0.2s;
         }
 
-        /* ========== হোমপেজের হেডার ========== */
+        /* ========== হেডার (হোম / টেক্সট এডিটর / সেটিংস) ========== */
         header { 
-            background-color: #0d1117; 
-            padding: 15px 20px; 
+            background-color: var(--bg-header); 
+            padding: 16px 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             flex: 0 0 auto;
-            border-bottom: 1px solid #21262d;
+            box-shadow: var(--header-shadow);
+            z-index: 10;
         }
-        header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-        header .top-icons { font-size: 18px; color: #8b949e; display: flex; gap: 15px; }
-        header .top-icons i { cursor: pointer; }
+        header.no-shadow { box-shadow: none; padding-bottom: 8px; }
+        header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-primary); }
+        header .top-icons { font-size: 19px; display: flex; align-items: center; gap: 16px; }
+        header .top-icons .crown-icon { color: var(--accent-crown); cursor: pointer; }
+        header .top-icons .circle-dots {
+            width: 24px; height: 24px;
+            border: 1.6px solid var(--text-primary);
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 11px; color: var(--text-primary); cursor: pointer;
+        }
 
         body.editor-mode header { display: none; }
 
         .screen { display: none; flex-direction: column; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
         .screen.active { display: flex; }
 
-        .home-container { padding: 15px; padding-bottom: 30px; }
-        .card { background-color: #161b22; border-radius: 12px; padding: 16px; margin-bottom: 20px; border: 1px solid #30363d; }
-        .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: #58a6ff; }
-        .card-subtitle { font-size: 13px; color: #8b949e; margin-bottom: 15px; }
+        /* ========== হোমপেজ কার্ড ও এলিমেন্ট ========== */
+        .home-container { padding: 18px 16px 30px 16px; }
+        .card { 
+            background: var(--hero-bg); 
+            border-radius: 20px; 
+            padding: 18px; 
+            margin-bottom: 18px; 
+            border: 1px solid var(--hero-border); 
+        }
+        .card-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; color: var(--accent-blue); }
+        .card-subtitle { font-size: 13px; color: var(--hero-sub); margin-bottom: 16px; }
 
-        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .lang-btn { background-color: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .lang-btn:active { transform: scale(0.98); background-color: #30363d; }
-        .lang-badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .py-badge { background: #1e3a8a; color: #60a5fa; }
-        .js-badge { background: #78350f; color: #facc15; }
-        .c-badge { background: #4c1d95; color: #a78bfa; }
-        .html-badge { background: #7c2d12; color: #f97316; }
+        .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .lang-btn { 
+            background-color: var(--pill-bg); 
+            border: 1px solid var(--pill-border); 
+            box-shadow: var(--pill-shadow);
+            border-radius: 14px; 
+            padding: 12px 14px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            cursor: pointer; 
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: transform 0.12s;
+        }
+        .lang-btn:active { transform: scale(0.97); }
+        .lang-badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+        .py-badge { background: var(--py-bg); color: var(--py-text); }
+        .js-badge { background: var(--js-bg); color: var(--js-text); }
+        .c-badge { background: var(--c-bg); color: var(--c-text); }
+        .html-badge { background: var(--html-bg); color: var(--html-text); }
 
-        .more-lang { color: #58a6ff; font-size: 13px; margin-top: 10px; cursor: pointer; font-weight: 500; }
+        .more-lang { color: var(--accent-blue); font-size: 13.5px; margin-top: 6px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
 
-        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .action-btn { background-color: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .action-btn { 
+            background-color: var(--action-bg); 
+            border: 1px solid var(--action-border); 
+            box-shadow: var(--action-shadow);
+            border-radius: 14px; 
+            padding: 14px; 
+            text-align: center; 
+            cursor: pointer; 
+            display: flex; justify-content: center; align-items: center; gap: 8px; 
+            font-size: 14px; font-weight: 500; 
+            color: var(--text-primary);
+        }
+        .action-btn:active { transform: scale(0.98); }
 
-        .section-title { font-size: 15px; font-weight: 600; color: #8b949e; margin-bottom: 12px; }
+        .section-title { font-size: 15px; font-weight: 600; color: var(--accent-blue); margin-bottom: 12px; }
         
+        /* রিসেন্ট ফাইল আইটেম (স্ক্রিনশট অনুযায়ী) */
         .file-item { 
-            background-color: #161b22; 
-            border: 1px solid #30363d; 
-            border-radius: 10px; 
-            padding: 12px 15px; 
+            background-color: var(--file-bg); 
+            border: 1px solid var(--file-border); 
+            border-radius: 16px; 
+            padding: 13px 16px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            margin-bottom: 10px; 
+            margin-bottom: 12px; 
             cursor: pointer; 
             position: relative; 
         }
-        .file-item.pinned { border-color: #e3b341; background-color: #1b1f16; }
+        .file-item.pinned { border-color: var(--file-pinned-border); background-color: var(--file-pinned-bg); }
 
-        .file-info { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
+        .file-info { display: flex; align-items: center; gap: 14px; flex: 1; overflow: hidden; }
+        .file-icon-box {
+            width: 42px; height: 42px;
+            background-color: var(--file-icon-box);
+            border-radius: 11px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .file-icon-box .lang-badge { background: transparent; padding: 0; font-size: 13px; }
+
         .file-details { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .file-details h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
-        .file-details p { font-size: 11px; color: #8b949e; display: flex; gap: 8px; align-items: center; }
-        .tag-html { background-color: #1f2937; color: #38bdf8; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; }
-        .pin-icon { color: #e3b341; font-size: 11px; }
+        .file-details h4 { font-size: 15px; font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; color: var(--text-primary); }
+        .file-details p { font-size: 12px; color: var(--text-secondary); display: flex; gap: 8px; align-items: center; }
+        .tag-html { background-color: var(--file-tag-bg); color: var(--file-tag-color); padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .pin-icon { color: #eab308; font-size: 12px; }
 
-        .file-menu-btn { color: #8b949e; cursor: pointer; padding: 8px 10px; border-radius: 5px; }
+        .file-menu-btn { color: var(--text-primary); cursor: pointer; padding: 8px 10px; border-radius: 8px; opacity: 0.75; }
         
+        /* ড্রপডাউন মেনু */
         .file-menu { 
             display: none; 
             position: absolute; 
-            right: 10px; 
-            top: 42px; 
+            right: 12px; 
+            top: 48px; 
             z-index: 100; 
-            background-color: #1c2128; 
-            border: 1px solid #444c56; 
-            border-radius: 8px; 
-            padding: 5px; 
+            background-color: var(--menu-bg); 
+            border: 1px solid var(--menu-border); 
+            border-radius: 12px; 
+            padding: 6px; 
             min-width: 155px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.18); 
         }
-        .file-menu.drop-up { top: auto; bottom: 42px; }
+        .file-menu.drop-up { top: auto; bottom: 48px; }
         .file-menu.open { display: block; }
-        .file-menu button { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none; color: #e6edf3; font-size: 13px; padding: 10px 12px; border-radius: 6px; cursor: pointer; text-align: left; }
-        .file-menu button:hover { background-color: #2d333b; }
-        .file-menu button.danger { color: #f85149; }
-        .file-menu hr { border: none; border-top: 1px solid #373e47; margin: 4px 0; }
+        .file-menu button { display: flex; align-items: center; gap: 10px; width: 100%; background: none; border: none; color: var(--text-primary); font-size: 13.5px; padding: 10px 12px; border-radius: 8px; cursor: pointer; text-align: left; }
+        .file-menu button:hover { background-color: var(--menu-hover); }
+        .file-menu button.danger { color: #ef4444; }
+        .file-menu hr { border: none; border-top: 1px solid var(--capsule-divider); margin: 4px 0; }
+
+        /* ========== ✅ সেটিংস স্ক্রিন (হুবহু ডাবল ক্যাপসুল ডিজাইন) ========== */
+        .settings-container { padding: 12px 16px 30px 16px; }
+        .premium-banner {
+            background: linear-gradient(135deg, #2166f5 0%, #0d47d9 100%);
+            border-radius: 18px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+        }
+        .premium-banner:active { transform: scale(0.99); }
+        .premium-banner i { font-size: 26px; color: #ffffff; flex-shrink: 0; }
+        .premium-text h3 { font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 4px; }
+        .premium-text p { font-size: 13px; color: rgba(255, 255, 255, 0.9); line-height: 1.35; }
+
+        /* ডাবল ও মাল্টি লেয়ার ক্যাপসুল */
+        .settings-capsule {
+            background-color: var(--capsule-bg);
+            border-radius: 18px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid var(--file-border);
+        }
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+        .settings-row:not(:last-child) {
+            border-bottom: 1px solid var(--capsule-divider);
+        }
+        .settings-row:active { background-color: var(--menu-hover); }
+        .settings-row.version-row { cursor: default; }
+        .settings-row.version-row:active { background-color: transparent; }
+
+        .row-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 15.5px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .row-left i {
+            font-size: 18px;
+            width: 22px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+        .settings-row.version-row .row-left { color: var(--text-muted); }
+        .settings-row.version-row .row-left i { color: var(--text-muted); }
+
+        .row-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .row-right i { font-size: 13px; color: var(--text-primary); }
+
+        /* iOS টগল সুইচ */
+        .ios-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 29px;
+            flex-shrink: 0;
+        }
+        .ios-switch input { opacity: 0; width: 0; height: 0; }
+        .ios-switch .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--switch-off-bg);
+            transition: 0.25s;
+            border-radius: 34px;
+        }
+        .ios-switch .slider:before {
+            position: absolute;
+            content: "";
+            height: 23px;
+            width: 23px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #ffffff;
+            transition: 0.25s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+        }
+        .ios-switch input:checked + .slider { background-color: #2563eb; }
+        .ios-switch input:checked + .slider:before { transform: translateX(21px); }
 
         /* ========== এডিটর স্ক্রিন ========== */
-        .editor-topbar { background-color: #161b22; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #30363d; flex: 0 0 auto; }
+        .editor-topbar { background-color: var(--editor-surface); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--editor-border); flex: 0 0 auto; }
         .editor-title { display: flex; align-items: center; gap: 12px; }
-        .editor-title i { cursor: pointer; color: #8b949e; font-size: 18px; padding: 4px; }
+        .editor-title i { cursor: pointer; color: var(--text-secondary); font-size: 18px; padding: 4px; }
         .file-meta { display: flex; flex-direction: column; }
-        .file-meta h3 { font-size: 15px; font-weight: 600; }
-        .file-meta span { font-size: 11px; color: #8b949e; }
+        .file-meta h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+        .file-meta span { font-size: 11px; color: var(--text-secondary); }
 
         .search-bar-panel {
             display: none;
             align-items: center;
             justify-content: space-between;
-            background-color: #161b22;
+            background-color: var(--editor-surface);
             padding: 8px 12px;
-            border-bottom: 1px solid #30363d;
+            border-bottom: 1px solid var(--editor-border);
             gap: 8px;
             flex: 0 0 auto;
             z-index: 20;
@@ -153,44 +426,36 @@
         .search-input-wrap {
             display: flex;
             align-items: center;
-            background-color: #0d1117;
-            border: 1px solid #30363d;
+            background-color: var(--editor-bg);
+            border: 1px solid var(--editor-border);
             border-radius: 6px;
             padding: 6px 10px;
             flex: 1;
             gap: 8px;
         }
-        .search-input-wrap:focus-within { border-color: #58a6ff; }
+        .search-input-wrap:focus-within { border-color: var(--accent-blue); }
         .search-input-wrap input {
             background: transparent;
             border: none;
             outline: none;
-            color: #e6edf3;
+            color: var(--text-primary);
             font-size: 13px;
             width: 100%;
         }
-        .search-count {
-            font-size: 11px;
-            color: #8b949e;
-            white-space: nowrap;
-        }
+        .search-count { font-size: 11px; color: var(--text-secondary); white-space: nowrap; }
         .search-nav-btns { display: flex; align-items: center; gap: 6px; }
         .search-nav-btns button {
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
+            background-color: var(--symbol-bg);
+            border: 1px solid var(--editor-border);
+            color: var(--text-primary);
             border-radius: 6px;
-            width: 32px;
-            height: 30px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            width: 32px; height: 30px;
+            display: inline-flex; align-items: center; justify-content: center;
             cursor: pointer;
         }
-        .search-nav-btns button:active { background-color: #30363d; color: #58a6ff; }
 
         /* এডিটর এরিয়া ও ফিক্সড লাইন নম্বর */
-        .editor-area { flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; position: relative; background-color: #0d1117; user-select: text; overflow: hidden; }
+        .editor-area { flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; position: relative; background-color: var(--editor-bg); user-select: text; overflow: hidden; }
         .editor-area .CodeMirror { 
             flex: 1 1 auto; 
             height: 100%; 
@@ -199,16 +464,16 @@
             width: 100%;    
             font-family: 'Consolas', 'Courier New', monospace; 
             font-size: 13.5px; 
-            background: #0d1117; 
-            color: #e6edf3; 
+            background: var(--editor-bg); 
+            color: var(--text-primary); 
             line-height: 20px;
         }
         .line-nums {
             flex: 0 0 auto;
             overflow: hidden;
-            background-color: #0d1117;
-            border-right: 1px solid #21262d;
-            color: #484f58;
+            background-color: var(--editor-bg);
+            border-right: 1px solid var(--editor-border);
+            color: var(--editor-gutter-text);
             font-family: 'Consolas', 'Courier New', monospace;
             font-size: 13.5px;
             line-height: 20px;
@@ -216,25 +481,20 @@
             padding: 4px 8px 0 8px;
             user-select: none;
         }
-        .line-nums pre {
-            margin: 0;
-            font: inherit;
-            line-height: inherit;
-            will-change: transform;
-        }
+        .line-nums pre { margin: 0; font: inherit; line-height: inherit; will-change: transform; }
         .preview-iframe { flex: 1 1 auto; width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
-        /* ========== ✅ সিম্বল ও কুইক-অ্যাকশন টুলবার ========== */
+        /* সিম্বল ও কুইক-অ্যাকশন বার */
         .symbol-bar {
-            background-color: #161b22;
+            background-color: var(--editor-surface);
             display: flex; 
             flex-wrap: nowrap;
             overflow-x: auto;
             align-items: center;
             gap: 6px;
             padding: 8px 10px;
-            border-top: 1px solid #30363d;
-            color: #8b949e;
+            border-top: 1px solid var(--editor-border);
+            color: var(--text-secondary);
             font-family: monospace;
             font-size: 14px;
             flex: 0 0 auto;
@@ -243,148 +503,116 @@
         .symbol-bar::-webkit-scrollbar { display: none; }
         .symbol-bar span {
             cursor: pointer;
-            min-width: 32px;
-            height: 28px;
+            min-width: 32px; height: 28px;
             display: inline-flex; align-items: center; justify-content: center;
             padding: 0 8px;
             border-radius: 6px;
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            color: #c9d1d9;
+            background-color: var(--symbol-bg);
+            border: 1px solid var(--editor-border);
+            color: var(--text-primary);
             flex-shrink: 0;
         }
-        .symbol-bar span:active { background-color: #388bfd; color: #ffffff; }
-
-        /* কুইক অ্যাকশন বাটন ডিজাইন (Select All, Copy, Cut, Clear) */
+        .symbol-bar span:active { background-color: var(--accent-blue); color: #ffffff; }
         .symbol-bar span.action-tool-btn {
-            background-color: #21262d;
-            color: #58a6ff;
-            font-size: 12px;
-            gap: 5px;
-            padding: 0 10px;
+            color: var(--accent-blue);
+            font-size: 12px; gap: 5px; padding: 0 10px;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-weight: 500;
+            font-weight: 600;
         }
-        .symbol-bar span.action-tool-btn.danger {
-            color: #f85149;
-        }
-        .symbol-bar span.action-tool-btn:active {
-            background-color: #30363d;
-        }
-        .symbol-bar .sep {
-            width: 1px;
-            height: 20px;
-            background-color: #30363d;
-            margin: 0 3px;
-            flex-shrink: 0;
-        }
+        .symbol-bar span.action-tool-btn.danger { color: #ef4444; }
+        .symbol-bar .sep { width: 1px; height: 20px; background-color: var(--editor-border); margin: 0 3px; flex-shrink: 0; }
 
-        .bottom-action-bar { background-color: #161b22; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-top: 1px solid #30363d; flex: 0 0 auto; }
-        .action-icons-left, .action-icons-right { display: flex; gap: 20px; align-items: center; color: #8b949e; font-size: 18px; }
+        .bottom-action-bar { background-color: var(--editor-surface); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-top: 1px solid var(--editor-border); flex: 0 0 auto; }
+        .action-icons-left, .action-icons-right { display: flex; gap: 20px; align-items: center; color: var(--text-secondary); font-size: 18px; }
         .action-icons-left i, .action-icons-right i { cursor: pointer; padding: 4px; }
-        .action-icons-right i:hover, .action-icons-left i:hover { color: #58a6ff; }
+        .action-icons-right i:hover, .action-icons-left i:hover { color: var(--accent-blue); }
 
-        .bottom-nav { background-color: #0d1117; border-top: 1px solid #30363d; display: flex; justify-content: space-around; padding: 10px 0 14px 0; flex: 0 0 auto; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #8b949e; cursor: pointer; }
-        .nav-item.active { color: #58a6ff; }
-        .nav-item i { font-size: 16px; }
+        /* ========== নিচের নেভ বার ========== */
+        .bottom-nav { 
+            background-color: var(--nav-bg); 
+            border-top: 1px solid var(--nav-border); 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 10px 0 12px 0; 
+            flex: 0 0 auto; 
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 500; color: var(--nav-inactive); cursor: pointer; }
+        .nav-item.active { color: var(--accent-blue); }
+        .nav-item i { font-size: 17px; }
 
         body.editor-mode .bottom-nav { display: none; }
 
-        /* সেভ ফাইল মডাল */
+        /* মডাল পপআপ */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(3px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 20px;
+            display: none; align-items: center; justify-content: center;
+            z-index: 9999; padding: 20px;
         }
         .modal-overlay.active { display: flex; }
         .modal-box {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 340px;
-            padding: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            background-color: var(--modal-bg);
+            border: 1px solid var(--editor-border);
+            border-radius: 16px;
+            width: 100%; max-width: 340px; padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-        .modal-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #e6edf3; display: flex; align-items: center; gap: 8px; }
+        .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
         .modal-input {
-            width: 100%;
-            padding: 10px 12px;
-            background-color: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #58a6ff;
-            font-size: 14px;
-            font-family: monospace;
-            outline: none;
-            margin-bottom: 15px;
+            width: 100%; padding: 10px 12px;
+            background-color: var(--modal-input-bg);
+            border: 1px solid var(--editor-border);
+            border-radius: 8px; color: var(--accent-blue);
+            font-size: 14px; font-family: monospace; outline: none; margin-bottom: 15px;
         }
-        .modal-input:focus { border-color: #58a6ff; }
+        .modal-input:focus { border-color: var(--accent-blue); }
         .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
-        .btn { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; }
-        .btn-cancel { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
-        .btn-save { background: #238636; color: #ffffff; }
+        .btn { padding: 9px 16px; border-radius: 8px; font-size: 13.5px; font-weight: 600; cursor: pointer; border: none; }
+        .btn-cancel { background: var(--capsule-bg); color: var(--text-primary); border: 1px solid var(--editor-border); }
+        .btn-save { background: #2563eb; color: #ffffff; }
 
-        /* ✅ কুইক টোস্ট মেসেজ নোটিফিকেশন */
+        /* টোস্ট নোটিফিকেশন */
         .toast {
-            position: fixed;
-            bottom: 85px;
-            left: 50%;
+            position: fixed; bottom: 85px; left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background-color: #161b22;
-            color: #58a6ff;
-            border: 1px solid #30363d;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 12.5px;
-            font-weight: 600;
-            pointer-events: none;
-            opacity: 0;
+            background-color: var(--modal-bg); color: var(--accent-blue);
+            border: 1px solid var(--editor-border);
+            padding: 9px 18px; border-radius: 25px;
+            font-size: 12.5px; font-weight: 600;
+            pointer-events: none; opacity: 0;
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 99999;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            z-index: 99999; box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 6px;
         }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         #fileInput { display: none; }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="mainHeader">
         <h1 id="appTitle">Code Editor</h1>
-        <div class="top-icons">
-            <i class="fa-solid fa-crown" style="color:#e3b341;"></i>
-            <i class="fa-solid fa-ellipsis-vertical"></i>
+        <div class="top-icons" id="headerTopIcons">
+            <i class="fa-solid fa-crown crown-icon" onclick="showToast('All features are unlocked for free!')"></i>
+            <span class="circle-dots" onclick="switchTab('settings')"><i class="fa-solid fa-ellipsis"></i></span>
         </div>
     </header>
 
-    <!-- HOME SCREEN -->
+    <!-- HOME SCREEN (Code Editor Tab) -->
     <div id="homeScreen" class="screen active">
         <div class="home-container">
             <div class="card">
                 <div class="card-title">What are you building today?</div>
                 <div class="card-subtitle">Pick a language to start a file</div>
                 <div class="lang-grid">
-                    <div class="lang-btn" onclick="createNewFile('html')"><span class="lang-badge html-badge">html</span><span>HTML</span></div>
-                    <div class="lang-btn" onclick="createNewFile('js')"><span class="lang-badge js-badge">js</span><span>JavaScript</span></div>
                     <div class="lang-btn" onclick="createNewFile('py')"><span class="lang-badge py-badge">py</span><span>Python</span></div>
+                    <div class="lang-btn" onclick="createNewFile('js')"><span class="lang-badge js-badge">js</span><span>JavaScript</span></div>
                     <div class="lang-btn" onclick="createNewFile('c')"><span class="lang-badge c-badge">c</span><span>C</span></div>
+                    <div class="lang-btn" onclick="createNewFile('html')"><span class="lang-badge html-badge">html</span><span>HTML</span></div>
                 </div>
-                <div class="more-lang">61 more languages &gt;</div>
+                <div class="more-lang" onclick="createNewFile('css')">61 more languages <i class="fa-solid fa-chevron-right" style="font-size:11px;"></i></div>
             </div>
 
             <div class="action-btns">
@@ -392,8 +620,107 @@
                 <div class="action-btn" onclick="pasteFromClipboard()"><i class="fa-regular fa-paste"></i> Paste code</div>
             </div>
 
-            <div class="section-title">Recent Files</div>
+            <div class="section-title">Recent</div>
             <div id="recentFileList"></div>
+        </div>
+    </div>
+
+    <!-- TEXT EDITOR SCREEN (Text Editor Tab) -->
+    <div id="textScreen" class="screen">
+        <div class="home-container">
+            <div class="card">
+                <div class="card-title">Quick Text & Notes</div>
+                <div class="card-subtitle">Create or edit plain text files easily</div>
+                <div class="action-btns" style="margin-bottom: 0;">
+                    <div class="action-btn" onclick="createNewFile('txt')"><i class="fa-regular fa-file-lines"></i> New Text File</div>
+                    <div class="action-btn" onclick="document.getElementById('fileInput').click()"><i class="fa-regular fa-folder-open"></i> Open Text</div>
+                </div>
+            </div>
+            <div class="section-title">Text Files</div>
+            <div id="textFileList"></div>
+        </div>
+    </div>
+
+    <!-- ✅ SETTINGS SCREEN (হুবহু ডাবল ক্যাপসুল ডিজাইন) -->
+    <div id="settingsScreen" class="screen">
+        <div class="settings-container">
+            <!-- নীল প্রিমিয়াম ব্যানার -->
+            <div class="premium-banner" onclick="showToast('Pro features are already free for you! 🎉')">
+                <i class="fa-solid fa-crown"></i>
+                <div class="premium-text">
+                    <h3>Unlock Unlimited Access</h3>
+                    <p>Unlock the all premium features you've been looking for.</p>
+                </div>
+            </div>
+
+            <!-- প্রথম ক্যাপসুল: Dark Mode + Language -->
+            <div class="settings-capsule">
+                <div class="settings-row" onclick="toggleDarkModeFromRow(event)">
+                    <div class="row-left">
+                        <i class="fa-regular fa-moon"></i>
+                        <span>Dark Mode</span>
+                    </div>
+                    <label class="ios-switch" onclick="event.stopPropagation()">
+                        <input type="checkbox" id="darkModeToggle" onchange="applyDarkMode(this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-row" onclick="toggleLanguage()">
+                    <div class="row-left">
+                        <i class="fa-solid fa-language"></i>
+                        <span>Language</span>
+                    </div>
+                    <div class="row-right">
+                        <span id="currentLangLabel">English</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- দ্বিতীয় ক্যাপসুল: Support, Rate, Share, Privacy, Terms, Version -->
+            <div class="settings-capsule">
+                <div class="settings-row" onclick="showToast('Support: shababxc@github.io')">
+                    <div class="row-left">
+                        <i class="fa-regular fa-message"></i>
+                        <span>Contact Support</span>
+                    </div>
+                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" onclick="showToast('Thanks for rating 5 stars! ⭐')">
+                    <div class="row-left">
+                        <i class="fa-regular fa-star"></i>
+                        <span>Rate Us</span>
+                    </div>
+                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" onclick="shareApp()">
+                    <div class="row-left">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        <span>Share App</span>
+                    </div>
+                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" onclick="showToast('Your code stays 100% private on your device.')">
+                    <div class="row-left">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Privacy Policy</span>
+                    </div>
+                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row" onclick="showToast('Free & Open Code Editor App')">
+                    <div class="row-left">
+                        <i class="fa-regular fa-file-lines"></i>
+                        <span>Terms of use</span>
+                    </div>
+                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-row version-row">
+                    <div class="row-left">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Version 1.2.9</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -404,17 +731,17 @@
                 <i class="fa-solid fa-arrow-left" onclick="goHome()"></i>
                 <div class="file-meta">
                     <h3 id="activeFileName">*index.html</h3>
-                    <span id="activeFileLang">HTML · UTF-8 · Ln 1, Col 1</span>
+                    <span id="activeFileLang">HTML · UTF-8</span>
                 </div>
             </div>
-            <i class="fa-solid fa-ellipsis-vertical" style="color: #8b949e;" onclick="openSaveModal()"></i>
+            <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-secondary);" onclick="openSaveModal()"></i>
         </div>
 
         <!-- সার্চ বার প্যানেল -->
         <div id="searchBarPanel" class="search-bar-panel">
             <div class="search-input-wrap">
-                <i class="fa-solid fa-magnifying-glass" style="font-size: 13px; color: #8b949e;"></i>
-                <input type="text" id="searchInput" placeholder="শব্দ, ট্যাগ বা লাইন সার্চ করুন..." oninput="doSearch()" onkeydown="handleSearchKey(event)">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 13px; color: var(--text-secondary);"></i>
+                <input type="text" id="searchInput" placeholder="Search word, tag or line..." oninput="doSearch()" onkeydown="handleSearchKey(event)">
                 <span id="searchCount" class="search-count">0/0</span>
             </div>
             <div class="search-nav-btns">
@@ -430,17 +757,13 @@
             <iframe id="previewIframe" class="preview-iframe"></iframe>
         </div>
 
-        <!-- ✅ আপডেট করা সিম্বল ও কুইক অ্যাকশন বার -->
+        <!-- সিম্বল ও কুইক অ্যাকশন বার -->
         <div class="symbol-bar">
-            <!-- এক ক্লিকে সিলেক্ট অল, কপি, কাট, ক্লিয়ার বাটন -->
-            <span class="action-tool-btn" onclick="selectAllCode()" title="Select All"><i class="fa-solid fa-check-double"></i> All</span>
-            <span class="action-tool-btn" onclick="copyCode()" title="Copy Code"><i class="fa-regular fa-copy"></i> Copy</span>
-            <span class="action-tool-btn" onclick="cutCode()" title="Cut Code"><i class="fa-solid fa-scissors"></i> Cut</span>
-            <span class="action-tool-btn danger" onclick="clearAllCode()" title="Delete All"><i class="fa-regular fa-trash-can"></i> Clear</span>
-            
+            <span class="action-tool-btn" onclick="selectAllCode()"><i class="fa-solid fa-check-double"></i> All</span>
+            <span class="action-tool-btn" onclick="copyCode()"><i class="fa-regular fa-copy"></i> Copy</span>
+            <span class="action-tool-btn" onclick="cutCode()"><i class="fa-solid fa-scissors"></i> Cut</span>
+            <span class="action-tool-btn danger" onclick="clearAllCode()"><i class="fa-regular fa-trash-can"></i> Clear</span>
             <div class="sep"></div>
-
-            <!-- প্রোগ্রামিং সিম্বলসমূহ -->
             <span onclick="insertSymbol('<')">&lt;</span>
             <span onclick="insertSymbol('>')">&gt;</span>
             <span onclick="insertSymbol('/')">/</span>
@@ -461,27 +784,27 @@
                 <i class="fa-regular fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
                 <i class="fa-solid fa-rotate-left" onclick="editor.undo()" title="Undo"></i>
                 <i class="fa-solid fa-rotate-right" onclick="editor.redo()" title="Redo"></i>
-                <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchBar()" title="Search & Update Line"></i>
+                <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchBar()" title="Search"></i>
             </div>
             <div class="action-icons-right">
-                <i class="fa-solid fa-circle-play" style="color: #4CAF50;" onclick="togglePreview()" title="Preview"></i>
-                <i class="fa-solid fa-floppy-disk" onclick="openSaveModal()" title="Save With Name"></i>
+                <i class="fa-solid fa-circle-play" style="color: #22c55e;" onclick="togglePreview()" title="Preview"></i>
+                <i class="fa-solid fa-floppy-disk" onclick="openSaveModal()" title="Save"></i>
                 <i class="fa-solid fa-xmark" onclick="goHome()" title="Close"></i>
             </div>
         </div>
     </div>
 
-    <!-- হোমপেজের নিচের নেভ বার -->
+    <!-- ✅ বটম নেভ বার (Code Editor, Text Editor, Settings) -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="goHome()"><i class="fa-solid fa-code"></i><span>Code Editor</span></div>
-        <div class="nav-item"><i class="fa-regular fa-file-lines"></i><span>Text Editor</span></div>
-        <div class="nav-item"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+        <div class="nav-item active" id="navCode" onclick="switchTab('code')"><i class="fa-solid fa-code"></i><span>Code Editor</span></div>
+        <div class="nav-item" id="navText" onclick="switchTab('text')"><i class="fa-regular fa-file-lines"></i><span>Text Editor</span></div>
+        <div class="nav-item" id="navSettings" onclick="switchTab('settings')"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
     </div>
 
-    <!-- সেভ ফাইল পপআপ -->
+    <!-- সেভ ফাইল মডাল -->
     <div id="saveModal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-title"><i class="fa-solid fa-floppy-disk" style="color:#58a6ff;"></i> Save File</div>
+            <div class="modal-title"><i class="fa-solid fa-floppy-disk" style="color:var(--accent-blue);"></i> Save File</div>
             <input type="text" id="saveFileNameInput" class="modal-input" placeholder="e.g. index.html" />
             <div class="modal-actions">
                 <button class="btn btn-cancel" onclick="closeSaveModal()">Cancel</button>
@@ -490,7 +813,7 @@
         </div>
     </div>
 
-    <!-- টোস্ট নোটিফিকেশন এলিমেন্ট -->
+    <!-- টোস্ট নোটিফিকেশন -->
     <div id="toast" class="toast"></div>
 
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
@@ -514,7 +837,7 @@
 
     var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
         mode: htmlCustomConfig, 
-        theme: "dracula", 
+        theme: "default", 
         lineNumbers: false,
         autoCloseTags: true, 
         matchBrackets: true, 
@@ -524,7 +847,94 @@
     });
     var cmWrapper = editor.getWrapperElement();
 
-    /* আলাদা ফিক্সড লাইন নম্বর কলাম */
+    /* ========== থিম (Dark / Light Mode) ========== */
+    function applyDarkMode(isDark) {
+        if (isDark) {
+            document.body.classList.add('dark-mode');
+            editor.setOption('theme', 'dracula');
+            document.getElementById('metaThemeColor').setAttribute('content', '#0d1117');
+            localStorage.setItem('my_editor_theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            editor.setOption('theme', 'default');
+            document.getElementById('metaThemeColor').setAttribute('content', '#ffffff');
+            localStorage.setItem('my_editor_theme', 'light');
+        }
+        document.getElementById('darkModeToggle').checked = isDark;
+    }
+
+    function toggleDarkModeFromRow(e) {
+        const chk = document.getElementById('darkModeToggle');
+        chk.checked = !chk.checked;
+        applyDarkMode(chk.checked);
+    }
+
+    // লোড হওয়ার সাথে সাথে সেভ করা থিম অ্যাপ্লাই
+    (function initTheme() {
+        const savedTheme = localStorage.getItem('my_editor_theme');
+        applyDarkMode(savedTheme === 'dark');
+    })();
+
+    /* ========== ট্যাব সুইচ (Code Editor / Text Editor / Settings) ========== */
+    let currentTab = 'code';
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.getElementById('homeScreen').classList.remove('active');
+        document.getElementById('textScreen').classList.remove('active');
+        document.getElementById('settingsScreen').classList.remove('active');
+
+        document.getElementById('navCode').classList.remove('active');
+        document.getElementById('navText').classList.remove('active');
+        document.getElementById('navSettings').classList.remove('active');
+
+        const header = document.getElementById('mainHeader');
+        const title = document.getElementById('appTitle');
+        const icons = document.getElementById('headerTopIcons');
+
+        if (tab === 'code') {
+            document.getElementById('homeScreen').classList.add('active');
+            document.getElementById('navCode').classList.add('active');
+            title.textContent = 'Code Editor';
+            icons.style.display = 'flex';
+            header.classList.remove('no-shadow');
+            renderRecentFiles();
+        } else if (tab === 'text') {
+            document.getElementById('textScreen').classList.add('active');
+            document.getElementById('navText').classList.add('active');
+            title.textContent = 'Text Editor';
+            icons.style.display = 'none';
+            header.classList.remove('no-shadow');
+            renderTextFiles();
+        } else if (tab === 'settings') {
+            document.getElementById('settingsScreen').classList.add('active');
+            document.getElementById('navSettings').classList.add('active');
+            title.textContent = 'Settings';
+            icons.style.display = 'none';
+            header.classList.add('no-shadow');
+        }
+    }
+
+    function toggleLanguage() {
+        const lbl = document.getElementById('currentLangLabel');
+        lbl.textContent = lbl.textContent === 'English' ? 'বাংলা' : 'English';
+        showToast('Language: ' + lbl.textContent);
+    }
+
+    function shareApp() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Code Editor App',
+                text: 'Check out this awesome Mobile Code Editor!',
+                url: window.location.href
+            }).catch(() => {});
+        } else {
+            navigator.clipboard?.writeText(window.location.href);
+            showToast('App link copied to clipboard!');
+        }
+    }
+
+    /* ========== আলাদা ফিক্সড লাইন নম্বর কলাম ========== */
     var lineNumsInner = document.getElementById('lineNumsInner');
     var lastLineCount = 0;
 
@@ -548,7 +958,7 @@
     editor.on('refresh', syncLineNums);
     updateLineNums();
 
-    /* ========== ✅ টোস্ট মেসেজ ফাংশন ========== */
+    /* ========== টোস্ট মেসেজ ফাংশন ========== */
     function showToast(msg) {
         const toast = document.getElementById("toast");
         if (!toast) return;
@@ -560,79 +970,49 @@
         }, 1800);
     }
 
-    /* ========== ✅ এক ক্লিকে সিলেক্ট, কপি, কাট, ডিলিট লজিক ========== */
+    /* ========== এক ক্লিকে সিলেক্ট, কপি, কাট, ডিলিট ========== */
     function selectAllCode() {
         editor.focus();
         editor.execCommand("selectAll");
-        showToast('<i class="fa-solid fa-check"></i> সব কোড সিলেক্ট করা হয়েছে!');
+        showToast('<i class="fa-solid fa-check"></i> All code selected!');
     }
 
     async function copyCode() {
-        let text = editor.getSelection();
-        if (!text) {
-            text = editor.getValue(); // যদি কিছু সিলেক্ট না থাকে, তবে পুরো কোড কপি হবে
-        }
-        if (!text) {
-            showToast('কপি করার মতো কোড নেই!');
-            return;
-        }
-        try {
-            await navigator.clipboard.writeText(text);
-        } catch (err) {
+        let text = editor.getSelection() || editor.getValue();
+        if (!text) { showToast('Nothing to copy!'); return; }
+        try { await navigator.clipboard.writeText(text); } catch (err) {
             const ta = document.createElement("textarea");
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand("copy");
-            document.body.removeChild(ta);
+            ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
         }
-        showToast('<i class="fa-regular fa-copy"></i> কোড কপি হয়েছে!');
+        showToast('<i class="fa-regular fa-copy"></i> Code copied!');
     }
 
     async function cutCode() {
         let text = editor.getSelection();
         let wasAll = false;
-        if (!text) {
-            text = editor.getValue();
-            wasAll = true;
-        }
-        if (!text) {
-            showToast('কাট করার মতো কোড নেই!');
-            return;
-        }
-        try {
-            await navigator.clipboard.writeText(text);
-        } catch (err) {
+        if (!text) { text = editor.getValue(); wasAll = true; }
+        if (!text) { showToast('Nothing to cut!'); return; }
+        try { await navigator.clipboard.writeText(text); } catch (err) {
             const ta = document.createElement("textarea");
-            ta.value = text;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand("copy");
-            document.body.removeChild(ta);
+            ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
         }
-        if (wasAll) {
-            editor.setValue("");
-        } else {
-            editor.replaceSelection("");
-        }
+        if (wasAll) editor.setValue(""); else editor.replaceSelection("");
         editor.focus();
-        showToast('<i class="fa-solid fa-scissors"></i> কোড কাট হয়েছে!');
+        showToast('<i class="fa-solid fa-scissors"></i> Code cut!');
     }
 
     function clearAllCode() {
-        if (!editor.getValue()) {
-            showToast('এডিটর ইতিমধ্যেই খালি!');
-            return;
-        }
-        if (confirm("আপনি কি সব কোড এক ক্লিকে ডিলিট করতে চান?")) {
-            editor.setValue("");
-            editor.focus();
-            showToast('<i class="fa-regular fa-trash-can"></i> সব কোড মুছে ফেলা হয়েছে!');
+        if (!editor.getValue()) { showToast('Editor is already empty!'); return; }
+        if (confirm("Are you sure you want to clear all code?")) {
+            editor.setValue(""); editor.focus();
+            showToast('<i class="fa-regular fa-trash-can"></i> All code cleared!');
         }
     }
 
     let defaultFiles = [
-        { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Preview</title>\n</head>\n<body>\n  <div id="root"></div>\n  <script type="text/babel">\n    const { useState } = React;\n    const App = () => <h1>Hello React & Babel!</h1>;\n  <\/script>\n</body>\n</html>', time: 'Just now', path: 'Local', pinned: false }
+        { name: 'index (2).html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>App</title>\n</head>\n<body>\n  <h1>Hello World!</h1>\n</body>\n</html>', time: '3 days ago', path: 'Downloads', pinned: false },
+        { name: 'index.html', code: '<div id="root"></div>\n<script type="text/babel">\n  const App = () => <h1>React Ready!</h1>;\n<\/script>', time: '2 Nov 2026', path: 'Downloads', pinned: false },
+        { name: 'index (1).html', code: '<h1>Sample Page</h1>', time: '2 Nov 2026', path: 'Downloads', pinned: false }
     ];
 
     let currentActiveFileIndex = -1;
@@ -653,21 +1033,24 @@
         return defaultFiles;
     }
     
-    function saveFiles(files) { 
-        localStorage.setItem('my_editor_files', JSON.stringify(files)); 
-    }
+    function saveFiles(files) { localStorage.setItem('my_editor_files', JSON.stringify(files)); }
 
     function sortedFiles(files) {
         return files.slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
     }
 
-    function renderRecentFiles() {
-        const files = loadFiles();
-        const listContainer = document.getElementById('recentFileList');
+    function buildFileListHTML(filesToRender, containerId) {
+        const allFiles = loadFiles();
+        const listContainer = document.getElementById(containerId);
         listContainer.innerHTML = '';
 
-        sortedFiles(files).forEach((file) => {
-            const index = files.indexOf(file);
+        if (filesToRender.length === 0) {
+            listContainer.innerHTML = '<p style="color:var(--text-secondary); font-size:13px; text-align:center; padding:20px 0;">No files yet.</p>';
+            return;
+        }
+
+        filesToRender.forEach((file) => {
+            const index = allFiles.indexOf(file);
             const item = document.createElement('div');
             item.className = 'file-item' + (file.pinned ? ' pinned' : '');
             item.onclick = () => openFile(index);
@@ -675,7 +1058,9 @@
 
             item.innerHTML = `
                 <div class="file-info">
-                    <span class="lang-badge ${badgeClass(file.name)}">${badgeText(file.name)}</span>
+                    <div class="file-icon-box">
+                        <span class="lang-badge ${badgeClass(file.name)}">${badgeText(file.name)}</span>
+                    </div>
                     <div class="file-details">
                         <h4>${pinMark}<span class="file-name-text">${escapeHtml(file.name)}</span></h4>
                         <p><span class="tag-html">${fileExtLabel(file.name)}</span> ${escapeHtml(file.time)} · ${escapeHtml(file.path)}</p>
@@ -697,15 +1082,10 @@
                 e.stopPropagation();
                 const wasOpen = menu.classList.contains('open');
                 closeAllMenus();
-                
                 if (!wasOpen) {
                     const rect = menuBtn.getBoundingClientRect();
-                    const spaceBelow = window.innerHeight - rect.bottom;
-                    if (spaceBelow < 160) { 
-                        menu.classList.add('drop-up'); 
-                    } else {
-                        menu.classList.remove('drop-up');
-                    }
+                    if (window.innerHeight - rect.bottom < 160) menu.classList.add('drop-up');
+                    else menu.classList.remove('drop-up');
                     menu.classList.add('open');
                 }
             };
@@ -725,28 +1105,34 @@
         });
     }
 
-    function closeAllMenus() {
-        document.querySelectorAll('.file-menu.open').forEach(m => m.classList.remove('open'));
+    function renderRecentFiles() {
+        const files = sortedFiles(loadFiles());
+        buildFileListHTML(files, 'recentFileList');
     }
+
+    function renderTextFiles() {
+        const files = sortedFiles(loadFiles()).filter(f => f.name.endsWith('.txt') || f.name.endsWith('.md'));
+        buildFileListHTML(files, 'textFileList');
+    }
+
+    function closeAllMenus() { document.querySelectorAll('.file-menu.open').forEach(m => m.classList.remove('open')); }
     document.addEventListener('click', closeAllMenus);
 
     function togglePin(index) {
         const files = loadFiles();
         files[index].pinned = !files[index].pinned;
-        saveFiles(files); 
-        renderRecentFiles();
+        saveFiles(files); renderRecentFiles(); renderTextFiles();
     }
 
     function renameFile(index) {
         const files = loadFiles();
         const oldName = files[index].name;
-        const newName = prompt('ফাইলের নতুন নাম দিন (যেমন script.js):', oldName);
+        const newName = prompt('Enter new file name:', oldName);
         if (newName === null) return;
         const clean = newName.trim();
         if (!clean) return;
         files[index].name = clean;
-        saveFiles(files); 
-        renderRecentFiles();
+        saveFiles(files); renderRecentFiles(); renderTextFiles();
         if (currentActiveFileIndex === index) {
             document.getElementById('activeFileName').innerText = '*' + clean;
             setEditorMode(clean);
@@ -755,15 +1141,11 @@
 
     function removeFile(index) {
         const files = loadFiles();
-        const name = files[index].name;
-        if (!confirm('"' + name + '" ফাইলটি মুছে ফেলতে চান?')) return;
+        if (!confirm('Remove "' + files[index].name + '"?')) return;
         files.splice(index, 1);
         saveFiles(files);
-        if (currentActiveFileIndex === index) { 
-            currentActiveFileIndex = -1; 
-            goHome(); 
-        }
-        renderRecentFiles();
+        if (currentActiveFileIndex === index) { currentActiveFileIndex = -1; goHome(); }
+        renderRecentFiles(); renderTextFiles();
     }
 
     function escapeHtml(str) {
@@ -772,12 +1154,13 @@
     
     function fileExtLabel(name) {
         const ext = (name.split('.').pop() || '').toLowerCase();
-        const map = { html: 'HTML', htm: 'HTML', js: 'JS', css: 'CSS', py: 'PY', c: 'C', cpp: 'CPP', json: 'JSON', md: 'MD' };
+        const map = { html: 'HTML', htm: 'HTML', js: 'JS', css: 'CSS', py: 'PY', c: 'C', cpp: 'CPP', json: 'JSON', md: 'MD', txt: 'TXT' };
         return map[ext] || ext.toUpperCase() || 'FILE';
     }
 
     function badgeText(name) {
         const ext = (name.split('.').pop() || '').toLowerCase();
+        if (ext === 'html') return 'htm';
         return ext.slice(0, 3) || 'txt';
     }
 
@@ -787,7 +1170,7 @@
         if (ext === 'js') return 'js-badge';
         if (ext === 'py') return 'py-badge';
         if (ext === 'c' || ext === 'cpp') return 'c-badge';
-        return 'html-badge';
+        return 'py-badge';
     }
 
     function setEditorMode(fileName) {
@@ -796,6 +1179,7 @@
         else if (ext === 'css') editor.setOption('mode', 'css');
         else if (ext === 'py') editor.setOption('mode', 'python');
         else if (ext === 'c' || ext === 'cpp') editor.setOption('mode', 'text/x-csrc');
+        else if (ext === 'txt') editor.setOption('mode', 'text/plain');
         else editor.setOption('mode', htmlCustomConfig);
     }
 
@@ -812,6 +1196,8 @@
         editor.setCursor({ line: 0, ch: 0 });
 
         document.getElementById('homeScreen').classList.remove('active');
+        document.getElementById('textScreen').classList.remove('active');
+        document.getElementById('settingsScreen').classList.remove('active');
         document.getElementById('editorScreen').classList.add('active');
 
         document.body.classList.add('editor-mode');
@@ -823,34 +1209,25 @@
     function createNewFile(ext) {
         let files = loadFiles();
         const fileName = `file_${files.length + 1}.${ext}`;
-        files.unshift({ name: fileName, code: '', time: 'Just now', path: 'Local', pinned: false });
-        saveFiles(files); 
-        renderRecentFiles(); 
-        openFile(0);
+        files.unshift({ name: fileName, code: '', time: 'Just now', path: 'Downloads', pinned: false });
+        saveFiles(files); renderRecentFiles(); openFile(0);
     }
 
     function openSaveModal() {
         if (currentActiveFileIndex === -1) return;
         const files = loadFiles();
-        const curName = files[currentActiveFileIndex].name;
         const input = document.getElementById('saveFileNameInput');
-        input.value = curName;
+        input.value = files[currentActiveFileIndex].name;
         document.getElementById('saveModal').classList.add('active');
-        input.focus();
-        input.select();
+        input.focus(); input.select();
     }
 
-    function closeSaveModal() {
-        document.getElementById('saveModal').classList.remove('active');
-    }
+    function closeSaveModal() { document.getElementById('saveModal').classList.remove('active'); }
 
     function confirmSaveFile() {
         const input = document.getElementById('saveFileNameInput');
         let newName = input.value.trim();
-        if (!newName) {
-            alert('দয়া করে ফাইলের একটি নাম দিন!');
-            return;
-        }
+        if (!newName) { alert('Please enter a valid file name!'); return; }
 
         let files = loadFiles();
         files[currentActiveFileIndex].name = newName;
@@ -862,9 +1239,8 @@
         document.getElementById('activeFileLang').innerText = fileExtLabel(newName) + ' · UTF-8';
         setEditorMode(newName);
 
-        closeSaveModal();
-        renderRecentFiles();
-        showToast('ফাইল সফলভাবে সেভ হয়েছে! 💾');
+        closeSaveModal(); renderRecentFiles(); renderTextFiles();
+        showToast('File saved successfully! 💾');
     }
 
     let currentMatches = [];
@@ -875,42 +1251,25 @@
         panel.classList.toggle("active");
         if (panel.classList.contains("active")) {
             const input = document.getElementById("searchInput");
-            input.focus();
-            if (input.value) doSearch();
-        } else {
-            editor.focus();
-        }
+            input.focus(); if (input.value) doSearch();
+        } else editor.focus();
         setTimeout(() => editor.refresh(), 50);
     }
 
     function closeSearchBar() {
         document.getElementById("searchBarPanel").classList.remove("active");
-        editor.focus();
-        setTimeout(() => editor.refresh(), 50);
+        editor.focus(); setTimeout(() => editor.refresh(), 50);
     }
 
     function doSearch() {
         const query = document.getElementById("searchInput").value;
         const countEl = document.getElementById("searchCount");
-        currentMatches = [];
-        currentMatchIndex = -1;
-
-        if (!query) {
-            countEl.innerText = "0/0";
-            return;
-        }
-
+        currentMatches = []; currentMatchIndex = -1;
+        if (!query) { countEl.innerText = "0/0"; return; }
         const cursor = editor.getSearchCursor(query, {line: 0, ch: 0}, {caseFold: true});
-        while (cursor.findNext()) {
-            currentMatches.push({from: cursor.from(), to: cursor.to()});
-        }
-
-        if (currentMatches.length > 0) {
-            currentMatchIndex = 0;
-            selectCurrentMatch();
-        } else {
-            countEl.innerText = "0/0";
-        }
+        while (cursor.findNext()) currentMatches.push({from: cursor.from(), to: cursor.to()});
+        if (currentMatches.length > 0) { currentMatchIndex = 0; selectCurrentMatch(); }
+        else countEl.innerText = "0/0";
     }
 
     function selectCurrentMatch() {
@@ -921,32 +1280,15 @@
         editor.scrollIntoView({from: match.from, to: match.to}, 120);
     }
 
-    function findNextMatch() {
-        if (currentMatches.length === 0) return;
-        currentMatchIndex = (currentMatchIndex + 1) % currentMatches.length;
-        selectCurrentMatch();
-    }
-
-    function findPrevMatch() {
-        if (currentMatches.length === 0) return;
-        currentMatchIndex = (currentMatchIndex - 1 + currentMatches.length) % currentMatches.length;
-        selectCurrentMatch();
-    }
+    function findNextMatch() { if (currentMatches.length) { currentMatchIndex = (currentMatchIndex + 1) % currentMatches.length; selectCurrentMatch(); } }
+    function findPrevMatch() { if (currentMatches.length) { currentMatchIndex = (currentMatchIndex - 1 + currentMatches.length) % currentMatches.length; selectCurrentMatch(); } }
 
     function handleSearchKey(e) {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            if (e.shiftKey) findPrevMatch();
-            else findNextMatch();
-        } else if (e.key === "Escape") {
-            closeSearchBar();
-        }
+        if (e.key === "Enter") { e.preventDefault(); if (e.shiftKey) findPrevMatch(); else findNextMatch(); }
+        else if (e.key === "Escape") closeSearchBar();
     }
 
-    function insertSymbol(sym) {
-        editor.replaceSelection(sym);
-        editor.focus();
-    }
+    function insertSymbol(sym) { editor.replaceSelection(sym); editor.focus(); }
 
     function togglePreview() {
         const iframe = document.getElementById('previewIframe');
@@ -956,32 +1298,23 @@
             cmWrapper.style.display = 'none';
             document.getElementById('lineNums').style.display = 'none';
             const doc = iframe.contentDocument || iframe.contentWindow.document;
-            doc.open(); 
-            doc.write(code); 
-            doc.close();
+            doc.open(); doc.write(code); doc.close();
             isPreviewMode = true;
-        } else { 
-            closePreview(); 
-        }
+        } else closePreview();
     }
 
     function closePreview() {
         document.getElementById('previewIframe').style.display = 'none';
         cmWrapper.style.display = '';
         document.getElementById('lineNums').style.display = '';
-        isPreviewMode = false;
-        editor.refresh();
+        isPreviewMode = false; editor.refresh();
     }
 
     async function pasteFromClipboard() {
         try {
             const text = await navigator.clipboard.readText();
-            createNewFile('html');
-            editor.setValue(text);
-            openSaveModal();
-        } catch (err) {
-            alert('ক্লিপবোর্ড এক্সেস করার অনুমতি দিন অথবা কোডটি লিখে পেস্ট করুন।');
-        }
+            createNewFile('html'); editor.setValue(text); openSaveModal();
+        } catch (err) { alert('Please grant clipboard permission or open a file.'); }
     }
 
     function handleFileUpload(event) {
@@ -990,29 +1323,23 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             let files = loadFiles();
-            files.unshift({ name: file.name, code: e.target.result, time: 'Just now', path: 'Uploaded', pinned: false });
-            saveFiles(files); 
-            renderRecentFiles(); 
-            openFile(0);
+            files.unshift({ name: file.name, code: e.target.result, time: 'Just now', path: 'Downloads', pinned: false });
+            saveFiles(files); renderRecentFiles(); openFile(0);
         };
-        reader.readAsText(file);
-        event.target.value = '';
+        reader.readAsText(file); event.target.value = '';
     }
 
     function goHome() {
-        closePreview();
-        closeSearchBar();
+        closePreview(); closeSearchBar();
         document.getElementById('editorScreen').classList.remove('active');
-        document.getElementById('homeScreen').classList.add('active');
         document.body.classList.remove('editor-mode');
-        renderRecentFiles();
+        switchTab(currentTab === 'text' ? 'text' : 'code');
     }
 
     window.onload = function() {
         renderRecentFiles();
         editor.refresh();
     };
-
     window.addEventListener('resize', () => editor.refresh());
 </script>
 </body>
