@@ -194,29 +194,39 @@
         }
         .search-nav-btns button:active { background-color: #30363d; color: #58a6ff; }
 
-        /* ✅ এডিটর এরিয়া (লাইন নম্বর নিখুঁত বাজানো থাকবে) */
-        .editor-area { flex: 1 1 auto; min-height: 0; display: flex; position: relative; background-color: #0d1117; user-select: text; }
+        /* ✅ এডিটর এরিয়া */
+        .editor-area { flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; position: relative; background-color: #0d1117; user-select: text; overflow: hidden; }
         .editor-area .CodeMirror { 
             flex: 1 1 auto; 
             height: 100%; 
             min-height: 0; 
+            min-width: 0;   /* ✅ লম্বা লাইনে এডিটর যেন প্রশস্ত না হয়ে যায় */
+            width: 100%;    /* ✅ */
             font-family: 'Consolas', 'Courier New', monospace; 
             font-size: 13.5px; 
-            line-height: 1.5;
             background: #0d1117; 
             color: #e6edf3; 
         }
-        .editor-area .CodeMirror-scroll { 
-            min-height: 100%; 
-            overflow-x: auto !important; 
-        }
-        .editor-area .CodeMirror-gutters {
+        /* ✅ লাইন নম্বরের জন্য আলাদা কলাম (CodeMirror-এর বাইরে), তাই ডানে-বামে স্ক্রলে এটা কখনো নড়বে না */
+        .editor-area .CodeMirror { line-height: 20px; }
+        .line-nums {
+            flex: 0 0 auto;
+            overflow: hidden;
             background-color: #0d1117;
             border-right: 1px solid #21262d;
-        }
-        .editor-area .CodeMirror-linenumber {
             color: #484f58;
-            padding: 0 8px 0 5px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13.5px;
+            line-height: 20px;
+            text-align: right;
+            padding: 4px 8px 0 8px;
+            user-select: none;
+        }
+        .line-nums pre {
+            margin: 0;
+            font: inherit;
+            line-height: inherit;
+            will-change: transform;
         }
         .preview-iframe { flex: 1 1 auto; width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
@@ -370,6 +380,7 @@
         </div>
 
         <div class="editor-area">
+            <div id="lineNums" class="line-nums"><pre id="lineNumsInner">1</pre></div>
             <textarea id="codeEditor"></textarea>
             <iframe id="previewIframe" class="preview-iframe"></iframe>
         </div>
@@ -429,7 +440,7 @@
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
 <script>
-    // ✅ Babel ও JSX স্ক্রিপ্ট সাপোর্ট রেজিস্ট্রেশন (যাতে <script type="text/babel"> রঙিন হয়)
+    // ✅ Babel ও JSX স্ক্রিপ্ট সাপোর্ট রেজিস্ট্রেশন (যাতে <script type="text/babel"> রঙিন হয়)
     if (window.CodeMirror) {
         CodeMirror.defineMIME("text/babel", { name: "javascript", jsx: true });
         CodeMirror.defineMIME("text/jsx", { name: "javascript", jsx: true });
@@ -449,16 +460,38 @@
     var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
         mode: htmlCustomConfig, 
         theme: "dracula", 
-        lineNumbers: true,
+        lineNumbers: false,     // ✅ নিজস্ব আলাদা লাইন নম্বর কলাম ব্যবহার হচ্ছে
         autoCloseTags: true, 
         matchBrackets: true, 
-        /* ✅ lineWrapping: false করায় নম্বরের মাঝে কোনো গ্যাপ থাকবে না, নম্বরগুলো একটার সাথে একটা বাজানো থাকবে */
         lineWrapping: false,
-        /* ✅ ৩২০০+ লাইনেও যাতে কালার নষ্ট না হয় */
         maxHighlightLength: Infinity,
         viewportMargin: 40
     });
     var cmWrapper = editor.getWrapperElement();
+
+    /* ========== ✅ আলাদা লাইন নম্বর কলাম ========== */
+    var lineNumsInner = document.getElementById('lineNumsInner');
+    var lastLineCount = 0;
+
+    function updateLineNums() {
+        const n = editor.lineCount();
+        if (n === lastLineCount) return;
+        const digitsChanged = String(n).length !== String(lastLineCount).length;
+        let s = '';
+        for (let i = 1; i <= n; i++) s += (i === 1 ? '' : '\n') + i;
+        lineNumsInner.textContent = s;
+        lastLineCount = n;
+        if (digitsChanged) editor.refresh(); // কলামের প্রস্থ বদলালে এডিটরের মাপ ঠিক করা
+    }
+
+    function syncLineNums() {
+        lineNumsInner.style.transform = 'translate3d(0,' + (-editor.getScrollInfo().top) + 'px,0)';
+    }
+
+    editor.on('change', function () { updateLineNums(); syncLineNums(); });
+    editor.on('scroll', syncLineNums);
+    editor.on('refresh', syncLineNums);
+    updateLineNums();
 
     let defaultFiles = [
         { name: 'index.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Preview</title>\n</head>\n<body>\n  <div id="root"></div>\n  <script type="text/babel">\n    const { useState } = React;\n    const App = () => <h1>Hello React & Babel!</h1>;\n  <\/script>\n</body>\n</html>', time: 'Just now', path: 'Local', pinned: false }
@@ -645,6 +678,8 @@
 
         document.body.classList.add('editor-mode');
         closePreview();
+        // ✅ স্ক্রিন দেখানোর পর মাপ ঠিক করতে refresh (গাটার পজিশনও সঠিক হবে)
+        editor.refresh();
         setTimeout(() => editor.refresh(), 100);
     }
 
@@ -709,11 +744,14 @@
         } else {
             editor.focus();
         }
+        // সার্চ বার খুললে/বন্ধ হলে এডিটরের উচ্চতা বদলায়, তাই মাপ রিফ্রেশ
+        setTimeout(() => editor.refresh(), 50);
     }
 
     function closeSearchBar() {
         document.getElementById("searchBarPanel").classList.remove("active");
         editor.focus();
+        setTimeout(() => editor.refresh(), 50);
     }
 
     function doSearch() {
@@ -727,7 +765,7 @@
             return;
         }
 
-        // পুরো কোডের যেখানে যেখানে মিল রয়েছে তা বের করা
+        // পুরো কোডের যেখানে যেখানে মিল রয়েছে তা বের করা
         const cursor = editor.getSearchCursor(query, {line: 0, ch: 0}, {caseFold: true});
         while (cursor.findNext()) {
             currentMatches.push({from: cursor.from(), to: cursor.to()});
@@ -746,7 +784,7 @@
         const match = currentMatches[currentMatchIndex];
         document.getElementById("searchCount").innerText = `${currentMatchIndex + 1}/${currentMatches.length}`;
         
-        // এডিটর নির্দিষ্ট লাইনে জাম্প করবে এবং টেক্সট সিলেক্ট করবে যাতে সরাসরি এডিট করা যায়
+        // এডিটর নির্দিষ্ট লাইনে জাম্প করবে এবং টেক্সট সিলেক্ট করবে যাতে সরাসরি এডিট করা যায়
         editor.setSelection(match.from, match.to);
         editor.scrollIntoView({from: match.from, to: match.to}, 120);
     }
@@ -798,6 +836,7 @@
         document.getElementById('previewIframe').style.display = 'none';
         cmWrapper.style.display = '';
         isPreviewMode = false;
+        editor.refresh();
     }
 
     async function pasteFromClipboard() {
@@ -839,6 +878,9 @@
         renderRecentFiles();
         editor.refresh();
     };
+
+    // ✅ স্ক্রিন ঘোরালে বা সাইজ বদলালে এডিটর ও গাটার রিফ্রেশ
+    window.addEventListener('resize', () => editor.refresh());
 </script>
 </body>
 </html>
