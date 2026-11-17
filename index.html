@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
     
-    <!-- CodeMirror Scripts (সবগুলো ল্যাঙ্গুয়েজ মোডসহ) -->
+    <!-- CodeMirror Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
@@ -271,93 +271,36 @@
         .file-menu button.danger { color: #ef4444; }
         .file-menu hr { border: none; border-top: 1px solid var(--capsule-divider); margin: 4px 0; }
 
-        /* ========== ✅ "Choose a language" বটম শিট (স্ক্রিনশট ২ অনুযায়ী) ========== */
+        /* ========== Choose a language বটম শিট ========== */
         .sheet-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.45);
-            display: none;
-            align-items: flex-end;
-            justify-content: center;
-            z-index: 9998;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45); display: none;
+            align-items: flex-end; justify-content: center; z-index: 9998;
         }
         .sheet-overlay.active { display: flex; }
         .lang-sheet {
-            width: 100%;
-            height: 86dvh;
-            background-color: var(--bg-main);
-            border-radius: 26px 26px 0 0;
-            display: flex;
-            flex-direction: column;
-            padding: 12px 20px 0 20px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.18);
+            width: 100%; height: 86dvh; background-color: var(--bg-main);
+            border-radius: 26px 26px 0 0; display: flex; flex-direction: column;
+            padding: 12px 20px 0 20px; box-shadow: 0 -10px 30px rgba(0,0,0,0.18);
             animation: slideSheetUp 0.22s ease-out;
         }
-        @keyframes slideSheetUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        .sheet-handle {
-            width: 38px;
-            height: 4px;
-            background-color: var(--text-muted);
-            opacity: 0.45;
-            border-radius: 4px;
-            margin: 0 auto 18px auto;
-            flex-shrink: 0;
-        }
-        .sheet-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            flex-shrink: 0;
-        }
+        @keyframes slideSheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .sheet-handle { width: 38px; height: 4px; background-color: var(--text-muted); opacity: 0.45; border-radius: 4px; margin: 0 auto 18px auto; flex-shrink: 0; }
+        .sheet-title { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; flex-shrink: 0; }
         .sheet-search-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1.5px solid var(--action-border);
-            background-color: var(--bg-main);
-            border-radius: 14px;
-            padding: 12px 16px;
-            margin-bottom: 14px;
-            flex-shrink: 0;
+            display: flex; align-items: center; gap: 12px;
+            border: 1.5px solid var(--action-border); background-color: var(--bg-main);
+            border-radius: 14px; padding: 12px 16px; margin-bottom: 14px; flex-shrink: 0;
         }
         .sheet-search-box:focus-within { border-color: var(--accent-blue); }
         .sheet-search-box i { color: var(--text-secondary); font-size: 16px; }
-        .sheet-search-box input {
-            border: none;
-            outline: none;
-            background: transparent;
-            color: var(--text-primary);
-            font-size: 16px;
-            width: 100%;
-        }
+        .sheet-search-box input { border: none; outline: none; background: transparent; color: var(--text-primary); font-size: 16px; width: 100%; }
         .sheet-search-box input::placeholder { color: var(--text-secondary); }
-
-        .sheet-lang-list {
-            flex: 1 1 auto;
-            overflow-y: auto;
-            padding-bottom: 24px;
-        }
-        .sheet-lang-item {
-            padding: 13px 4px;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.12s;
-        }
+        .sheet-lang-list { flex: 1 1 auto; overflow-y: auto; padding-bottom: 24px; }
+        .sheet-lang-item { padding: 13px 4px; cursor: pointer; border-radius: 10px; transition: background-color 0.12s; }
         .sheet-lang-item:active { background-color: var(--menu-hover); }
-        .sheet-lang-name {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-        .sheet-lang-ext {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
+        .sheet-lang-name { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 2px; }
+        .sheet-lang-ext { font-size: 13px; color: var(--text-secondary); }
 
         /* ========== সেটিংস স্ক্রিন ========== */
         .settings-container { padding: 12px 16px 30px 16px; }
@@ -393,6 +336,7 @@
             background-color: var(--qe-topbar-bg); padding: 11px 16px; 
             display: flex; align-items: center; justify-content: space-between; 
             border-bottom: 1px solid var(--editor-border); flex: 0 0 auto; 
+            transition: padding 0.15s ease;
         }
         .editor-title { display: flex; align-items: center; gap: 16px; flex: 1; overflow: hidden; }
         .editor-title i { cursor: pointer; color: var(--text-primary); font-size: 19px; padding: 4px; }
@@ -402,6 +346,33 @@
         .topbar-right-icons { display: flex; align-items: center; color: var(--text-primary); font-size: 18px; padding-left: 10px; }
         .topbar-right-icons i { cursor: pointer; padding: 6px; }
 
+        /* ✅ প্রিভিউ মোডে স্লিম হেডার ও নিচের সমস্ত টুলবার হাইড করার রুল */
+        body.preview-mode .editor-topbar {
+            padding: 5px 14px;
+        }
+        body.preview-mode .editor-topbar .editor-title {
+            gap: 12px;
+        }
+        body.preview-mode .editor-topbar .editor-title i {
+            font-size: 17px;
+            padding: 2px 4px;
+        }
+        body.preview-mode .editor-topbar .file-meta h3 {
+            font-size: 14.5px;
+            line-height: 1.15;
+        }
+        body.preview-mode .editor-topbar .file-meta span {
+            font-size: 10.5px;
+            margin-top: 1px;
+        }
+        body.preview-mode .bottom-action-bar,
+        body.preview-mode .symbol-bar,
+        body.preview-mode .search-bar-panel,
+        body.preview-mode .topbar-right-icons {
+            display: none !important;
+        }
+
+        /* সার্চ প্যানেল */
         .search-bar-panel {
             display: none; align-items: center; justify-content: space-between;
             background-color: var(--qe-topbar-bg); padding: 8px 12px;
@@ -422,6 +393,7 @@
             display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
         }
 
+        /* এডিটর এরিয়া ও গাটার */
         .editor-area { 
             flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; 
             position: relative; background-color: var(--qe-editor-bg); 
@@ -494,12 +466,18 @@
         .symbol-bar span.action-tool-btn.danger { color: #ef4444; }
         .symbol-bar span.action-tool-btn:active { background-color: var(--accent-blue); color: #ffffff; }
 
+        /* ✅ Paste বাদ দিয়ে ১০টি বড় সাইজের আইকনসহ বটম অ্যাকশন বার */
         .bottom-action-bar { 
             background-color: var(--qe-bottom-bg); 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 9px 10px; border-top: 1px solid var(--editor-border); flex: 0 0 auto; 
+            padding: 10px 12px; border-top: 1px solid var(--editor-border); flex: 0 0 auto; 
         }
-        .bottom-action-bar i { cursor: pointer; color: var(--qe-icon-color); font-size: 16.5px; padding: 5px 5px; }
+        .bottom-action-bar i { 
+            cursor: pointer; 
+            color: var(--qe-icon-color); 
+            font-size: 19px; 
+            padding: 5px 6px; 
+        }
         .bottom-action-bar i:active { color: var(--accent-blue); transform: scale(0.92); }
         
         .toggle-tools-btn { color: var(--accent-blue) !important; transition: transform 0.2s ease; }
@@ -576,13 +554,11 @@
                     <div class="lang-btn" onclick="createNewFile('c')"><span class="lang-badge c-badge">c</span><span>C</span></div>
                     <div class="lang-btn" onclick="createNewFile('html')"><span class="lang-badge html-badge">html</span><span>HTML</span></div>
                 </div>
-                <!-- ✅ ৬১ এর জায়গায় ১৮টি ল্যাঙ্গুয়েজের সংখ্যা এবং ক্লিক করলে ল্যাঙ্গুয়েজ লিস্ট ওপেন হবে -->
                 <div class="more-lang" onclick="openLangSheet()"><span id="moreLangCount">18</span> more languages <i class="fa-solid fa-chevron-right" style="font-size:11px;"></i></div>
             </div>
 
             <div class="action-btns">
                 <div class="action-btn" onclick="document.getElementById('fileInput').click()"><i class="fa-regular fa-folder-open"></i> Open file</div>
-                <!-- ✅ Paste code-এর পরিবর্তে Deploy বাটন এবং ক্লিক করলে সেম ল্যাঙ্গুয়েজ ও সার্চ শিট ওপেন হবে -->
                 <div class="action-btn" onclick="openLangSheet()"><i class="fa-solid fa-rocket"></i> Deploy</div>
             </div>
 
@@ -645,10 +621,11 @@
 
     <!-- EDITOR SCREEN -->
     <div id="editorScreen" class="screen">
+        <!-- টপবার (প্রিভিউ মোডে অটো স্লিম হবে ও ব্যাক অ্যারো দিলে প্রিভিউ বন্ধ হবে) -->
         <div class="editor-topbar">
             <div class="editor-title">
-                <i class="fa-solid fa-arrow-left" onclick="goHome()" title="Back"></i>
-                <div class="file-meta" onclick="openSaveModal()">
+                <i class="fa-solid fa-arrow-left" onclick="handleEditorBack()" title="Back"></i>
+                <div class="file-meta" onclick="if(!isPreviewMode) openSaveModal()">
                     <h3 id="activeFileName">*index.html</h3>
                     <span id="activeFileLang">HTML · UTF-8 · Ln 1, Col 1</span>
                 </div>
@@ -685,9 +662,9 @@
             <span class="action-tool-btn danger" onmousedown="event.preventDefault()" onclick="clearAllCode()"><i class="fa-regular fa-trash-can"></i> Clear</span>
         </div>
 
+        <!-- ✅ Paste বাদ দিয়ে ১০টি বড় সাইজের আইকনসহ বটম অ্যাকশন বার -->
         <div class="bottom-action-bar">
             <i class="fa-solid fa-folder" onmousedown="event.preventDefault()" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
-            <i class="fa-solid fa-paste" onmousedown="event.preventDefault()" onclick="pasteAtCursor()" title="Paste"></i>
             <i class="fa-solid fa-rotate-left" onmousedown="event.preventDefault()" onclick="editor.undo()" title="Undo"></i>
             <i class="fa-solid fa-rotate-right" onmousedown="event.preventDefault()" onclick="editor.redo()" title="Redo"></i>
             <i class="fa-solid fa-magnifying-glass" onmousedown="event.preventDefault()" onclick="toggleSearchBar()" title="Search"></i>
@@ -707,7 +684,7 @@
         <div class="nav-item" id="navSettings" onclick="switchTab('settings')"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
     </div>
 
-    <!-- ✅ Choose a Language বটম শিট পপআপ (স্ক্রিনশট ২ অনুযায়ী) -->
+    <!-- Choose a Language বটম শিট -->
     <div id="langSheetOverlay" class="sheet-overlay" onclick="closeLangSheet(event)">
         <div class="lang-sheet" onclick="event.stopPropagation()">
             <div class="sheet-handle" onclick="closeLangSheet()"></div>
@@ -764,7 +741,6 @@
         }
     };
 
-    /* ✅ আপনার দেওয়া ১৮টি কোডিং ল্যাঙ্গুয়েজ ও তাদের সঠিক মান (Extension) */
     const allLanguages = [
         { name: 'Plain Text', ext: 'txt' },
         { name: 'HTML', ext: 'html' },
@@ -858,7 +834,7 @@
         window.visualViewport.addEventListener('resize', () => {
             syncViewportHeight();
             setTimeout(() => {
-                if (document.body.classList.contains('editor-mode')) {
+                if (document.body.classList.contains('editor-mode') && !isPreviewMode) {
                     editor.scrollIntoView(null, 40);
                 }
             }, 60);
@@ -1275,7 +1251,6 @@
         return 'py-badge';
     }
 
-    /* ✅ সবগুলো ১৮টি ল্যাঙ্গুয়েজের জন্য CodeMirror মোড সেটআপ */
     function setEditorMode(fileName) {
         const ext = (fileName.split('.').pop() || '').toLowerCase();
         if (ext === 'txt') editor.setOption('mode', 'text/plain');
@@ -1410,6 +1385,7 @@
         else if (e.key === "Escape") closeSearchBar();
     }
 
+    /* ✅ প্রিভিউ মোড (নিচের সব টুলবার হাইড হবে এবং হেডার স্লিম হবে) */
     function togglePreview() {
         const iframe = document.getElementById('previewIframe');
         if (!isPreviewMode) {
@@ -1417,6 +1393,7 @@
             iframe.style.display = 'block';
             cmWrapper.style.display = 'none';
             document.getElementById('lineNums').style.display = 'none';
+            document.body.classList.add('preview-mode');
             const doc = iframe.contentDocument || iframe.contentWindow.document;
             doc.open(); doc.write(code); doc.close();
             isPreviewMode = true;
@@ -1427,7 +1404,17 @@
         document.getElementById('previewIframe').style.display = 'none';
         cmWrapper.style.display = '';
         document.getElementById('lineNums').style.display = '';
+        document.body.classList.remove('preview-mode');
         isPreviewMode = false; editor.refresh();
+    }
+
+    /* ✅ প্রিভিউ মোডে Back Arrow চাপলে এডিটরে ফিরবে, এডিটরে থাকলে হোমে যাবে */
+    function handleEditorBack() {
+        if (isPreviewMode) {
+            closePreview();
+        } else {
+            goHome();
+        }
     }
 
     function handleFileUpload(event) {
