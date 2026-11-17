@@ -332,19 +332,14 @@
         .ios-switch input:checked + .slider:before { transform: translateX(21px); }
 
         /* ========== এডিটর স্ক্রিন ========== */
-        .editor-topbar { 
-            background-color: var(--qe-topbar-bg); padding: 11px 16px; 
-            display: flex; align-items: center; justify-content: space-between; 
-            border-bottom: 1px solid var(--editor-border); flex: 0 0 auto; 
-            transition: padding 0.15s ease;
-        }
-        .editor-title { display: flex; align-items: center; gap: 16px; flex: 1; overflow: hidden; }
-        .editor-title i { cursor: pointer; color: var(--text-primary); font-size: 19px; padding: 4px; }
+        .editor-topbar { background-color: var(--qe-topbar-bg); padding: 5px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--editor-border); flex: 0 0 auto; }
+        .editor-title { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
+        .editor-title i { cursor: pointer; color: var(--text-primary); font-size: 17px; padding: 2px 4px; }
         .file-meta { display: flex; flex-direction: column; overflow: hidden; }
-        .file-meta h3 { font-size: 16.5px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; }
-        .file-meta span { font-size: 11.5px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-        .topbar-right-icons { display: flex; align-items: center; color: var(--text-primary); font-size: 18px; padding-left: 10px; }
-        .topbar-right-icons i { cursor: pointer; padding: 6px; }
+        .file-meta h3 { font-size: 14.5px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.15; }
+        .file-meta span { font-size: 10.5px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+        .topbar-right-icons { display: flex; align-items: center; color: var(--text-primary); font-size: 17px; padding-left: 10px; }
+        .topbar-right-icons i { cursor: pointer; padding: 2px 6px; }
 
         /* ✅ প্রিভিউ মোডে স্লিম হেডার ও নিচের সমস্ত টুলবার হাইড করার রুল */
         body.preview-mode .editor-topbar {
