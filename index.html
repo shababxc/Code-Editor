@@ -72,10 +72,18 @@
             --nav-border: #e5e7eb;
             --nav-inactive: #94a3b8;
 
-            --editor-bg: #ffffff;
-            --editor-surface: #f8fafc;
-            --editor-border: #e2e8f0;
-            --editor-gutter-text: #94a3b8;
+            /* ✅ কুইক এডিটর লাইট থিম কালার */
+            --qe-topbar-bg: #f5f5f5;
+            --qe-tabbar-bg: #eeeeee;
+            --qe-tab-active-bg: #ffffff;
+            --qe-tab-underline: #689f38;
+            --qe-gutter-bg: #f7f7f7;
+            --qe-gutter-border: #e0e0e0;
+            --qe-gutter-text: #757575;
+            --qe-editor-bg: #ffffff;
+            --qe-bottom-bg: #f5f5f5;
+            --qe-icon-color: #616161;
+            --editor-border: #e0e0e0;
             --symbol-bg: #ffffff;
 
             --py-bg: #e6f0ff; --py-text: #2563eb;
@@ -130,10 +138,18 @@
             --nav-border: #30363d;
             --nav-inactive: #8b949e;
 
-            --editor-bg: #0d1117;
-            --editor-surface: #161b22;
+            /* কুইক এডিটর ডার্ক থিম */
+            --qe-topbar-bg: #161b22;
+            --qe-tabbar-bg: #0d1117;
+            --qe-tab-active-bg: #1c2128;
+            --qe-tab-underline: #4caf50;
+            --qe-gutter-bg: #12161d;
+            --qe-gutter-border: #262c36;
+            --qe-gutter-text: #6e7681;
+            --qe-editor-bg: #0d1117;
+            --qe-bottom-bg: #161b22;
+            --qe-icon-color: #8b949e;
             --editor-border: #30363d;
-            --editor-gutter-text: #484f58;
             --symbol-bg: #21262d;
 
             --py-bg: #1e3a8a; --py-text: #60a5fa;
@@ -194,31 +210,15 @@
 
         /* ========== হোমপেজ ========== */
         .home-container { padding: 18px 16px 40px 16px; }
-        .card { 
-            background: var(--hero-bg); 
-            border-radius: 20px; 
-            padding: 18px; 
-            margin-bottom: 18px; 
-            border: 1px solid var(--hero-border); 
-        }
+        .card { background: var(--hero-bg); border-radius: 20px; padding: 18px; margin-bottom: 18px; border: 1px solid var(--hero-border); }
         .card-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; color: var(--accent-blue); }
         .card-subtitle { font-size: 13px; color: var(--hero-sub); margin-bottom: 16px; }
 
         .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
         .lang-btn { 
-            background-color: var(--pill-bg); 
-            border: 1px solid var(--pill-border); 
-            box-shadow: var(--pill-shadow);
-            border-radius: 14px; 
-            padding: 12px 14px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            cursor: pointer; 
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            transition: transform 0.12s;
+            background-color: var(--pill-bg); border: 1px solid var(--pill-border); box-shadow: var(--pill-shadow);
+            border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; 
+            cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-primary);
         }
         .lang-btn:active { transform: scale(0.97); }
         .lang-badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; }
@@ -231,45 +231,24 @@
 
         .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
         .action-btn { 
-            background-color: var(--action-bg); 
-            border: 1px solid var(--action-border); 
-            box-shadow: var(--action-shadow);
-            border-radius: 14px; 
-            padding: 14px; 
-            text-align: center; 
-            cursor: pointer; 
-            display: flex; justify-content: center; align-items: center; gap: 8px; 
-            font-size: 14px; font-weight: 500; 
-            color: var(--text-primary);
+            background-color: var(--action-bg); border: 1px solid var(--action-border); box-shadow: var(--action-shadow);
+            border-radius: 14px; padding: 14px; text-align: center; cursor: pointer; 
+            display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--text-primary);
         }
         .action-btn:active { transform: scale(0.98); }
 
         .section-title { font-size: 15px; font-weight: 600; color: var(--accent-blue); margin-bottom: 12px; }
         
-        /* রিসেন্ট ফাইল কার্ড */
         .file-item { 
-            background-color: var(--file-bg); 
-            border: 1px solid var(--file-border); 
-            border-radius: 16px; 
-            padding: 13px 16px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            margin-bottom: 12px; 
-            cursor: pointer; 
-            position: relative; 
+            background-color: var(--file-bg); border: 1px solid var(--file-border); border-radius: 16px; 
+            padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; 
+            margin-bottom: 12px; cursor: pointer; position: relative; 
         }
         .file-item.menu-open { z-index: 200; }
         .file-item.pinned { border-color: var(--file-pinned-border); background-color: var(--file-pinned-bg); }
 
         .file-info { display: flex; align-items: center; gap: 14px; flex: 1; overflow: hidden; }
-        .file-icon-box {
-            width: 42px; height: 42px;
-            background-color: var(--file-icon-box);
-            border-radius: 11px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
+        .file-icon-box { width: 42px; height: 42px; background-color: var(--file-icon-box); border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .file-icon-box .lang-badge { background: transparent; padding: 0; font-size: 13px; }
 
         .file-details { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -280,19 +259,10 @@
 
         .file-menu-btn { color: var(--text-primary); cursor: pointer; padding: 8px 10px; border-radius: 8px; opacity: 0.75; }
         
-        /* ✅ ড্রপডাউন মেনু (শেষের ফাইলের জন্য উপরের দিকে ওপেন হবে) */
         .file-menu { 
-            display: none; 
-            position: absolute; 
-            right: 12px; 
-            top: 48px; 
-            z-index: 300; 
-            background-color: var(--menu-bg); 
-            border: 1px solid var(--menu-border); 
-            border-radius: 12px; 
-            padding: 6px; 
-            min-width: 155px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.28); 
+            display: none; position: absolute; right: 12px; top: 48px; z-index: 300; 
+            background-color: var(--menu-bg); border: 1px solid var(--menu-border); border-radius: 12px; 
+            padding: 6px; min-width: 155px; box-shadow: 0 10px 25px rgba(0,0,0,0.28); 
         }
         .file-menu.drop-up { top: auto; bottom: 48px; }
         .file-menu.open { display: block; }
@@ -305,78 +275,85 @@
         .settings-container { padding: 12px 16px 30px 16px; }
         .premium-banner {
             background: linear-gradient(135deg, #2166f5 0%, #0d47d9 100%);
-            border-radius: 18px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 18px;
-            cursor: pointer;
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+            border-radius: 18px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 18px;
+            cursor: pointer; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
         }
-        .premium-banner:active { transform: scale(0.99); }
         .premium-banner i { font-size: 26px; color: #ffffff; flex-shrink: 0; }
         .premium-text h3 { font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 4px; }
         .premium-text p { font-size: 13px; color: rgba(255, 255, 255, 0.9); line-height: 1.35; }
 
-        .settings-capsule {
-            background-color: var(--capsule-bg);
-            border-radius: 18px;
-            margin-bottom: 16px;
-            overflow: hidden;
-            border: 1px solid var(--file-border);
-        }
-        .settings-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 18px;
-            cursor: pointer;
-            transition: background-color 0.15s;
-        }
+        .settings-capsule { background-color: var(--capsule-bg); border-radius: 18px; margin-bottom: 16px; overflow: hidden; border: 1px solid var(--file-border); }
+        .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; cursor: pointer; transition: background-color 0.15s; }
         .settings-row:not(:last-child) { border-bottom: 1px solid var(--capsule-divider); }
         .settings-row:active { background-color: var(--menu-hover); }
         .settings-row.version-row { cursor: default; }
-        .settings-row.version-row:active { background-color: transparent; }
-
         .row-left { display: flex; align-items: center; gap: 14px; font-size: 15.5px; font-weight: 500; color: var(--text-primary); }
         .row-left i { font-size: 18px; width: 22px; text-align: center; color: var(--text-primary); }
-        .settings-row.version-row .row-left,
-        .settings-row.version-row .row-left i { color: var(--text-muted); }
-
+        .settings-row.version-row .row-left, .settings-row.version-row .row-left i { color: var(--text-muted); }
         .row-right { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 14px; }
         .row-right i { font-size: 13px; color: var(--text-primary); }
 
         .ios-switch { position: relative; display: inline-block; width: 50px; height: 29px; flex-shrink: 0; }
         .ios-switch input { opacity: 0; width: 0; height: 0; }
-        .ios-switch .slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--switch-off-bg); transition: 0.25s; border-radius: 34px;
-        }
-        .ios-switch .slider:before {
-            position: absolute; content: ""; height: 23px; width: 23px; left: 3px; bottom: 3px;
-            background-color: #ffffff; transition: 0.25s; border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.18);
-        }
+        .ios-switch .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--switch-off-bg); transition: 0.25s; border-radius: 34px; }
+        .ios-switch .slider:before { position: absolute; content: ""; height: 23px; width: 23px; left: 3px; bottom: 3px; background-color: #ffffff; transition: 0.25s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.18); }
         .ios-switch input:checked + .slider { background-color: #2563eb; }
         .ios-switch input:checked + .slider:before { transform: translateX(21px); }
 
-        /* ========== এডিটর স্ক্রিন ========== */
-        .editor-topbar { background-color: var(--editor-surface); padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--editor-border); flex: 0 0 auto; }
-        .editor-title { display: flex; align-items: center; gap: 12px; }
-        .editor-title i { cursor: pointer; color: var(--text-secondary); font-size: 18px; padding: 4px; }
-        .file-meta { display: flex; flex-direction: column; }
-        .file-meta h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); }
-        .file-meta span { font-size: 11px; color: var(--text-secondary); }
+        /* ========== ✅ হুবহু কুইক এডিটর (QuickEdit) স্টাইল এডিটর স্ক্রিন ========== */
+        .editor-topbar { 
+            background-color: var(--qe-topbar-bg); 
+            padding: 10px 14px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            flex: 0 0 auto; 
+        }
+        .editor-title { display: flex; align-items: center; gap: 14px; flex: 1; overflow: hidden; }
+        .editor-title i { cursor: pointer; color: var(--qe-icon-color); font-size: 18px; padding: 4px; }
+        .file-meta { display: flex; flex-direction: column; overflow: hidden; }
+        .file-meta h3 { font-size: 16px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-meta span { font-size: 11.5px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .topbar-right-icons { display: flex; align-items: center; gap: 18px; color: var(--qe-icon-color); font-size: 17px; padding-left: 10px; }
+        .topbar-right-icons i { cursor: pointer; padding: 4px; }
 
+        /* ✅ মাল্টি-ফাইল ট্যাব বার (*preview.html | *index (3).html) */
+        .editor-tabs-bar {
+            background-color: var(--qe-tabbar-bg);
+            display: flex;
+            align-items: stretch;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--editor-border);
+            flex: 0 0 auto;
+            scrollbar-width: none;
+        }
+        .editor-tabs-bar::-webkit-scrollbar { display: none; }
+        .editor-tab {
+            padding: 9px 18px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: background-color 0.15s;
+        }
+        .editor-tab.active {
+            background-color: var(--qe-tab-active-bg);
+            color: var(--text-primary);
+            font-weight: 600;
+            border-bottom-color: var(--qe-tab-underline);
+        }
+
+        /* সার্চ প্যানেল */
         .search-bar-panel {
             display: none; align-items: center; justify-content: space-between;
-            background-color: var(--editor-surface); padding: 8px 12px;
+            background-color: var(--qe-topbar-bg); padding: 8px 12px;
             border-bottom: 1px solid var(--editor-border); gap: 8px; flex: 0 0 auto; z-index: 20;
         }
         .search-bar-panel.active { display: flex; }
         .search-input-wrap {
-            display: flex; align-items: center; background-color: var(--editor-bg);
+            display: flex; align-items: center; background-color: var(--qe-editor-bg);
             border: 1px solid var(--editor-border); border-radius: 6px; padding: 6px 10px; flex: 1; gap: 8px;
         }
         .search-input-wrap:focus-within { border-color: var(--accent-blue); }
@@ -389,46 +366,109 @@
             display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
         }
 
-        .editor-area { flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; position: relative; background-color: var(--editor-bg); user-select: text; overflow: hidden; }
-        .editor-area .CodeMirror { 
-            flex: 1 1 auto; height: 100%; min-height: 0; min-width: 0; width: 100%;    
-            font-family: 'Consolas', 'Courier New', monospace; font-size: 13.5px; 
-            background: var(--editor-bg); color: var(--text-primary); line-height: 20px;
+        /* ✅ এডিটর এরিয়া, কুইক এডিটর গাটার সাইজ ও স্ক্রোলিং */
+        .editor-area { 
+            flex: 1 1 auto; 
+            min-height: 0; 
+            min-width: 0; 
+            display: flex; 
+            position: relative; 
+            background-color: var(--qe-editor-bg); 
+            user-select: text; 
+            overflow: hidden; 
         }
+        .editor-area .CodeMirror { 
+            flex: 1 1 auto; 
+            height: 100%; 
+            min-height: 0; 
+            min-width: 0;   
+            width: 100%;    
+            font-family: 'Consolas', 'Roboto Mono', 'Courier New', monospace; 
+            font-size: 14px; 
+            line-height: 21px; /* কুইক এডিটরের মতো নিখুঁত স্পেসিং */
+            background: var(--qe-editor-bg); 
+            color: var(--text-primary); 
+        }
+        .editor-area .CodeMirror-lines { padding: 6px 0 !important; }
+        .editor-area .CodeMirror-scroll { 
+            touch-action: pan-x pan-y;
+            overscroll-behavior: contain;
+        }
+
+        /* ✅ কুইক এডিটর স্টাইল ফিক্সড গাটার */
         .line-nums {
-            flex: 0 0 auto; overflow: hidden; background-color: var(--editor-bg);
-            border-right: 1px solid var(--editor-border); color: var(--editor-gutter-text);
-            font-family: 'Consolas', 'Courier New', monospace; font-size: 13.5px;
-            line-height: 20px; text-align: right; padding: 4px 8px 0 8px; user-select: none;
+            flex: 0 0 auto;
+            overflow: hidden;
+            background-color: var(--qe-gutter-bg);
+            border-right: 1px solid var(--qe-gutter-border);
+            color: var(--qe-gutter-text);
+            font-family: 'Consolas', 'Roboto Mono', 'Courier New', monospace;
+            font-size: 13.5px;
+            line-height: 21px;
+            text-align: right;
+            padding: 6px 8px 6px 10px;
+            min-width: 44px;
+            user-select: none;
         }
         .line-nums pre { margin: 0; font: inherit; line-height: inherit; will-change: transform; }
+
+        /* ✅ লাইট মোডে স্ক্রিনশটের মতো নিখুঁত QuickEdit সিনট্যাক্স কালারিং */
+        body:not(.dark-mode) .cm-s-default .cm-tag { color: #1b7f5c; }
+        body:not(.dark-mode) .cm-s-default .cm-bracket { color: #333333; }
+        body:not(.dark-mode) .cm-s-default .cm-attribute { color: #0550ae; }
+        body:not(.dark-mode) .cm-s-default .cm-string { color: #032f62; }
+        body:not(.dark-mode) .cm-s-default .cm-string-2 { color: #032f62; }
+        body:not(.dark-mode) .cm-s-default .cm-keyword { color: #cf222e; }
+        body:not(.dark-mode) .cm-s-default .cm-def { color: #6f42c1; }
+        body:not(.dark-mode) .cm-s-default .cm-variable { color: #24292f; }
+        body:not(.dark-mode) .cm-s-default .cm-variable-2 { color: #0550ae; }
+        body:not(.dark-mode) .cm-s-default .cm-property { color: #0550ae; }
+        body:not(.dark-mode) .cm-s-default .cm-atom { color: #0550ae; }
+        body:not(.dark-mode) .cm-s-default .cm-number { color: #0550ae; }
+        body:not(.dark-mode) .cm-s-default .cm-operator { color: #24292f; }
+        body:not(.dark-mode) .cm-s-default .cm-comment { color: #6e7781; font-style: italic; }
+
         .preview-iframe { flex: 1 1 auto; width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
+        /* সিম্বল ও কুইক-অ্যাকশন বার */
         .symbol-bar {
-            background-color: var(--editor-surface); display: flex; flex-wrap: nowrap;
-            overflow-x: auto; align-items: center; gap: 6px; padding: 8px 10px;
+            background-color: var(--qe-topbar-bg); display: flex; flex-wrap: nowrap;
+            overflow-x: auto; align-items: center; gap: 5px; padding: 6px 10px;
             border-top: 1px solid var(--editor-border); color: var(--text-secondary);
-            font-family: monospace; font-size: 14px; flex: 0 0 auto; scrollbar-width: none;
+            font-family: monospace; font-size: 13.5px; flex: 0 0 auto; scrollbar-width: none;
         }
         .symbol-bar::-webkit-scrollbar { display: none; }
         .symbol-bar span {
-            cursor: pointer; min-width: 32px; height: 28px;
+            cursor: pointer; min-width: 30px; height: 26px;
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 0 8px; border-radius: 6px; background-color: var(--symbol-bg);
+            padding: 0 7px; border-radius: 5px; background-color: var(--symbol-bg);
             border: 1px solid var(--editor-border); color: var(--text-primary); flex-shrink: 0;
         }
         .symbol-bar span:active { background-color: var(--accent-blue); color: #ffffff; }
         .symbol-bar span.action-tool-btn {
-            color: var(--accent-blue); font-size: 12px; gap: 5px; padding: 0 10px;
+            color: var(--accent-blue); font-size: 11.5px; gap: 4px; padding: 0 9px;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 600;
         }
         .symbol-bar span.action-tool-btn.danger { color: #ef4444; }
-        .symbol-bar .sep { width: 1px; height: 20px; background-color: var(--editor-border); margin: 0 3px; flex-shrink: 0; }
+        .symbol-bar .sep { width: 1px; height: 18px; background-color: var(--editor-border); margin: 0 2px; flex-shrink: 0; }
 
-        .bottom-action-bar { background-color: var(--editor-surface); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-top: 1px solid var(--editor-border); flex: 0 0 auto; }
-        .action-icons-left, .action-icons-right { display: flex; gap: 20px; align-items: center; color: var(--text-secondary); font-size: 18px; }
-        .action-icons-left i, .action-icons-right i { cursor: pointer; padding: 4px; }
-        .action-icons-right i:hover, .action-icons-left i:hover { color: var(--accent-blue); }
+        /* ✅ কুইক এডিটর বটম টুলবার (১০টি আইকন) */
+        .bottom-action-bar { 
+            background-color: var(--qe-bottom-bg); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 14px; 
+            border-top: 1px solid var(--editor-border); 
+            flex: 0 0 auto; 
+        }
+        .bottom-action-bar i { 
+            cursor: pointer; 
+            color: var(--qe-icon-color); 
+            font-size: 17px; 
+            padding: 5px 6px; 
+        }
+        .bottom-action-bar i:active { color: var(--accent-blue); transform: scale(0.92); }
 
         .bottom-nav { 
             background-color: var(--nav-bg); border-top: 1px solid var(--nav-border); 
@@ -544,68 +584,51 @@
 
             <div class="settings-capsule">
                 <div class="settings-row" onclick="toggleDarkModeFromRow(event)">
-                    <div class="row-left">
-                        <i class="fa-regular fa-moon"></i>
-                        <span>Dark Mode</span>
-                    </div>
+                    <div class="row-left"><i class="fa-regular fa-moon"></i><span>Dark Mode</span></div>
                     <label class="ios-switch" onclick="event.stopPropagation()">
                         <input type="checkbox" id="darkModeToggle" onchange="applyDarkMode(this.checked)">
                         <span class="slider"></span>
                     </label>
                 </div>
                 <div class="settings-row" onclick="toggleLanguage()">
-                    <div class="row-left">
-                        <i class="fa-solid fa-language"></i>
-                        <span>Language</span>
-                    </div>
-                    <div class="row-right">
-                        <span id="currentLangLabel">English</span>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
+                    <div class="row-left"><i class="fa-solid fa-language"></i><span>Language</span></div>
+                    <div class="row-right"><span id="currentLangLabel">English</span><i class="fa-solid fa-chevron-right"></i></div>
                 </div>
             </div>
 
             <div class="settings-capsule">
-                <div class="settings-row" onclick="showToast('Support: shababxc@github.io')">
-                    <div class="row-left"><i class="fa-regular fa-message"></i><span>Contact Support</span></div>
-                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
-                </div>
-                <div class="settings-row" onclick="showToast('Thanks for rating 5 stars! ⭐')">
-                    <div class="row-left"><i class="fa-regular fa-star"></i><span>Rate Us</span></div>
-                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
-                </div>
-                <div class="settings-row" onclick="shareApp()">
-                    <div class="row-left"><i class="fa-solid fa-arrow-up-from-bracket"></i><span>Share App</span></div>
-                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
-                </div>
-                <div class="settings-row" onclick="showToast('Your code stays 100% private on your device.')">
-                    <div class="row-left"><i class="fa-solid fa-shield-halved"></i><span>Privacy Policy</span></div>
-                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
-                </div>
-                <div class="settings-row" onclick="showToast('Free & Open Code Editor App')">
-                    <div class="row-left"><i class="fa-regular fa-file-lines"></i><span>Terms of use</span></div>
-                    <div class="row-right"><i class="fa-solid fa-chevron-right"></i></div>
-                </div>
-                <div class="settings-row version-row">
-                    <div class="row-left"><i class="fa-solid fa-circle-info"></i><span>Version 1.2.9</span></div>
-                </div>
+                <div class="settings-row" onclick="showToast('Support: shababxc@github.io')"><div class="row-left"><i class="fa-regular fa-message"></i><span>Contact Support</span></div><div class="row-right"><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="settings-row" onclick="showToast('Thanks for rating 5 stars! ⭐')"><div class="row-left"><i class="fa-regular fa-star"></i><span>Rate Us</span></div><div class="row-right"><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="settings-row" onclick="shareApp()"><div class="row-left"><i class="fa-solid fa-arrow-up-from-bracket"></i><span>Share App</span></div><div class="row-right"><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="settings-row" onclick="showToast('Your code stays 100% private on your device.')"><div class="row-left"><i class="fa-solid fa-shield-halved"></i><span>Privacy Policy</span></div><div class="row-right"><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="settings-row" onclick="showToast('Free & Open Code Editor App')"><div class="row-left"><i class="fa-regular fa-file-lines"></i><span>Terms of use</span></div><div class="row-right"><i class="fa-solid fa-chevron-right"></i></div></div>
+                <div class="settings-row version-row"><div class="row-left"><i class="fa-solid fa-circle-info"></i><span>Version 1.2.9</span></div></div>
             </div>
         </div>
     </div>
 
-    <!-- EDITOR SCREEN -->
+    <!-- ✅ EDITOR SCREEN (QuickEdit ইন্টারফেস) -->
     <div id="editorScreen" class="screen">
+        <!-- টপবার -->
         <div class="editor-topbar">
             <div class="editor-title">
-                <i class="fa-solid fa-arrow-left" onclick="goHome()"></i>
-                <div class="file-meta">
-                    <h3 id="activeFileName">*index.html</h3>
-                    <span id="activeFileLang">HTML · UTF-8</span>
+                <i class="fa-solid fa-bars" onclick="goHome()" title="Back to Home"></i>
+                <div class="file-meta" onclick="openSaveModal()">
+                    <h3 id="activeFileName">preview.html</h3>
+                    <span id="activeFileLang">/storage/emulated/0/preview.html</span>
                 </div>
             </div>
-            <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-secondary);" onclick="openSaveModal()"></i>
+            <div class="topbar-right-icons">
+                <i class="fa-solid fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
+                <i class="fa-solid fa-pen" onclick="openSaveModal()" title="Rename / Save"></i>
+                <i class="fa-solid fa-ellipsis-vertical" onclick="openSaveModal()" title="More"></i>
+            </div>
         </div>
 
+        <!-- ✅ মাল্টি-ফাইল ট্যাব বার -->
+        <div id="editorTabsBar" class="editor-tabs-bar"></div>
+
+        <!-- সার্চ বার প্যানেল -->
         <div id="searchBarPanel" class="search-bar-panel">
             <div class="search-input-wrap">
                 <i class="fa-solid fa-magnifying-glass" style="font-size: 13px; color: var(--text-secondary);"></i>
@@ -619,12 +642,14 @@
             </div>
         </div>
 
+        <!-- কোড এডিটর এরিয়া + কুইক এডিটর গাটার -->
         <div class="editor-area">
             <div id="lineNums" class="line-nums"><pre id="lineNumsInner">1</pre></div>
             <textarea id="codeEditor"></textarea>
             <iframe id="previewIframe" class="preview-iframe"></iframe>
         </div>
 
+        <!-- সিম্বল ও কুইক অ্যাকশন বার -->
         <div class="symbol-bar">
             <span class="action-tool-btn" onclick="selectAllCode()"><i class="fa-solid fa-check-double"></i> All</span>
             <span class="action-tool-btn" onclick="copyCode()"><i class="fa-regular fa-copy"></i> Copy</span>
@@ -646,18 +671,18 @@
             <span onclick="insertSymbol(':')">:</span>
         </div>
 
+        <!-- ✅ কুইক এডিটর বটম অ্যাকশন বার (Folder, Paste, Undo, Redo, Search, Left, Right, Save, Play, Close) -->
         <div class="bottom-action-bar">
-            <div class="action-icons-left">
-                <i class="fa-regular fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
-                <i class="fa-solid fa-rotate-left" onclick="editor.undo()" title="Undo"></i>
-                <i class="fa-solid fa-rotate-right" onclick="editor.redo()" title="Redo"></i>
-                <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchBar()" title="Search"></i>
-            </div>
-            <div class="action-icons-right">
-                <i class="fa-solid fa-circle-play" style="color: #22c55e;" onclick="togglePreview()" title="Preview"></i>
-                <i class="fa-solid fa-floppy-disk" onclick="openSaveModal()" title="Save"></i>
-                <i class="fa-solid fa-xmark" onclick="goHome()" title="Close"></i>
-            </div>
+            <i class="fa-solid fa-folder" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
+            <i class="fa-solid fa-paste" onclick="pasteAtCursor()" title="Paste at Cursor"></i>
+            <i class="fa-solid fa-rotate-left" onclick="editor.undo()" title="Undo"></i>
+            <i class="fa-solid fa-rotate-right" onclick="editor.redo()" title="Redo"></i>
+            <i class="fa-solid fa-magnifying-glass" onclick="toggleSearchBar()" title="Search"></i>
+            <i class="fa-solid fa-arrow-left" onclick="moveCursor(-1)" title="Move Cursor Left"></i>
+            <i class="fa-solid fa-arrow-right" onclick="moveCursor(1)" title="Move Cursor Right"></i>
+            <i class="fa-solid fa-floppy-disk" onclick="openSaveModal()" title="Save"></i>
+            <i class="fa-solid fa-play" onclick="togglePreview()" title="Preview"></i>
+            <i class="fa-solid fa-xmark" onclick="closeActiveTab()" title="Close Tab"></i>
         </div>
     </div>
 
@@ -680,7 +705,7 @@
         </div>
     </div>
 
-    <!-- ✅ রিনেম ফাইল মডাল (ব্রাউজারের ডিফল্ট prompt()-এর বদলে কাস্টম পপআপ যাতে সব মোবাইলে কাজ করে) -->
+    <!-- রিনেম ফাইল মডাল -->
     <div id="renameModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-title"><i class="fa-solid fa-pen" style="color:var(--accent-blue);"></i> Rename File</div>
@@ -739,7 +764,7 @@
         document.getElementById('darkModeToggle').checked = isDark;
     }
 
-    function toggleDarkModeFromRow(e) {
+    function toggleDarkModeFromRow() {
         const chk = document.getElementById('darkModeToggle');
         chk.checked = !chk.checked;
         applyDarkMode(chk.checked);
@@ -797,17 +822,14 @@
 
     function shareApp() {
         if (navigator.share) {
-            navigator.share({
-                title: 'Code Editor App',
-                text: 'Check out this awesome Mobile Code Editor!',
-                url: window.location.href
-            }).catch(() => {});
+            navigator.share({ title: 'Code Editor App', text: 'Check out this awesome Mobile Code Editor!', url: window.location.href }).catch(() => {});
         } else {
             navigator.clipboard?.writeText(window.location.href);
             showToast('App link copied to clipboard!');
         }
     }
 
+    /* ========== লাইন নাম্বার গাটার ও স্ক্রোলিং সিস্টেম ========== */
     var lineNumsInner = document.getElementById('lineNumsInner');
     var lastLineCount = 0;
 
@@ -826,7 +848,18 @@
         lineNumsInner.style.transform = 'translate3d(0,' + (-editor.getScrollInfo().top) + 'px,0)';
     }
 
-    editor.on('change', function () { updateLineNums(); syncLineNums(); });
+    editor.on('change', function () { 
+        updateLineNums(); 
+        syncLineNums();
+        // ট্যাব বদলানোর আগে বর্তমান কোড মেমরিতে ধরে রাখা
+        if (currentActiveFileIndex >= 0) {
+            const files = loadFiles();
+            if (files[currentActiveFileIndex]) {
+                files[currentActiveFileIndex].code = editor.getValue();
+                saveFiles(files);
+            }
+        }
+    });
     editor.on('scroll', syncLineNums);
     editor.on('refresh', syncLineNums);
     updateLineNums();
@@ -878,13 +911,31 @@
         }
     }
 
+    async function pasteAtCursor() {
+        try {
+            const text = await navigator.clipboard.readText();
+            if (!text) { showToast('Clipboard is empty!'); return; }
+            editor.replaceSelection(text);
+            editor.focus();
+            showToast('<i class="fa-solid fa-paste"></i> Pasted!');
+        } catch (err) {
+            showToast('Allow clipboard access to paste');
+        }
+    }
+
+    function moveCursor(dir) {
+        editor.focus();
+        if (dir < 0) editor.execCommand("goCharLeft");
+        else editor.execCommand("goCharRight");
+    }
+
     let defaultFiles = [
-        { name: 'index (2).html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>App</title>\n</head>\n<body>\n  <h1>Hello World!</h1>\n</body>\n</html>', time: '3 days ago', path: 'Downloads', pinned: false },
-        { name: 'index.html', code: '<div id="root"></div>\n<script type="text/babel">\n  const App = () => <h1>React Ready!</h1>;\n<\/script>', time: '2 Nov 2026', path: 'Downloads', pinned: false },
-        { name: 'index (1).html', code: '<h1>Sample Page</h1>', time: '2 Nov 2026', path: 'Downloads', pinned: false }
+        { name: 'preview.html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>Preview</title>\n</head>\n<body>\n  <div className="mt-1">\n    <div className="flex items-center justify-between">\n      <h3 className="font-display font-bold">Tasks</h3>\n    </div>\n  </div>\n  <script type="text/babel">\n    const BountyTasksSection = ({ tasks }) => {\n      const [selectedCategory, setSelectedCategory] = useState("All");\n      const visibleTasks = tasks.filter((task) => {\n        return true;\n      });\n    };\n  <\/script>\n</body>\n</html>', time: 'Just now', path: 'Downloads', pinned: false },
+        { name: 'index (3).html', code: '<h1>Second Tab</h1>\n<p>Multi-tab working smoothly!</p>', time: '2 hours ago', path: 'Downloads', pinned: false }
     ];
 
     let currentActiveFileIndex = -1;
+    let openTabs = []; // ✅ ওপেন থাকা ফাইলগুলোর ইনডেক্স সংরক্ষণ করবে
     let renameTargetIndex = -1;
     let isPreviewMode = false;
 
@@ -909,7 +960,6 @@
         return files.slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
     }
 
-    /* ✅ ফিক্সড: একই allFiles অ্যারে পাস করায় index আর কখনো -1 হবে না */
     function buildFileListHTML(filesToRender, allFiles, containerId) {
         const listContainer = document.getElementById(containerId);
         listContainer.innerHTML = '';
@@ -957,7 +1007,6 @@
                     menu.classList.remove('drop-up');
                     menu.classList.add('open');
 
-                    // ✅ স্মার্ট ড্রপ-আপ: শেষের আইটেম বা নিচে জায়গা না থাকলে উপরের দিকে শো করবে
                     const rect = menuBtn.getBoundingClientRect();
                     const nav = document.querySelector('.bottom-nav');
                     const bottomLimit = (nav && nav.offsetHeight > 0) ? nav.getBoundingClientRect().top : window.innerHeight;
@@ -988,8 +1037,7 @@
 
     function renderRecentFiles() {
         const allFiles = loadFiles();
-        const sorted = sortedFiles(allFiles);
-        buildFileListHTML(sorted, allFiles, 'recentFileList');
+        buildFileListHTML(sortedFiles(allFiles), allFiles, 'recentFileList');
     }
 
     function renderTextFiles() {
@@ -1012,7 +1060,6 @@
         showToast(files[index].pinned ? '📌 Pinned to top!' : 'Unpinned!');
     }
 
-    /* ✅ রিনেম মডাল */
     function openRenameModal(index) {
         const files = loadFiles();
         if (index < 0 || index >= files.length) return;
@@ -1036,9 +1083,11 @@
         files[renameTargetIndex].name = clean;
         saveFiles(files);
         if (currentActiveFileIndex === renameTargetIndex) {
-            document.getElementById('activeFileName').innerText = '*' + clean;
+            document.getElementById('activeFileName').innerText = clean;
+            document.getElementById('activeFileLang').innerText = '/storage/emulated/0/' + clean;
             setEditorMode(clean);
         }
+        renderTabs();
         closeRenameModal();
         renderRecentFiles(); renderTextFiles();
         showToast('File renamed! ✏️');
@@ -1050,7 +1099,18 @@
         const removedName = files[index].name;
         files.splice(index, 1);
         saveFiles(files);
-        if (currentActiveFileIndex === index) { currentActiveFileIndex = -1; goHome(); }
+
+        // openTabs থেকে রিমুভ করা এবং বাকি ইনডেক্স সমন্বয় করা
+        openTabs = openTabs.filter(t => t !== index).map(t => t > index ? t - 1 : t);
+        if (currentActiveFileIndex === index) {
+            currentActiveFileIndex = -1;
+            if (openTabs.length > 0) openFile(openTabs[0]);
+            else goHome();
+        } else if (currentActiveFileIndex > index) {
+            currentActiveFileIndex--;
+        }
+
+        renderTabs();
         renderRecentFiles(); renderTextFiles();
         showToast('🗑️ Removed "' + escapeHtml(removedName) + '"');
     }
@@ -1090,18 +1150,53 @@
         else editor.setOption('mode', htmlCustomConfig);
     }
 
+    /* ========== ✅ মাল্টি-ফাইল ট্যাব রেন্ডার ও ম্যানেজমেন্ট ========== */
+    function renderTabs() {
+        const files = loadFiles();
+        const bar = document.getElementById('editorTabsBar');
+        bar.innerHTML = '';
+        openTabs = openTabs.filter(idx => idx >= 0 && idx < files.length);
+
+        openTabs.forEach(idx => {
+            const file = files[idx];
+            const tab = document.createElement('div');
+            tab.className = 'editor-tab' + (idx === currentActiveFileIndex ? ' active' : '');
+            tab.textContent = '*' + file.name;
+            tab.onclick = () => openFile(idx);
+            bar.appendChild(tab);
+        });
+    }
+
+    function closeActiveTab() {
+        if (currentActiveFileIndex === -1) { goHome(); return; }
+        const pos = openTabs.indexOf(currentActiveFileIndex);
+        if (pos !== -1) openTabs.splice(pos, 1);
+
+        if (openTabs.length > 0) {
+            const nextIdx = openTabs[Math.max(0, pos - 1)];
+            openFile(nextIdx);
+        } else {
+            currentActiveFileIndex = -1;
+            goHome();
+        }
+    }
+
     function openFile(index) {
         const files = loadFiles();
         if (index < 0 || index >= files.length) return;
         currentActiveFileIndex = index;
+        if (!openTabs.includes(index)) openTabs.push(index);
         const file = files[index];
 
-        document.getElementById('activeFileName').innerText = '*' + file.name;
-        document.getElementById('activeFileLang').innerText = fileExtLabel(file.name) + ' · UTF-8';
+        document.getElementById('activeFileName').innerText = file.name;
+        document.getElementById('activeFileLang').innerText = '/storage/emulated/0/' + file.name;
         setEditorMode(file.name);
 
         editor.setValue(file.code || '');
         editor.setCursor({ line: 0, ch: 0 });
+        lastLineCount = 0;
+        updateLineNums();
+        renderTabs();
 
         document.getElementById('homeScreen').classList.remove('active');
         document.getElementById('textScreen').classList.remove('active');
@@ -1118,6 +1213,8 @@
         let files = loadFiles();
         const fileName = `file_${files.length + 1}.${ext}`;
         files.unshift({ name: fileName, code: '', time: 'Just now', path: 'Downloads', pinned: false });
+        // নতুন ফাইল সবার প্রথমে আসায় ওপেন ট্যাবগুলোর ইনডেক্স +1 বাড়ানো
+        openTabs = openTabs.map(t => t + 1);
         saveFiles(files); renderRecentFiles(); openFile(0);
     }
 
@@ -1145,9 +1242,10 @@
         files[currentActiveFileIndex].time = 'Just now';
         saveFiles(files);
 
-        document.getElementById('activeFileName').innerText = '*' + newName;
-        document.getElementById('activeFileLang').innerText = fileExtLabel(newName) + ' · UTF-8';
+        document.getElementById('activeFileName').innerText = newName;
+        document.getElementById('activeFileLang').innerText = '/storage/emulated/0/' + newName;
         setEditorMode(newName);
+        renderTabs();
 
         closeSaveModal(); renderRecentFiles(); renderTextFiles();
         showToast('File saved successfully! 💾');
@@ -1234,6 +1332,7 @@
         reader.onload = function(e) {
             let files = loadFiles();
             files.unshift({ name: file.name, code: e.target.result, time: 'Just now', path: 'Downloads', pinned: false });
+            openTabs = openTabs.map(t => t + 1);
             saveFiles(files); renderRecentFiles(); openFile(0);
         };
         reader.readAsText(file); event.target.value = '';
