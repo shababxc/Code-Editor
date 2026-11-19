@@ -11,27 +11,28 @@
     
     <title>Code Editor App</title>
     
-    <!-- CodeMirror CSS & Themes -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
-    
-    <!-- CodeMirror Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/jsx/jsx.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/php/php.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/swift/swift.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/toml/toml.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/julia/julia.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/search/searchcursor.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
-
+    <!-- Google Fonts: Inter & Fira Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ✅ Prism.js সিনট্যাক্স হাইলাইটিং (১৮টি ল্যাঙ্গুয়েজ সাপোর্টসহ) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" data-manual></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-swift.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-graphql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-toml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-julia.min.js"></script>
 
     <style>
         /* ========== লাইট মোড (ডিফল্ট) ========== */
@@ -78,7 +79,7 @@
             --nav-inactive: #94a3b8;
 
             --qe-topbar-bg: #ffffff;
-            --qe-gutter-bg: #ffffff;
+            --qe-gutter-bg: #f9fafb;
             --qe-gutter-border: #e5e7eb;
             --qe-gutter-text: #94a3b8;
             --qe-editor-bg: #ffffff;
@@ -86,7 +87,7 @@
             --qe-icon-color: #555555;
             --editor-border: #e0e0e0;
             --symbol-bg: #ffffff;
-            --activeline-bg: rgba(76, 175, 80, 0.14);
+            --activeline-bg: rgba(76, 175, 80, 0.11);
 
             --py-bg: #e6f0ff; --py-text: #2563eb;
             --js-bg: #fef3c7; --js-text: #b45309;
@@ -164,7 +165,7 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -331,7 +332,7 @@
         .ios-switch input:checked + .slider { background-color: #2563eb; }
         .ios-switch input:checked + .slider:before { transform: translateX(21px); }
 
-        /* ========== এডিটর স্ক্রিন ========== */
+        /* ========== এডিটর স্ক্রিন (স্লিম টপবার + ফিক্সড গাটার + Prism.js) ========== */
         .editor-topbar { background-color: var(--qe-topbar-bg); padding: 5px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--editor-border); flex: 0 0 auto; }
         .editor-title { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
         .editor-title i { cursor: pointer; color: var(--text-primary); font-size: 17px; padding: 2px 4px; }
@@ -341,25 +342,6 @@
         .topbar-right-icons { display: flex; align-items: center; color: var(--text-primary); font-size: 17px; padding-left: 10px; }
         .topbar-right-icons i { cursor: pointer; padding: 2px 6px; }
 
-        /* ✅ প্রিভিউ মোডে স্লিম হেডার ও নিচের সমস্ত টুলবার হাইড করার রুল */
-        body.preview-mode .editor-topbar {
-            padding: 5px 14px;
-        }
-        body.preview-mode .editor-topbar .editor-title {
-            gap: 12px;
-        }
-        body.preview-mode .editor-topbar .editor-title i {
-            font-size: 17px;
-            padding: 2px 4px;
-        }
-        body.preview-mode .editor-topbar .file-meta h3 {
-            font-size: 14.5px;
-            line-height: 1.15;
-        }
-        body.preview-mode .editor-topbar .file-meta span {
-            font-size: 10.5px;
-            margin-top: 1px;
-        }
         body.preview-mode .bottom-action-bar,
         body.preview-mode .symbol-bar,
         body.preview-mode .search-bar-panel,
@@ -388,52 +370,153 @@
             display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
         }
 
-        /* এডিটর এরিয়া ও গাটার */
-        .editor-area { 
-            flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; 
-            position: relative; background-color: var(--qe-editor-bg); 
-            user-select: text; overflow: hidden; 
+        /* ✅ নতুন গাটার + এডিট বক্স + Prism সিনট্যাক্স হাইলাইটিং সিস্টেম */
+        .editor-area {
+            flex: 1 1 auto; min-height: 0; min-width: 0; display: flex;
+            position: relative; background-color: var(--qe-editor-bg);
+            user-select: text; overflow: hidden;
         }
-        .editor-area .CodeMirror { 
-            flex: 1 1 auto; height: 100%; min-height: 0; min-width: 0; width: 100%;    
-            font-family: 'Consolas', 'Roboto Mono', 'Courier New', monospace; 
-            font-size: 14px; line-height: 21px; 
-            background: var(--qe-editor-bg); color: var(--text-primary); 
+        #editor-container {
+            flex: 1 1 auto;
+            display: flex;
+            align-items: flex-start;
+            overflow: auto;
+            position: relative;
+            background-color: var(--qe-editor-bg);
+            touch-action: pan-x pan-y;
+            overscroll-behavior: contain;
         }
-        .editor-area .CodeMirror-lines { padding: 6px 0 !important; }
-        .editor-area .CodeMirror-scroll { touch-action: pan-x pan-y; overscroll-behavior: contain; }
-        .editor-area .CodeMirror-activeline-background { background: var(--activeline-bg) !important; }
-        
-        .editor-area .CodeMirror-cursors { visibility: visible !important; }
-        .editor-area .CodeMirror-cursor { border-left: 2px solid var(--accent-blue) !important; }
-        body:not(.dark-mode) .CodeMirror-selected { background: rgba(37, 99, 235, 0.16) !important; }
-
-        .line-nums {
-            flex: 0 0 auto; overflow: hidden;
+        #gutter {
+            min-width: 44px;
+            min-height: 100%;
             background-color: var(--qe-gutter-bg);
             border-right: 1px solid var(--qe-gutter-border);
+            padding: 10px 8px 40px 10px;
+            text-align: right;
             color: var(--qe-gutter-text);
-            font-family: 'Consolas', 'Roboto Mono', 'Courier New', monospace;
-            font-size: 13.5px; line-height: 21px;
-            text-align: right; padding: 6px 10px 6px 10px; min-width: 44px; user-select: none;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 13.5px;
+            line-height: 21px;
+            white-space: pre;
+            user-select: none;
+            flex-shrink: 0;
+            position: sticky;
+            left: 0;
+            z-index: 10;
         }
-        .line-nums pre { margin: 0; font: inherit; line-height: inherit; will-change: transform; }
+        #code-wrapper {
+            position: relative;
+            flex: 1 1 auto;
+            min-width: max-content;
+            min-height: 100%;
+        }
+        /* সক্রিয় লাইন হাইলাইট */
+        #active-line-bg {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 10px;
+            height: 21px;
+            background-color: var(--activeline-bg);
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* কিবোর্ড ছাড়াই দৃশ্যমান কাস্টম নীল কার্সর */
+        #custom-caret {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background-color: var(--accent-blue);
+            left: 12px;
+            top: 10px;
+            pointer-events: none;
+            z-index: 3;
+            display: block;
+        }
+        #code-area:focus ~ #custom-caret {
+            display: none;
+        }
+        #code-highlight {
+            position: relative;
+            z-index: 1;
+            margin: 0 !important;
+            padding: 10px 30px 40px 12px !important;
+            background: transparent !important;
+            border: 0 !important;
+            white-space: pre !important;
+            tab-size: 4 !important;
+            font-family: 'Fira Code', 'Consolas', monospace !important;
+            font-size: 13.5px !important;
+            line-height: 21px !important;
+            font-variant-ligatures: none !important;
+            font-feature-settings: "liga" 0, "calt" 0 !important;
+            pointer-events: none;
+            min-width: 100%;
+            min-height: 100%;
+            box-sizing: border-box;
+        }
+        #code-highlight code {
+            font-family: inherit !important;
+            font-size: inherit !important;
+            line-height: inherit !important;
+            white-space: pre !important;
+            tab-size: 4 !important;
+            background: transparent !important;
+            padding: 0 !important;
+            text-shadow: none !important;
+            color: var(--text-primary);
+        }
+        #code-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0 !important;
+            padding: 10px 30px 40px 12px !important;
+            border: 0 !important;
+            resize: none;
+            outline: none;
+            white-space: pre !important;
+            overflow: hidden;
+            tab-size: 4 !important;
+            font-family: 'Fira Code', 'Consolas', monospace !important;
+            font-size: 13.5px !important;
+            line-height: 21px !important;
+            font-variant-ligatures: none !important;
+            font-feature-settings: "liga" 0, "calt" 0 !important;
+            background: transparent !important;
+            color: transparent !important;
+            caret-color: var(--accent-blue);
+            box-sizing: border-box;
+            z-index: 2;
+        }
+        #code-area::placeholder { color: var(--text-muted); }
+        #code-area::selection { background: rgba(37, 99, 235, 0.22); color: transparent; }
 
-        .editor-area .CodeMirror .cm-comment { font-style: normal !important; }
-        body:not(.dark-mode) .cm-s-default .cm-comment { color: #6e7781; font-style: normal !important; }
-        body:not(.dark-mode) .cm-s-default .cm-tag { color: #1b7f5c; }
-        body:not(.dark-mode) .cm-s-default .cm-bracket { color: #333333; }
-        body:not(.dark-mode) .cm-s-default .cm-attribute { color: #0550ae; }
-        body:not(.dark-mode) .cm-s-default .cm-string { color: #032f62; }
-        body:not(.dark-mode) .cm-s-default .cm-string-2 { color: #032f62; }
-        body:not(.dark-mode) .cm-s-default .cm-keyword { color: #cf222e; }
-        body:not(.dark-mode) .cm-s-default .cm-def { color: #6f42c1; }
-        body:not(.dark-mode) .cm-s-default .cm-variable { color: #24292f; }
-        body:not(.dark-mode) .cm-s-default .cm-variable-2 { color: #0550ae; }
-        body:not(.dark-mode) .cm-s-default .cm-property { color: #0550ae; }
-        body:not(.dark-mode) .cm-s-default .cm-atom { color: #0550ae; }
-        body:not(.dark-mode) .cm-s-default .cm-number { color: #0550ae; }
-        body:not(.dark-mode) .cm-s-default .cm-operator { color: #24292f; }
+        /* ✅ লাইট মোড সিনট্যাক্স কালার (সব কমেন্ট নরমাল) */
+        .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6e7781; font-style: normal !important; }
+        .token.punctuation { color: #374151; }
+        .token.tag { color: #1b7f5c; }
+        .token.attr-name { color: #0550ae; }
+        .token.attr-value, .token.string { color: #032f62; }
+        .token.keyword { color: #cf222e; }
+        .token.function, .token.class-name { color: #6f42c1; }
+        .token.boolean, .token.number { color: #0550ae; }
+        .token.operator { color: #24292f; background: transparent !important; }
+        .token.property { color: #0550ae; }
+
+        /* ✅ ডার্ক মোড সিনট্যাক্স কালার */
+        body.dark-mode .token.comment, body.dark-mode .token.prolog, body.dark-mode .token.doctype, body.dark-mode .token.cdata { color: #6e7681; font-style: normal !important; }
+        body.dark-mode .token.punctuation { color: #c9d1d9; }
+        body.dark-mode .token.tag { color: #7ee787; }
+        body.dark-mode .token.attr-name { color: #79c0ff; }
+        body.dark-mode .token.attr-value, body.dark-mode .token.string { color: #a5d6ff; }
+        body.dark-mode .token.keyword { color: #ff7b72; }
+        body.dark-mode .token.function, body.dark-mode .token.class-name { color: #d2a8ff; }
+        body.dark-mode .token.boolean, body.dark-mode .token.number { color: #79c0ff; }
+        body.dark-mode .token.operator { color: #e6edf3; background: transparent !important; }
+        body.dark-mode .token.property { color: #79c0ff; }
 
         .preview-iframe { flex: 1 1 auto; width: 100%; height: 100%; border: none; background: #fff; display: none; }
 
@@ -461,18 +544,12 @@
         .symbol-bar span.action-tool-btn.danger { color: #ef4444; }
         .symbol-bar span.action-tool-btn:active { background-color: var(--accent-blue); color: #ffffff; }
 
-        /* ✅ Paste বাদ দিয়ে ১০টি বড় সাইজের আইকনসহ বটম অ্যাকশন বার */
         .bottom-action-bar { 
             background-color: var(--qe-bottom-bg); 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 10px 12px; border-top: 1px solid var(--editor-border); flex: 0 0 auto; 
         }
-        .bottom-action-bar i { 
-            cursor: pointer; 
-            color: var(--qe-icon-color); 
-            font-size: 19px; 
-            padding: 5px 6px; 
-        }
+        .bottom-action-bar i { cursor: pointer; color: var(--qe-icon-color); font-size: 19px; padding: 5px 6px; }
         .bottom-action-bar i:active { color: var(--accent-blue); transform: scale(0.92); }
         
         .toggle-tools-btn { color: var(--accent-blue) !important; transition: transform 0.2s ease; }
@@ -616,7 +693,6 @@
 
     <!-- EDITOR SCREEN -->
     <div id="editorScreen" class="screen">
-        <!-- টপবার (প্রিভিউ মোডে অটো স্লিম হবে ও ব্যাক অ্যারো দিলে প্রিভিউ বন্ধ হবে) -->
         <div class="editor-topbar">
             <div class="editor-title">
                 <i class="fa-solid fa-arrow-left" onclick="handleEditorBack()" title="Back"></i>
@@ -643,9 +719,22 @@
             </div>
         </div>
 
+        <!-- ✅ নতুন স্টিকি গাটার + Prism.js সিনট্যাক্স হাইলাইটেড এডিট বক্স -->
         <div class="editor-area">
-            <div id="lineNums" class="line-nums"><pre id="lineNumsInner">1</pre></div>
-            <textarea id="codeEditor"></textarea>
+            <div id="editor-container">
+                <div id="gutter">1</div>
+                <div id="code-wrapper">
+                    <div id="active-line-bg"></div>
+                    <pre id="code-highlight" aria-hidden="true"><code id="code-highlight-content" class="language-markup"></code></pre>
+                    <textarea id="code-area"
+                        spellcheck="false"
+                        autocapitalize="off"
+                        autocomplete="off"
+                        autocorrect="off"
+                        placeholder="Paste or write your code here..."></textarea>
+                    <div id="custom-caret"></div>
+                </div>
+            </div>
             <iframe id="previewIframe" class="preview-iframe"></iframe>
         </div>
 
@@ -657,11 +746,10 @@
             <span class="action-tool-btn danger" onmousedown="event.preventDefault()" onclick="clearAllCode()"><i class="fa-regular fa-trash-can"></i> Clear</span>
         </div>
 
-        <!-- ✅ Paste বাদ দিয়ে ১০টি বড় সাইজের আইকনসহ বটম অ্যাকশন বার -->
         <div class="bottom-action-bar">
             <i class="fa-solid fa-folder" onmousedown="event.preventDefault()" onclick="document.getElementById('fileInput').click()" title="Open File"></i>
-            <i class="fa-solid fa-rotate-left" onmousedown="event.preventDefault()" onclick="editor.undo()" title="Undo"></i>
-            <i class="fa-solid fa-rotate-right" onmousedown="event.preventDefault()" onclick="editor.redo()" title="Redo"></i>
+            <i class="fa-solid fa-rotate-left" onmousedown="event.preventDefault()" onclick="undoEdit()" title="Undo"></i>
+            <i class="fa-solid fa-rotate-right" onmousedown="event.preventDefault()" onclick="redoEdit()" title="Redo"></i>
             <i class="fa-solid fa-magnifying-glass" onmousedown="event.preventDefault()" onclick="toggleSearchBar()" title="Search"></i>
             <i class="fa-solid fa-arrow-left" onmousedown="event.preventDefault()" onclick="moveCursor(-1)" title="Move Left"></i>
             <i class="fa-solid fa-arrow-right" onmousedown="event.preventDefault()" onclick="moveCursor(1)" title="Move Right"></i>
@@ -720,21 +808,13 @@
     <input type="file" id="fileInput" onchange="handleFileUpload(event)">
 
 <script>
-    if (window.CodeMirror) {
-        CodeMirror.defineMIME("text/babel", { name: "javascript", jsx: true });
-        CodeMirror.defineMIME("text/jsx", { name: "javascript", jsx: true });
-    }
-
-    const htmlCustomConfig = {
-        name: "htmlmixed",
-        tags: {
-            script: [
-                ["type", /^text\/(babel|jsx)$/i, "jsx"],
-                ["type", /^module$/i, "javascript"],
-                ["type", /.+/i, "javascript"]
-            ]
+    // ✅ HTML-এর <script type="text/babel"> ও JSX হাইলাইটিং সাপোর্ট
+    if (window.Prism && Prism.languages.markup && Prism.languages.markup.script && Prism.languages.jsx) {
+        const jsInlined = Prism.languages.markup.script.inside['language-javascript'];
+        if (jsInlined && jsInlined.inside) {
+            jsInlined.inside = Prism.languages.jsx;
         }
-    };
+    }
 
     const allLanguages = [
         { name: 'Plain Text', ext: 'txt' },
@@ -759,6 +839,149 @@
 
     document.getElementById('moreLangCount').textContent = allLanguages.length;
 
+    /* ========== DOM রেফারেন্স ========== */
+    const editorContainer = document.getElementById('editor-container');
+    const codeArea = document.getElementById('code-area');
+    const codeHighlightContent = document.getElementById('code-highlight-content');
+    const gutter = document.getElementById('gutter');
+    const activeLineBg = document.getElementById('active-line-bg');
+    const customCaret = document.getElementById('custom-caret');
+
+    let currentPrismLang = 'markup';
+    let lastLineCount = 0;
+    let highlightRAF = null;
+
+    /* ========== Undo / Redo হিস্ট্রি সিস্টেম ========== */
+    let undoStack = [];
+    let redoStack = [];
+    let historyTimer = null;
+
+    function resetHistory(initialVal) {
+        undoStack = [{ val: initialVal || '', start: 0, end: 0 }];
+        redoStack = [];
+    }
+
+    function recordHistory() {
+        const snap = { val: codeArea.value, start: codeArea.selectionStart, end: codeArea.selectionEnd };
+        const last = undoStack[undoStack.length - 1];
+        if (last && last.val === snap.val) return;
+        undoStack.push(snap);
+        if (undoStack.length > 60) undoStack.shift();
+        redoStack = [];
+    }
+
+    function undoEdit() {
+        if (undoStack.length <= 1) { showToast('Nothing to undo'); return; }
+        redoStack.push(undoStack.pop());
+        const prev = undoStack[undoStack.length - 1];
+        codeArea.value = prev.val;
+        codeArea.setSelectionRange(prev.start, prev.end);
+        updateEditorAfterChange(false);
+    }
+
+    function redoEdit() {
+        if (redoStack.length === 0) { showToast('Nothing to redo'); return; }
+        const next = redoStack.pop();
+        undoStack.push(next);
+        codeArea.value = next.val;
+        codeArea.setSelectionRange(next.start, next.end);
+        updateEditorAfterChange(false);
+    }
+
+    /* ========== Prism হাইলাইটিং, গাটার ও কার্সর আপডেট ========== */
+    function setEditorMode(fileName) {
+        const ext = (fileName.split('.').pop() || '').toLowerCase();
+        const map = {
+            txt: 'plain', html: 'markup', htm: 'markup', php: 'php', py: 'python',
+            js: 'javascript', jsx: 'jsx', ts: 'typescript', tsx: 'tsx',
+            graphql: 'graphql', toml: 'toml', java: 'java', json: 'json',
+            swift: 'swift', css: 'css', c: 'c', cpp: 'cpp', jl: 'julia', kt: 'kotlin', md: 'plain'
+        };
+        currentPrismLang = map[ext] || 'markup';
+    }
+
+    function renderHighlightNow() {
+        let text = codeArea.value;
+        if (text.endsWith('\n')) text += ' ';
+        if (currentPrismLang !== 'plain' && window.Prism && Prism.languages[currentPrismLang]) {
+            codeHighlightContent.className = 'language-' + currentPrismLang;
+            codeHighlightContent.innerHTML = Prism.highlight(text, Prism.languages[currentPrismLang], currentPrismLang);
+        } else {
+            codeHighlightContent.className = 'language-plain';
+            codeHighlightContent.textContent = text;
+        }
+    }
+
+    function updateGutter() {
+        const lines = codeArea.value.split('\n').length;
+        if (lines === lastLineCount) return;
+        let s = '';
+        for (let i = 1; i <= lines; i++) {
+            s += (i === 1 ? '' : '\n') + i;
+        }
+        gutter.textContent = s;
+        lastLineCount = lines;
+    }
+
+    function updateCursorMeta() {
+        const pos = codeArea.selectionStart || 0;
+        const textBefore = codeArea.value.substring(0, pos);
+        const lines = textBefore.split('\n');
+        const lineIdx = lines.length - 1;
+        const colIdx = lines[lineIdx].length;
+
+        // সক্রিয় লাইন ও কাস্টম কার্সরের পজিশন আপডেট
+        activeLineBg.style.top = (10 + lineIdx * 21) + 'px';
+        customCaret.style.top = (10 + lineIdx * 21) + 'px';
+        customCaret.style.left = `calc(12px + ${colIdx}ch)`;
+
+        if (currentActiveFileIndex >= 0) {
+            const files = loadFiles();
+            const file = files[currentActiveFileIndex];
+            if (file) {
+                document.getElementById('activeFileLang').innerText =
+                    `${fileExtLabel(file.name)} · UTF-8 · Ln ${lineIdx + 1}, Col ${colIdx + 1}`;
+            }
+        }
+    }
+
+    function updateEditorAfterChange(shouldSaveHistory = true) {
+        updateGutter();
+        updateCursorMeta();
+
+        if (highlightRAF) cancelAnimationFrame(highlightRAF);
+        highlightRAF = requestAnimationFrame(renderHighlightNow);
+
+        if (currentActiveFileIndex >= 0) {
+            const files = loadFiles();
+            if (files[currentActiveFileIndex]) {
+                files[currentActiveFileIndex].code = codeArea.value;
+                saveFiles(files);
+            }
+        }
+
+        if (shouldSaveHistory) {
+            clearTimeout(historyTimer);
+            historyTimer = setTimeout(recordHistory, 350);
+        }
+    }
+
+    codeArea.addEventListener('input', () => updateEditorAfterChange(true));
+    codeArea.addEventListener('click', updateCursorMeta);
+    codeArea.addEventListener('keyup', updateCursorMeta);
+    codeArea.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = codeArea.selectionStart;
+            const end = codeArea.selectionEnd;
+            codeArea.value = codeArea.value.substring(0, start) + "    " + codeArea.value.substring(end);
+            codeArea.setSelectionRange(start + 4, start + 4);
+            updateEditorAfterChange(true);
+            recordHistory();
+        }
+    });
+
+    /* ========== ল্যাঙ্গুয়েজ বটম শিট ========== */
     function openLangSheet() {
         document.getElementById('langSearchInput').value = '';
         renderLangSheet();
@@ -800,28 +1023,13 @@
         });
     }
 
-    var editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-        mode: htmlCustomConfig, 
-        theme: "default", 
-        lineNumbers: false,
-        autoCloseTags: true, 
-        matchBrackets: true, 
-        lineWrapping: false,
-        styleActiveLine: true,
-        maxHighlightLength: Infinity,
-        viewportMargin: 40
-    });
-    var cmWrapper = editor.getWrapperElement();
-
+    /* ========== কিবোর্ড ওপেন হলে বটম বার সিঙ্ক ========== */
     function syncViewportHeight() {
         if (window.visualViewport) {
             document.body.style.height = window.visualViewport.height + 'px';
             window.scrollTo(0, 0);
         } else {
             document.body.style.height = window.innerHeight + 'px';
-        }
-        if (typeof editor !== 'undefined') {
-            editor.refresh();
         }
     }
 
@@ -830,7 +1038,7 @@
             syncViewportHeight();
             setTimeout(() => {
                 if (document.body.classList.contains('editor-mode') && !isPreviewMode) {
-                    editor.scrollIntoView(null, 40);
+                    scrollCaretIntoView();
                 }
             }, 60);
         });
@@ -838,23 +1046,30 @@
     }
     window.addEventListener('resize', syncViewportHeight);
 
+    function scrollCaretIntoView() {
+        const pos = codeArea.selectionStart || 0;
+        const lines = codeArea.value.substring(0, pos).split('\n');
+        const lineIdx = lines.length - 1;
+        const lineTop = 10 + lineIdx * 21;
+        if (lineTop < editorContainer.scrollTop || lineTop > editorContainer.scrollTop + editorContainer.clientHeight - 40) {
+            editorContainer.scrollTop = Math.max(0, lineTop - editorContainer.clientHeight / 2);
+        }
+    }
+
     function toggleQuickTools() {
         const bar = document.getElementById('quickToolsBar');
         const btn = document.getElementById('quickToolsToggleBtn');
         bar.classList.toggle('open');
         btn.classList.toggle('open');
-        setTimeout(() => editor.refresh(), 50);
     }
 
     function applyDarkMode(isDark) {
         if (isDark) {
             document.body.classList.add('dark-mode');
-            editor.setOption('theme', 'dracula');
             document.getElementById('metaThemeColor').setAttribute('content', '#0d1117');
             localStorage.setItem('my_editor_theme', 'dark');
         } else {
             document.body.classList.remove('dark-mode');
-            editor.setOption('theme', 'default');
             document.getElementById('metaThemeColor').setAttribute('content', '#ffffff');
             localStorage.setItem('my_editor_theme', 'light');
         }
@@ -926,50 +1141,6 @@
         }
     }
 
-    var lineNumsInner = document.getElementById('lineNumsInner');
-    var lastLineCount = 0;
-
-    function updateLineNums() {
-        const n = editor.lineCount();
-        if (n === lastLineCount) return;
-        const digitsChanged = String(n).length !== String(lastLineCount).length;
-        let s = '';
-        for (let i = 1; i <= n; i++) s += (i === 1 ? '' : '\n') + i;
-        lineNumsInner.textContent = s;
-        lastLineCount = n;
-        if (digitsChanged) editor.refresh();
-    }
-
-    function syncLineNums() {
-        lineNumsInner.style.transform = 'translate3d(0,' + (-editor.getScrollInfo().top) + 'px,0)';
-    }
-
-    function updateCursorMeta() {
-        if (currentActiveFileIndex < 0) return;
-        const files = loadFiles();
-        const file = files[currentActiveFileIndex];
-        if (!file) return;
-        const pos = editor.getCursor();
-        document.getElementById('activeFileLang').innerText =
-            `${fileExtLabel(file.name)} · UTF-8 · Ln ${pos.line + 1}, Col ${pos.ch + 1}`;
-    }
-
-    editor.on('change', function () { 
-        updateLineNums(); 
-        syncLineNums();
-        if (currentActiveFileIndex >= 0) {
-            const files = loadFiles();
-            if (files[currentActiveFileIndex]) {
-                files[currentActiveFileIndex].code = editor.getValue();
-                saveFiles(files);
-            }
-        }
-    });
-    editor.on('scroll', syncLineNums);
-    editor.on('refresh', syncLineNums);
-    editor.on('cursorActivity', updateCursorMeta);
-    updateLineNums();
-
     function showToast(msg) {
         const toast = document.getElementById("toast");
         if (!toast) return;
@@ -979,13 +1150,17 @@
         window._toastTimer = setTimeout(() => { toast.classList.remove("show"); }, 1800);
     }
 
+    /* ========== কুইক অ্যাকশন বাটন (All, Copy, Cut, Paste, Clear, Move Cursor) ========== */
     function selectAllCode() {
-        editor.execCommand("selectAll");
+        codeArea.setSelectionRange(0, codeArea.value.length);
+        updateCursorMeta();
         showToast('<i class="fa-solid fa-check"></i> All code selected!');
     }
 
     async function copyCode() {
-        let text = editor.getSelection() || editor.getValue();
+        const start = codeArea.selectionStart;
+        const end = codeArea.selectionEnd;
+        let text = (start !== end) ? codeArea.value.substring(start, end) : codeArea.value;
         if (!text) { showToast('Nothing to copy!'); return; }
         try { await navigator.clipboard.writeText(text); } catch (err) {
             const ta = document.createElement("textarea");
@@ -995,22 +1170,36 @@
     }
 
     async function cutCode() {
-        let text = editor.getSelection();
-        let wasAll = false;
-        if (!text) { text = editor.getValue(); wasAll = true; }
+        recordHistory();
+        const start = codeArea.selectionStart;
+        const end = codeArea.selectionEnd;
+        let hasSel = (start !== end);
+        let text = hasSel ? codeArea.value.substring(start, end) : codeArea.value;
         if (!text) { showToast('Nothing to cut!'); return; }
         try { await navigator.clipboard.writeText(text); } catch (err) {
             const ta = document.createElement("textarea");
             ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
         }
-        if (wasAll) editor.setValue(""); else editor.replaceSelection("");
+        if (hasSel) {
+            codeArea.value = codeArea.value.substring(0, start) + codeArea.value.substring(end);
+            codeArea.setSelectionRange(start, start);
+        } else {
+            codeArea.value = "";
+            codeArea.setSelectionRange(0, 0);
+        }
+        updateEditorAfterChange(false);
+        recordHistory();
         showToast('<i class="fa-solid fa-scissors"></i> Code cut!');
     }
 
     function clearAllCode() {
-        if (!editor.getValue()) { showToast('Editor is already empty!'); return; }
+        if (!codeArea.value) { showToast('Editor is already empty!'); return; }
         if (confirm("Are you sure you want to clear all code?")) {
-            editor.setValue("");
+            recordHistory();
+            codeArea.value = "";
+            codeArea.setSelectionRange(0, 0);
+            updateEditorAfterChange(false);
+            recordHistory();
             showToast('<i class="fa-regular fa-trash-can"></i> All code cleared!');
         }
     }
@@ -1019,20 +1208,30 @@
         try {
             const text = await navigator.clipboard.readText();
             if (!text) { showToast('Clipboard is empty!'); return; }
-            editor.replaceSelection(text);
+            recordHistory();
+            const start = codeArea.selectionStart;
+            const end = codeArea.selectionEnd;
+            codeArea.value = codeArea.value.substring(0, start) + text + codeArea.value.substring(end);
+            const newPos = start + text.length;
+            codeArea.setSelectionRange(newPos, newPos);
+            updateEditorAfterChange(false);
+            recordHistory();
             showToast('<i class="fa-solid fa-paste"></i> Pasted!');
         } catch (err) {
             showToast('Allow clipboard access to paste');
         }
     }
 
+    /* ✅ কিবোর্ড না খুলেই ডানে-বামে কার্সর নেওয়া */
     function moveCursor(dir) {
-        if (dir < 0) editor.execCommand("goCharLeft");
-        else editor.execCommand("goCharRight");
-        editor.scrollIntoView(null, 50);
+        let pos = codeArea.selectionStart || 0;
+        pos = Math.max(0, Math.min(codeArea.value.length, pos + dir));
+        codeArea.setSelectionRange(pos, pos);
         updateCursorMeta();
+        scrollCaretIntoView();
     }
 
+    /* ========== ফাইল ম্যানেজমেন্ট ========== */
     let defaultFiles = [
         { name: 'index (2).html', code: '<!DOCTYPE html>\n<html>\n<head>\n  <title>App</title>\n</head>\n<body>\n  <script type="text/babel">\n    // COMPLETE ICONS\n    const Icons = {\n      X: ({ className }) => (\n        <svg className={className} viewBox="0 0 24 24">\n          <line x1="18" y1="6" x2="6" y2="18"></line>\n          <line x1="6" y1="6" x2="18" y2="18"></line>\n        </svg>\n      )\n    };\n  <\/script>\n</body>\n</html>', time: 'Just now', path: 'Downloads', pinned: false },
         { name: 'index.html', code: '<h1>Hello World!</h1>', time: '2 hours ago', path: 'Downloads', pinned: false }
@@ -1188,6 +1387,7 @@
         if (currentActiveFileIndex === renameTargetIndex) {
             document.getElementById('activeFileName').innerText = '*' + clean;
             setEditorMode(clean);
+            renderHighlightNow();
             updateCursorMeta();
         }
         closeRenameModal();
@@ -1246,29 +1446,6 @@
         return 'py-badge';
     }
 
-    function setEditorMode(fileName) {
-        const ext = (fileName.split('.').pop() || '').toLowerCase();
-        if (ext === 'txt') editor.setOption('mode', 'text/plain');
-        else if (ext === 'html' || ext === 'htm') editor.setOption('mode', htmlCustomConfig);
-        else if (ext === 'php') editor.setOption('mode', 'application/x-httpd-php');
-        else if (ext === 'py') editor.setOption('mode', 'python');
-        else if (ext === 'js') editor.setOption('mode', 'javascript');
-        else if (ext === 'jsx') editor.setOption('mode', 'jsx');
-        else if (ext === 'ts') editor.setOption('mode', 'text/typescript');
-        else if (ext === 'tsx') editor.setOption('mode', 'text/typescript-jsx');
-        else if (ext === 'json') editor.setOption('mode', 'application/json');
-        else if (ext === 'css') editor.setOption('mode', 'css');
-        else if (ext === 'c') editor.setOption('mode', 'text/x-csrc');
-        else if (ext === 'cpp') editor.setOption('mode', 'text/x-c++src');
-        else if (ext === 'java') editor.setOption('mode', 'text/x-java');
-        else if (ext === 'kt') editor.setOption('mode', 'text/x-kotlin');
-        else if (ext === 'swift') editor.setOption('mode', 'swift');
-        else if (ext === 'toml') editor.setOption('mode', 'toml');
-        else if (ext === 'jl') editor.setOption('mode', 'julia');
-        else if (ext === 'graphql') editor.setOption('mode', 'javascript');
-        else editor.setOption('mode', htmlCustomConfig);
-    }
-
     function openFile(index) {
         const files = loadFiles();
         if (index < 0 || index >= files.length) return;
@@ -1278,11 +1455,10 @@
         document.getElementById('activeFileName').innerText = '*' + file.name;
         setEditorMode(file.name);
 
-        editor.setValue(file.code || '');
-        editor.setCursor({ line: 0, ch: 0 });
+        codeArea.value = file.code || '';
+        codeArea.setSelectionRange(0, 0);
+        resetHistory(codeArea.value);
         lastLineCount = 0;
-        updateLineNums();
-        updateCursorMeta();
 
         document.getElementById('homeScreen').classList.remove('active');
         document.getElementById('textScreen').classList.remove('active');
@@ -1292,7 +1468,12 @@
         document.body.classList.add('editor-mode');
         closePreview();
         syncViewportHeight();
-        setTimeout(() => editor.refresh(), 100);
+
+        editorContainer.scrollTop = 0;
+        editorContainer.scrollLeft = 0;
+        updateGutter();
+        renderHighlightNow();
+        updateCursorMeta();
     }
 
     function createNewFile(ext) {
@@ -1322,18 +1503,20 @@
         let files = loadFiles();
         if (!files[currentActiveFileIndex]) return;
         files[currentActiveFileIndex].name = newName;
-        files[currentActiveFileIndex].code = editor.getValue();
+        files[currentActiveFileIndex].code = codeArea.value;
         files[currentActiveFileIndex].time = 'Just now';
         saveFiles(files);
 
         document.getElementById('activeFileName').innerText = '*' + newName;
         setEditorMode(newName);
+        renderHighlightNow();
         updateCursorMeta();
 
         closeSaveModal(); renderRecentFiles(); renderTextFiles();
         showToast('File saved successfully! 💾');
     }
 
+    /* ========== সার্চ বার ও লাইন জাম্প সিস্টেম ========== */
     let currentMatches = [];
     let currentMatchIndex = -1;
 
@@ -1344,12 +1527,10 @@
             const input = document.getElementById("searchInput");
             input.focus(); if (input.value) doSearch();
         }
-        setTimeout(() => editor.refresh(), 50);
     }
 
     function closeSearchBar() {
         document.getElementById("searchBarPanel").classList.remove("active");
-        setTimeout(() => editor.refresh(), 50);
     }
 
     function doSearch() {
@@ -1357,37 +1538,61 @@
         const countEl = document.getElementById("searchCount");
         currentMatches = []; currentMatchIndex = -1;
         if (!query) { countEl.innerText = "0/0"; return; }
-        const cursor = editor.getSearchCursor(query, {line: 0, ch: 0}, {caseFold: true});
-        while (cursor.findNext()) currentMatches.push({from: cursor.from(), to: cursor.to()});
-        if (currentMatches.length > 0) { currentMatchIndex = 0; selectCurrentMatch(); }
-        else countEl.innerText = "0/0";
+
+        const textLower = codeArea.value.toLowerCase();
+        const qLower = query.toLowerCase();
+        let pos = 0;
+        while ((pos = textLower.indexOf(qLower, pos)) !== -1) {
+            currentMatches.push({ start: pos, end: pos + qLower.length });
+            pos += qLower.length;
+        }
+
+        if (currentMatches.length > 0) {
+            currentMatchIndex = 0;
+            selectCurrentMatch(false);
+        } else {
+            countEl.innerText = "0/0";
+        }
     }
 
-    function selectCurrentMatch() {
+    function selectCurrentMatch(focusArea = true) {
         if (currentMatches.length === 0 || currentMatchIndex < 0) return;
         const match = currentMatches[currentMatchIndex];
         document.getElementById("searchCount").innerText = `${currentMatchIndex + 1}/${currentMatches.length}`;
-        editor.setSelection(match.from, match.to);
-        editor.scrollIntoView({from: match.from, to: match.to}, 120);
+        
+        codeArea.setSelectionRange(match.start, match.end);
         updateCursorMeta();
+
+        const linesBefore = codeArea.value.substring(0, match.start).split('\n');
+        const lineIdx = linesBefore.length - 1;
+        const colIdx = linesBefore[lineIdx].length;
+        const lineTop = 10 + lineIdx * 21;
+        editorContainer.scrollTop = Math.max(0, lineTop - editorContainer.clientHeight / 2);
+
+        const approxLeft = colIdx * 8;
+        if (approxLeft > editorContainer.clientWidth - 60) {
+            editorContainer.scrollLeft = Math.max(0, approxLeft - editorContainer.clientWidth / 2);
+        } else {
+            editorContainer.scrollLeft = 0;
+        }
+        if (focusArea) codeArea.focus();
     }
 
-    function findNextMatch() { if (currentMatches.length) { currentMatchIndex = (currentMatchIndex + 1) % currentMatches.length; selectCurrentMatch(); } }
-    function findPrevMatch() { if (currentMatches.length) { currentMatchIndex = (currentMatchIndex - 1 + currentMatches.length) % currentMatches.length; selectCurrentMatch(); } }
+    function findNextMatch() { if (currentMatches.length) { currentMatchIndex = (currentMatchIndex + 1) % currentMatches.length; selectCurrentMatch(true); } }
+    function findPrevMatch() { if (currentMatches.length) { currentMatchIndex = (currentMatchIndex - 1 + currentMatches.length) % currentMatches.length; selectCurrentMatch(true); } }
 
     function handleSearchKey(e) {
         if (e.key === "Enter") { e.preventDefault(); if (e.shiftKey) findPrevMatch(); else findNextMatch(); }
         else if (e.key === "Escape") closeSearchBar();
     }
 
-    /* ✅ প্রিভিউ মোড (নিচের সব টুলবার হাইড হবে এবং হেডার স্লিম হবে) */
+    /* ========== প্রিভিউ মোড ========== */
     function togglePreview() {
         const iframe = document.getElementById('previewIframe');
         if (!isPreviewMode) {
-            const code = editor.getValue();
+            const code = codeArea.value;
             iframe.style.display = 'block';
-            cmWrapper.style.display = 'none';
-            document.getElementById('lineNums').style.display = 'none';
+            editorContainer.style.display = 'none';
             document.body.classList.add('preview-mode');
             const doc = iframe.contentDocument || iframe.contentWindow.document;
             doc.open(); doc.write(code); doc.close();
@@ -1397,19 +1602,14 @@
 
     function closePreview() {
         document.getElementById('previewIframe').style.display = 'none';
-        cmWrapper.style.display = '';
-        document.getElementById('lineNums').style.display = '';
+        editorContainer.style.display = 'flex';
         document.body.classList.remove('preview-mode');
-        isPreviewMode = false; editor.refresh();
+        isPreviewMode = false;
     }
 
-    /* ✅ প্রিভিউ মোডে Back Arrow চাপলে এডিটরে ফিরবে, এডিটরে থাকলে হোমে যাবে */
     function handleEditorBack() {
-        if (isPreviewMode) {
-            closePreview();
-        } else {
-            goHome();
-        }
+        if (isPreviewMode) closePreview();
+        else goHome();
     }
 
     function handleFileUpload(event) {
@@ -1436,7 +1636,6 @@
     window.onload = function() {
         syncViewportHeight();
         renderRecentFiles();
-        editor.refresh();
     };
 </script>
 </body>
